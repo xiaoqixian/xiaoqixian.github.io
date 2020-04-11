@@ -20,21 +20,21 @@
     <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="A man can be destoryed but not defeated">
-    <meta name="description" content="LVMLVM for Logical Volume Manager(邏輯捲管理)。 用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。 LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Li">
+    <meta name="description" content="Linux的常用目錄 &#x2F;etc:包括絕大多數Linux系統引導所需的配置文件，系統引導時讀取配置文件，按照配置文件的選項來進行不同的啟動。root有權限修改，一般用戶有權限查看。  &#x2F;lib:包含C編譯程序所需要的函數庫，是一組二進制文件，如glibc等。  &#x2F;usr:usr是UNIX Software Resource的縮寫。包含絕大部分用戶都能訪問的應用程序和文件，如src、local。Lin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LVM">
-<meta property="og:url" content="http://yoursite.com/2020/04/11/LVM/index.html">
+<meta property="og:title" content="Linux的常用目錄">
+<meta property="og:url" content="http://yoursite.com/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/index.html">
 <meta property="og:site_name" content="Lunar">
-<meta property="og:description" content="LVMLVM for Logical Volume Manager(邏輯捲管理)。 用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。 LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Li">
+<meta property="og:description" content="Linux的常用目錄 &#x2F;etc:包括絕大多數Linux系統引導所需的配置文件，系統引導時讀取配置文件，按照配置文件的選項來進行不同的啟動。root有權限修改，一般用戶有權限查看。  &#x2F;lib:包含C編譯程序所需要的函數庫，是一組二進制文件，如glibc等。  &#x2F;usr:usr是UNIX Software Resource的縮寫。包含絕大部分用戶都能訪問的應用程序和文件，如src、local。Lin">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-04-10T16:32:46.031Z">
-<meta property="article:modified_time" content="2020-04-10T14:01:11.883Z">
+<meta property="article:published_time" content="2020-04-11T02:14:04.256Z">
+<meta property="article:modified_time" content="2020-03-15T14:37:32.787Z">
 <meta property="article:author" content="XiaoQixian">
 <meta name="twitter:card" content="summary">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
-    <title>LVM · LunarRoom</title>
+    <title>Linux的常用目錄 · LunarRoom</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -229,7 +229,7 @@
                 <a href="/" >LunarRoom</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">LVM</a>
+                <a href="#" class="post-name">Linux的常用目錄</a>
             </div>
     </div>
     
@@ -259,7 +259,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            LVM
+            Linux的常用目錄
             <!-- 404 -->
             
         </h1>
@@ -278,7 +278,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">785</span>阅读时长: <span class="post-count reading-time">2 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">880</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -407,50 +407,61 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h3 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a><strong>LVM</strong></h3><p>LVM for Logical Volume Manager(邏輯捲管理)。</p>
-<p>用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。</p>
-<p>LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。</p>
-<p>LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。LVM再從卷組中劃分不同的<strong>邏輯卷</strong>作為新的邏輯設備，邏輯卷在物理層面上不必是磁盤上連續的一片，其可以跨越多個物理卷。對於上層設備來說，相當於底層所有的存儲設備都連成了一片，這就形成了一個類似內存中的邏輯空間的東西。</p>
-<p>對於LVM來說，跨卷存儲和調整分區大小只需要從邏輯層面修改響應文件信息，而物理層面的存儲信息不需要變化。當用戶增加物理卷時，只需要將新分區加入卷組並擴充邏輯卷即可。</p>
-<h4 id="Linux下製作LVM"><a href="#Linux下製作LVM" class="headerlink" title="Linux下製作LVM"></a><strong>Linux下製作LVM</strong></h4><p>安裝Linux時LVM並不會自動的安裝，需要用戶手動製作，製作時為了體現LVM跨分區跨磁盤的效果，最好將LVM製作在多個磁盤下。</p>
-<p>假設有兩塊磁盤/dev/sda1, /dev/sda2</p>
-<ol>
-<li><p>首先創建物理卷</p>
-<figure class="highlight plain"><figcaption><span>/dev/sda1```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;pvcreate &#x2F;dev&#x2F;sda2</span><br></pre></td></tr></table></figure>
+        <h4 id="Linux的常用目錄"><a href="#Linux的常用目錄" class="headerlink" title="Linux的常用目錄"></a><strong>Linux的常用目錄</strong></h4><ul>
+<li><p>/etc:包括絕大多數Linux系統引導所需的配置文件，系統引導時讀取配置文件，按照配置文件的選項來進行不同的啟動。root有權限修改，一般用戶有權限查看。</p>
 </li>
-<li><p>創建卷組</p>
-<figure class="highlight plain"><figcaption><span>vg_name</span><a href="/dev/sda1">/dev/sda2```</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   vg_name是卷組的名字</span><br><span class="line"></span><br><span class="line">3. 創建好後可以通過&#96;&#96;&#96;vgdisplay&#96;&#96;&#96;查看VG的情況。</span><br><span class="line"></span><br><span class="line">4. 創建LVM邏輯卷</span><br><span class="line"></span><br><span class="line">   &#96;&#96;&#96;lvcreate  -L size -n lvm_name vg_name</span><br></pre></td></tr></table></figure>
-
-<p>-L參數後面接需要創建的邏輯卷的大小，單位是kKmMgGtT</p>
-<p>-n參數後面則接需要創建的邏輯卷的名字。</p>
-<p>最後需要在哪個卷組中創建邏輯卷就加上哪個卷組的名字。</p>
-<p>更多的參數可以通過<code>man lvcreate</code>命令查看。</p>
+<li><p>/lib:包含C編譯程序所需要的函數庫，是一組二進制文件，如glibc等。</p>
 </li>
-<li><p>創建好的邏輯卷文件可以通過<code>/dev/vg_name/lvm_name</code>路徑查看。</p>
+<li><p>/usr:usr是UNIX Software Resource的縮寫。包含絕大部分用戶都能訪問的應用程序和文件，如src、local。Linux的內核就是在/usr/src中。</p>
+<ul>
+<li>/usr/bin:這個目錄存放用戶命令(普通用戶)</li>
+<li>/usr/include:存放編程語言的頭文件和包含文件。</li>
+<li>/usr/lib:各個應用軟件的庫函數和目標文件</li>
+<li>/usr/local:系統管理員安裝自行下載的軟件的目錄</li>
+<li>/usr/sbin:系統命令(超級用戶)</li>
+<li>/usr/src:放置系統源代碼</li>
+</ul>
 </li>
-<li><p>邏輯卷創建好後就可以進行文件系統的創建了，創建方式和正常創建在磁盤裡面基本沒有差別。</p>
+<li><p>/var:包含經常變化的文件，諸如日誌或數據庫等。</p>
+<ul>
+<li>/var/cache:存放應用程序產生的臨時文件</li>
+<li>/var/lib:存放程序在執行過程中需要用到的數據文件，每個軟件都在此目錄下有自己獨立的目錄</li>
+<li>/var/lock:記錄程序的鎖狀態</li>
+<li>/var/log:存放程序的登錄文件</li>
+<li>/var/run:某些程序在運行時，存放它們的PID在其中</li>
+</ul>
 </li>
-<li><p>邏輯卷的擴容。</p>
-<figure class="highlight plain"><figcaption><span>-L size</span><a href="/dev/vg_name/lvm_name```">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-L參數與前面同義。</span><br><span class="line"></span><br><span class="line">邏輯卷擴容後還需要命令文件系統識別新的文件系統大小。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;resize2fs &#x2F;dev&#x2F;vg_name&#x2F;lvm_name</span><br></pre></td></tr></table></figure>
+<li><p>/tmp:臨時性的存儲</p>
 </li>
-<li><p>LVM的掛載。和正常操作基本一樣。</p>
+<li><p>/bin:大多數的命令存放在這裡。</p>
 </li>
-<li><p>設置開機自動掛載</p>
-<p>打開fstab</p>
-<figure class="highlight vim"><figcaption><span>/etc/fstab```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在最下面增加一行：</span><br><span class="line"></span><br><span class="line">```/dev/vg_name/lvm_name /mnt/path ext4 defaults <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>/mnt/path寫為你的LVM的掛載路徑。</p>
+<li><p>/home:主要存放用戶賬號，並且可以支持ftp的用戶管理，即遠程用戶管理。系統管理員增加用戶時，系統可以在home目錄下創建與用戶同名的目錄，此目錄下一般默認有desktop目錄。比如我創建了一個名為lunar的用戶，那麼在這個目錄下就會創建一個lunar的目錄下。一般建議lunar用戶產生的文件也存放在這個lunar目錄下。</p>
 </li>
-</ol>
+<li><p>/dev:這個目錄下存放一種設備文件的特殊文件，dev for device</p>
+</li>
+<li><p>/mnt:在Linux系統中，它是專門給外掛的文件系統使用的，裡面的兩個文件cdrom、floopy登錄光驅、軟驅時要用到。各種額外設備(通常是存儲設備)在掛載後都會在該目錄下生成響應的文件。</p>
+<p>所謂掛載，指操作系統使一個存儲設備上的計算機文件和目錄可供用戶通過文件系統訪問的一個過程。一般當計算機關機時，每個已掛載存儲都將經歷一次卸載，以確保所有排隊的數據被寫入。在Linux下，掛載的目錄可以不為空，但是掛載後以前的內容將不可用。在掛載時，所要掛載的存儲設備的文件系統要與操作系統的文件格式相兼容。</p>
+</li>
+<li><p>/opt:存放用戶安裝的第三方軟件</p>
+</li>
+<li><p>/proc:特殊的動態目錄，用以維護系統信息和狀態，包含當前運行中的進程信息。</p>
+</li>
+<li><p>/sbin:重要的系統二進制文件。</p>
+</li>
+<li><p>/sys:系統文件。/sys本身是一個虛擬文件系統，/sys目录和/proc目录的作用差不多，都是用于存放前启动环境下的系统信息，但相比于proc文件系统而言，挂载在/sys目录下的sysf文件系统提供了一种更方便的从内存中获得内核信息的方式。</p>
+</li>
+<li><p>/root:只要超級用戶有權限登錄，相當於超級用戶的主目錄。</p>
+</li>
+</ul>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="http://yoursite.com">XiaoQixian</a>
-            <p>原文链接：<a href="http://yoursite.com/2020/04/11/LVM/">http://yoursite.com/2020/04/11/LVM/</a>
-            <p>发表日期：<a href="http://yoursite.com/2020/04/11/LVM/">April 11th 2020, 12:32:46 am</a>
-            <p>更新日期：<a href="http://yoursite.com/2020/04/11/LVM/">April 10th 2020, 10:01:11 pm</a>
+            <p>原文链接：<a href="http://yoursite.com/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/">http://yoursite.com/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/</a>
+            <p>发表日期：<a href="http://yoursite.com/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/">四月 11日 2020, 10:14:04 上午</a>
+            <p>更新日期：<a href="http://yoursite.com/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/">March 15th 2020, 10:37:32 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -458,17 +469,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/" title= "Linux的常用目錄">
-                    <div class="nextTitle">Linux的常用目錄</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2020/04/10/hello-world/" title= "Hello World">
-                    <div class="prevTitle">Hello World</div>
+                <a href= "/2020/04/11/LVM/" title= "LVM">
+                    <div class="prevTitle">LVM</div>
                 </a>
             
         </li>
@@ -591,7 +597,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#LVM"><span class="toc-number">1.</span> <span class="toc-text">LVM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux下製作LVM"><span class="toc-number">1.1.</span> <span class="toc-text">Linux下製作LVM</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux的常用目錄"><span class="toc-number">1.</span> <span class="toc-text">Linux的常用目錄</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
