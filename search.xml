@@ -1606,4 +1606,61 @@
 <p>編譯運行就可以完成掛載了。</p>
 ]]></content>
   </entry>
+  <entry>
+    <title>Linux文件操作函數</title>
+    <url>/2020/04/11/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8/</url>
+    <content><![CDATA[<h3 id="Linux文件操作函數"><a href="#Linux文件操作函數" class="headerlink" title="Linux文件操作函數"></a><strong>Linux文件操作函數</strong></h3><p>由於經常在Linux環境下編程的時候會遇到各種各樣的文件操作函數，所以專門寫篇博客來匯總一下這些函數。</p>
+<hr>
+<h4 id="open"><a href="#open" class="headerlink" title="open()"></a><strong>open()</strong></h4><p>原型</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">	<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> fcntl.h&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">open</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *path, <span class="keyword">int</span> oflags, <span class="keyword">mode_t</span> mode)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>返回值自然是一個int類型的文件描述符。</p>
+<p>第一個path不用講，相對路徑或絕對路徑</p>
+<p>第二個表示：打開方式</p>
+<ul>
+<li>O_RDONLY(只讀)</li>
+<li>O_WRONLY(只寫)</li>
+<li>O_RDWR(讀寫)</li>
+</ul>
+<p>打開文件時這三個參數是必選的，此外還有一些可選參數</p>
+<ul>
+<li><p>O_APPEND    每次寫都在最末尾加上</p>
+</li>
+<li><p>O_CREAT     如果指定文件不存在則創建一個</p>
+</li>
+<li><p>O_EXCL      如果要創建的文件已存在，則報錯返回</p>
+</li>
+<li><p>O_TRUNC     如果文件存在，并且以只写/读写方式打开，则清空文件全部内容</p>
+</li>
+<li><p>O_NOCTTY    如果路径名指向终端设备，不要把这个设备用作控制终端。</p>
+</li>
+<li><p>O_NONBLOCK  如果路径名指向 FIFO/块文件/字符文件，则把文件的打开和后继 I/O</p>
+<p>​            设置为非阻塞模式（nonblocking mode）</p>
+</li>
+<li><p>O_DSYNC     等待物理 I/O 结束后再 write。在不影响读取新写入的数据的前提下，不等待     </p>
+<p>​            文件屬性的更新。</p>
+</li>
+<li><p>O_RSYNC     read 等待所有写入同一区域的写操作完成后再进行。</p>
+</li>
+<li><p>O_SYNC      等待物理 I/O 结束后再 write，包括更新文件属性的 I/O</p>
+</li>
+<li><p>O_DIRECTORY 如果打開的文件是一個目錄，則打開失敗。</p>
+</li>
+<li><p>O_NOFOLLOW  如果打開的文件是一個符號鏈接，則打開失敗</p>
+</li>
+</ul>
+<p>一般在使用這些參數時通過”|”分割開來，只有所有的權限都通過了才返回0，否則返回-1.如：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>((fd=<span class="built_in">open</span>(<span class="string">"/dev/ttys0"</span>,O_RDWR | O_NOCTTY | O_NDELAY)&lt;<span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line"> perror(<span class="string">"open"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第三個參數是權限符</p>
+<p>S_IRWXU00700                权限，代表该文件所有者具有可读、可写及可执行的权限。<br>S_IRUSR 或S_IREAD，00400    权限，代表该文件所有者具有可读取的权限。<br>S_IWUSR 或S_IWRITE，00200   权限，代表该文件所有者具有可写入的权限。<br>S_IXUSR 或S_IEXEC，00100    权限，代表该文件所有者具有可执行的权限。<br>S_IRWXG 00070               权限，代表该文件用户组具有可读、可写及可执行的权限。<br>S_IRGRP 00040               权限，代表该文件用户组具有可读的权限。<br>S_IWGRP 00020               权限，代表该文件用户组具有可写入的权限。<br>S_IXGRP 00010               权限，代表该文件用户组具有可执行的权限。<br>S_IRWXO 00007               权限，代表其他用户具有可读、可写及可执行的权限。<br>S_IROTH 00004               权限，代表其他用户具有可读的权限<br>S_IWOTH 00002               权限，代表其他用户具有可写入的权限。<br>S_IXOTH 00001               权限，代表其他用户具有可执行的权限。</p>
+]]></content>
+      <categories>
+        <category>LinuxFile</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>FileSystem</tag>
+      </tags>
+  </entry>
 </search>

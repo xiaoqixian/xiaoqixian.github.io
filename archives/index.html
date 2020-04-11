@@ -356,6 +356,48 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8/" >
+            
+                <span>Linux文件操作函數</span>
+        </a>
+        <div class="abstract-content">
+            Linux文件操作函數由於經常在Linux環境下編程的時候會遇到各種各樣的文件操作函數，所以專門寫篇博客來匯總一下這些函數。
+
+open()原型
+1234	#include &lt;sys/types.h&gt;#include &lt;sys/stat.h&gt;#include fcntl.h&gt;int open(const char *path, int oflags, mode_t mode);
+
+返回值自然是一個int類型的文件描述符。
+第一個path不用講，相對路徑或絕對路徑
+第二個表示：打開方式
+
+O_RDONLY(只讀)
+O_WRONLY(只寫)
+O_RDWR(讀寫)...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "FileSystem">FileSystem</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/04/11/LVM/" >
             
                 <span>LVM</span>
@@ -604,36 +646,6 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
 對換的引入
 在多道程序環境下，可能出現內存中的某些進程由於等待某時間而進入阻塞狀態，其佔用了大量內存。同時外存中等待的許多作業由於得不到足夠的內存而無法進入運行狀態。為了解決這一問題，引入了“對換”技術。
 而“對換”，即是把內存中不能運行的...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(段式存儲管理)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(段式存儲管理)4 段式存儲管理4.1 段式存儲的思想
-頁式存儲僅僅考慮了程序的長度，可以使一個程序可以不連續地加載內存，但是沒有考慮程序的邏輯結構。一個程序在加載內存時，其不同部分的訪問權限是不一樣的。比如程序部分可以多個進程共享，無法修改。而數據部分可以修改，只能由一個進程獨佔。
-
-分段
-在分段存儲管理方式中，段是一組邏輯信息組合。例如把作業按邏輯關係加以組織，劃分成若干段，並按這些段來劃分內存，這些段可以是主程序段MAIN，子程序段X、數據段D和堆棧段S等。加載內存時，段與段之間可以是不連續的。一個操作數的邏輯地址由段號s和段內偏移量w組成。
-
-段表
-系統為每個...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1001,9 +1013,22 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 23
+        Total : 24
         </div>
         <!-- search  -->
         
@@ -1321,6 +1346,20 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
             <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%8E%9B%E8%BC%89%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E7%9A%84%E9%AB%98%E7%B4%9A%E6%96%B9%E5%BC%8F/" >OperatingSystem/操作系統4-文件系統/掛載文件系統的高級方式</a>
         </li>
     
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8/" >Linux文件操作函數</a>
+        </li>
+    
     </div>
   </div>
         <div class="sidebar-panel-tags">
@@ -1329,6 +1368,8 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="OperatingSystem"><span class="iconfont-archer">&#xe606;</span>OperatingSystem</span>
+    
+        <span class="sidebar-tag-name" data-tags="FileSystem"><span class="iconfont-archer">&#xe606;</span>FileSystem</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1364,6 +1405,8 @@ jsonContent:
     <div class="sidebar-categories-name">
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+        <span class="sidebar-category-name" data-categories="LinuxFile"><span class="iconfont-archer">&#xe60a;</span>LinuxFile</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
