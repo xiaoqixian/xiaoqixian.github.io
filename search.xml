@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LVM</title>
+    <url>/2020/04/11/LVM/</url>
+    <content><![CDATA[<h3 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a><strong>LVM</strong></h3><p>LVM for Logical Volume Manager(邏輯捲管理)。</p>
+<p>用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。</p>
+<p>LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。</p>
+<p>LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。LVM再從卷組中劃分不同的<strong>邏輯卷</strong>作為新的邏輯設備，邏輯卷在物理層面上不必是磁盤上連續的一片，其可以跨越多個物理卷。對於上層設備來說，相當於底層所有的存儲設備都連成了一片，這就形成了一個類似內存中的邏輯空間的東西。</p>
+<p>對於LVM來說，跨卷存儲和調整分區大小只需要從邏輯層面修改響應文件信息，而物理層面的存儲信息不需要變化。當用戶增加物理卷時，只需要將新分區加入卷組並擴充邏輯卷即可。</p>
+<h4 id="Linux下製作LVM"><a href="#Linux下製作LVM" class="headerlink" title="Linux下製作LVM"></a><strong>Linux下製作LVM</strong></h4><p>安裝Linux時LVM並不會自動的安裝，需要用戶手動製作，製作時為了體現LVM跨分區跨磁盤的效果，最好將LVM製作在多個磁盤下。</p>
+<p>假設有兩塊磁盤/dev/sda1, /dev/sda2</p>
+<ol>
+<li><p>首先創建物理卷</p>
+<figure class="highlight plain"><figcaption><span>/dev/sda1```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;pvcreate &#x2F;dev&#x2F;sda2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>創建卷組</p>
+<figure class="highlight plain"><figcaption><span>vg_name</span><a href="/dev/sda1">/dev/sda2```</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">   vg_name是卷組的名字</span><br><span class="line"></span><br><span class="line">3. 創建好後可以通過&#96;&#96;&#96;vgdisplay&#96;&#96;&#96;查看VG的情況。</span><br><span class="line"></span><br><span class="line">4. 創建LVM邏輯卷</span><br><span class="line"></span><br><span class="line">   &#96;&#96;&#96;lvcreate  -L size -n lvm_name vg_name</span><br></pre></td></tr></table></figure>
+
+<p>-L參數後面接需要創建的邏輯卷的大小，單位是kKmMgGtT</p>
+<p>-n參數後面則接需要創建的邏輯卷的名字。</p>
+<p>最後需要在哪個卷組中創建邏輯卷就加上哪個卷組的名字。</p>
+<p>更多的參數可以通過<code>man lvcreate</code>命令查看。</p>
+</li>
+<li><p>創建好的邏輯卷文件可以通過<code>/dev/vg_name/lvm_name</code>路徑查看。</p>
+</li>
+<li><p>邏輯卷創建好後就可以進行文件系統的創建了，創建方式和正常創建在磁盤裡面基本沒有差別。</p>
+</li>
+<li><p>邏輯卷的擴容。</p>
+<figure class="highlight plain"><figcaption><span>-L size</span><a href="/dev/vg_name/lvm_name```">link</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">-L參數與前面同義。</span><br><span class="line"></span><br><span class="line">邏輯卷擴容後還需要命令文件系統識別新的文件系統大小。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;resize2fs &#x2F;dev&#x2F;vg_name&#x2F;lvm_name</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LVM的掛載。和正常操作基本一樣。</p>
+</li>
+<li><p>設置開機自動掛載</p>
+<p>打開fstab</p>
+<figure class="highlight vim"><figcaption><span>/etc/fstab```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">在最下面增加一行：</span><br><span class="line"></span><br><span class="line">```/dev/vg_name/lvm_name /mnt/path ext4 defaults <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>/mnt/path寫為你的LVM的掛載路徑。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>OperatingSystem</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux的常用目錄</title>
     <url>/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/</url>
     <content><![CDATA[<h4 id="Linux的常用目錄"><a href="#Linux的常用目錄" class="headerlink" title="Linux的常用目錄"></a><strong>Linux的常用目錄</strong></h4><ul>
@@ -395,59 +442,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>OperatingSystem/操作系統4-文件系統/LVM</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/LVM/</url>
-    <content><![CDATA[<h3 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a><strong>LVM</strong></h3><p>LVM for Logical Volume Manager(邏輯捲管理)。</p>
-<p>用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。</p>
-<p>LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。</p>
-<p>LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。LVM再從卷組中劃分不同的<strong>邏輯卷</strong>作為新的邏輯設備，邏輯卷在物理層面上不必是磁盤上連續的一片，其可以跨越多個物理卷。對於上層設備來說，相當於底層所有的存儲設備都連成了一片，這就形成了一個類似內存中的邏輯空間的東西。</p>
-<p>對於LVM來說，跨卷存儲和調整分區大小只需要從邏輯層面修改響應文件信息，而物理層面的存儲信息不需要變化。當用戶增加物理卷時，只需要將新分區加入卷組並擴充邏輯卷即可。</p>
-<h4 id="Linux下製作LVM"><a href="#Linux下製作LVM" class="headerlink" title="Linux下製作LVM"></a><strong>Linux下製作LVM</strong></h4><p>安裝Linux時LVM並不會自動的安裝，需要用戶手動製作，製作時為了體現LVM跨分區跨磁盤的效果，最好將LVM製作在多個磁盤下。</p>
-<p>假設有兩塊磁盤/dev/sda1, /dev/sda2</p>
-<ol>
-<li><p>首先創建物理卷</p>
-<figure class="highlight plain"><figcaption><span>/dev/sda1```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;pvcreate &#x2F;dev&#x2F;sda2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>創建卷組</p>
-<figure class="highlight plain"><figcaption><span>vg_name</span><a href="/dev/sda1">/dev/sda2```</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">   vg_name是卷組的名字</span><br><span class="line"></span><br><span class="line">3. 創建好後可以通過&#96;&#96;&#96;vgdisplay&#96;&#96;&#96;查看VG的情況。</span><br><span class="line"></span><br><span class="line">4. 創建LVM邏輯卷</span><br><span class="line"></span><br><span class="line">   &#96;&#96;&#96;lvcreate  -L size -n lvm_name vg_name</span><br></pre></td></tr></table></figure>
-
-<p>-L參數後面接需要創建的邏輯卷的大小，單位是kKmMgGtT</p>
-<p>-n參數後面則接需要創建的邏輯卷的名字。</p>
-<p>最後需要在哪個卷組中創建邏輯卷就加上哪個卷組的名字。</p>
-<p>更多的參數可以通過<code>man lvcreate</code>命令查看。</p>
-</li>
-<li><p>創建好的邏輯卷文件可以通過<code>/dev/vg_name/lvm_name</code>路徑查看。</p>
-</li>
-<li><p>邏輯卷創建好後就可以進行文件系統的創建了，創建方式和正常創建在磁盤裡面基本沒有差別。</p>
-</li>
-<li><p>邏輯卷的擴容。</p>
-<figure class="highlight plain"><figcaption><span>-L size</span><a href="/dev/vg_name/lvm_name```">link</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">-L參數與前面同義。</span><br><span class="line"></span><br><span class="line">邏輯卷擴容後還需要命令文件系統識別新的文件系統大小。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;resize2fs &#x2F;dev&#x2F;vg_name&#x2F;lvm_name</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>LVM的掛載。和正常操作基本一樣。</p>
-</li>
-<li><p>設置開機自動掛載</p>
-<p>打開fstab</p>
-<figure class="highlight vim"><figcaption><span>/etc/fstab```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">在最下面增加一行：</span><br><span class="line"></span><br><span class="line">```/dev/vg_name/lvm_name /mnt/path ext4 defaults <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>/mnt/path寫為你的LVM的掛載路徑。</p>
-</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>OperatingSystem/操作系統4-文件系統/掛載文件系統的高級方式</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%8E%9B%E8%BC%89%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E7%9A%84%E9%AB%98%E7%B4%9A%E6%96%B9%E5%BC%8F/</url>
-    <content><![CDATA[<h4 id="掛載文件系統的高級方式"><a href="#掛載文件系統的高級方式" class="headerlink" title="掛載文件系統的高級方式"></a><strong>掛載文件系統的高級方式</strong></h4><p>相比大家在安裝一些比較複雜的Linux系統(如ArchLinux)時都有過掛載文件系統的經歷，常規操作都是</p>
-<figure class="highlight plain"><figcaption><span>/dev/sda1</span><a href="/mnt```">link</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">但是這個逼格不夠高。</span><br><span class="line"></span><br><span class="line">mount這個命令是通過系統調用mount來實現的，通過&#96;&#96;&#96;man mount&#96;&#96;&#96;可以查看到mount的系統調用定義在&#96;&#96;&#96;&lt;sys&#x2F;mount.h&gt;&#96;&#96;&#96;中。</span><br><span class="line"></span><br><span class="line">於是可以查到mount的定義為</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;c</span><br><span class="line">#include &lt;sys&#x2F;mount.h&gt;</span><br><span class="line">int mount(const char *source, const char *target,const char *filesystemtype, unsigned long mountflags,const void *data);</span><br></pre></td></tr></table></figure>
-
-<p>所以我們可以通過C語言調用系統函數，來完成系統調用。</p>
-<p>首先準備好已經創建了文件系統的磁盤分區和掛載點，然後寫一個C文件mymount.c</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mount.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;  </span></span></span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (mount(<span class="string">"/dev/sdb1"</span>, <span class="string">"/mnt/scratch"</span>, <span class="string">"xfs"</span>, <span class="number">0</span>, <span class="literal">NULL</span>)) &#123;  </span><br><span class="line">                perror(<span class="string">"mount failed"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>編譯運行就可以完成掛載了。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>OperatingSystem/操作系統2-處理機調度與死鎖/操作系統2-處理機調度與死鎖(作業與進程管理介紹)</title>
     <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96(%E4%BD%9C%E6%A5%AD%E8%88%87%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86%E4%BB%8B%E7%B4%B9)/</url>
     <content><![CDATA[<h3 id="操作系統-處理機調度與死鎖"><a href="#操作系統-處理機調度與死鎖" class="headerlink" title="操作系統-處理機調度與死鎖"></a>操作系統-處理機調度與死鎖</h3><h4 id="1-作業管理"><a href="#1-作業管理" class="headerlink" title="1.作業管理"></a>1.作業管理</h4><p>1.1 <strong>作業的概念</strong></p>
@@ -754,6 +748,35 @@
 ]]></content>
   </entry>
   <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(段式存儲管理)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-段式存儲管理"><a href="#操作系統3-內存管理-段式存儲管理" class="headerlink" title="操作系統3-內存管理(段式存儲管理)"></a><strong>操作系統3-內存管理(段式存儲管理)</strong></h3><h4 id="4-段式存儲管理"><a href="#4-段式存儲管理" class="headerlink" title="4 段式存儲管理"></a>4 段式存儲管理</h4><p>4.1 <strong>段式存儲的思想</strong></p>
+<p>頁式存儲僅僅考慮了程序的長度，可以使一個程序可以不連續地加載內存，但是沒有考慮程序的邏輯結構。<strong>一個程序在加載內存時，其不同部分的訪問權限是不一樣的</strong>。比如程序部分可以多個進程共享，無法修改。而數據部分可以修改，只能由一個進程獨佔。</p>
+<ol>
+<li><p>分段</p>
+<p>在分段存儲管理方式中，<strong>段是一組邏輯信息組合</strong>。例如把作業按邏輯關係加以組織，劃分成若干段，並按這些段來劃分內存，這些段可以是主程序段MAIN，子程序段X、數據段D和堆棧段S等。加載內存時，段與段之間可以是不連續的。一個操作數的邏輯地址由段號s和段內偏移量w組成。</p>
+</li>
+<li><p>段表</p>
+<p>系統為每個進程建立了一張表，每個段都有一個表項。其中記錄了<strong>段號、段長、內存始址和存取控制</strong>。內存始址即該段在內存中的起始地址。</p>
+</li>
+<li><p>地址變換機構</p>
+<p>為了實現重定位，在系統中設置了段表寄存器，用於存放段表的起始地址和段表長度TL。段表存放在內存中。段表的地址變換與頁表的地址變換類似，在此略過。</p>
+</li>
+</ol>
+<p>4.2 <strong>段頁式存儲管理</strong></p>
+<p>段頁式存儲管理吸取了分頁式和分段式的優點，是現在應用比較廣泛的一種存儲方式。</p>
+<p>段頁式存儲的基本思想：</p>
+<ol>
+<li>採用分頁式存儲管理的方式將內存劃分為一些大小相等的物理塊。</li>
+<li>邏輯空間採用分段式的方式按程序的邏輯關係把進程的地址空間分成若干邏輯段。</li>
+<li><strong>段內分頁</strong>。將每個邏輯段按頁式存儲管理的方式分為一些大小相等的邏輯頁，其大小等於內存塊大小。在每個段內，從0開始連續地編號。</li>
+<li>邏輯結構地址。一個邏輯地址由段號s、段內頁號p和頁內地址d構成。</li>
+<li>內存分配。內存以物理塊為單位分配給每個進程。</li>
+<li>段表、頁表和段表地址寄存器。系統為每個進程或作業建立一個段表，在每一段內建立一個頁表。</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
     <title>OperatingSystem/操作系統2-處理機調度與死鎖/操作系統2-處理機調度與死鎖(調度算法)</title>
     <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96(%E8%AA%BF%E5%BA%A6%E7%AE%97%E6%B3%95)/</url>
     <content><![CDATA[<h3 id="操作系統-處理機調度和死鎖"><a href="#操作系統-處理機調度和死鎖" class="headerlink" title="操作系統-處理機調度和死鎖"></a>操作系統-處理機調度和死鎖</h3><h4 id="5-調度算法"><a href="#5-調度算法" class="headerlink" title="5.調度算法"></a>5.調度算法</h4><p>5.1 FCFS調度算法</p>
@@ -870,6 +893,459 @@
 </li>
 <li><p>實時進程的調度策略</p>
 <p>因為實施進程對時間的要求比較高，因此Linux給實施進程增加了第三種優先級，稱為實時優先級。對於實時進程，Linux使用兩種調度策略：FIFS算法和RR算法。</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(Linux系統的內存管理方法)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(Linux%E7%B3%BB%E7%B5%B1%E7%9A%84%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86%E6%96%B9%E6%B3%95)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-Linux系統的內存管理方法"><a href="#操作系統3-內存管理-Linux系統的內存管理方法" class="headerlink" title="操作系統3-內存管理(Linux系統的內存管理方法)"></a><strong>操作系統3-內存管理(Linux系統的內存管理方法)</strong></h3><h4 id="9-Linux系統的內存管理方法"><a href="#9-Linux系統的內存管理方法" class="headerlink" title="9.Linux系統的內存管理方法"></a>9.<strong>Linux系統的內存管理方法</strong></h4><p>Linux採用“按需調頁”算法，支持三層管理策略。由於Intel CPU在硬件級提供了段式存儲管理和二層頁式存儲管理，Linux作為軟件，必須與之兼容。所以Linux實際上放棄了段式存儲管理，將第二層的頁式管理與第一層的頁式管理合併，因此整整發揮作用的是以<strong>頁目錄和頁表為中心的數據結構和函數。</strong></p>
+<p>9.1 <strong>Linux的分頁管理機制</strong></p>
+<p>在Linux中，每個進程都可以訪問4GB的線性虛擬內存空間，注意可以訪問的空間和實際享有的空間並不是一回事。其中0<del>3GB的虛擬內存地址空間為用戶空間，用戶進程可以直接訪問；3</del>4GB的空間為內核態空間，存放僅供內核態訪問的代碼和數據，當用戶進程通過中斷或系統調用訪問內核態空間時，就會觸發處理特權級轉換，從用戶態轉到內核態。</p>
+<p><strong>所有進程從3GB到4GB的虛擬空間是一樣的，有相同的頁目錄項和頁表，對應同樣的物理內存段，Linux以此方式讓內核態進程共享代碼段和數據段。</strong></p>
+<p>Linux採用“按需調頁”管理內存，標準Linux的虛存頁表為3級頁表，依次為頁目錄(Page Directory, PGD)、中間頁目錄(Page Middle Directory, PMD)和頁表(Page Table, PTE)。</p>
+<p>而在Intel微型計算機上，Linux的頁表結構實際只有兩級，PGD和PMD合二為一，在用戶進程通過mm_struct結構來管理進程中與存儲相關的信息。</p>
+<p>9.2 <strong>虛存段的組織與管理</strong></p>
+<p>為了能夠自然地管理進程虛存空間，Linux定義了虛存段(virtual memory are, vma)，一個vma段時某個進程的一段連續的虛擬空間，在這段虛擬空間的所有單元擁有相同的特征。例如屬於同一進程，有相同的訪問權限等。</p>
+<p>9.3 <strong>內存的共享</strong></p>
+<p>Linux內存的共享並不設置一個共享頁表，而是讓共享該頁的各進程的頁表項直接指向共享頁。這種方式節約內存，但是效率較低。</p>
+<p>9.4 <strong>內存空間管理</strong></p>
+<p>Linux物理空間以頁幀為單位，就相當於前面講的物理塊，大小等於頁長，對於Intel CPU默認是4KB。</p>
+<p>Linux對物理內存的管理通過mem_map來描述，mem_map在系統初始化時，由free_area_init()來創建。用bitmap記錄所有物理內存的空閒情況，也有這個函數創建。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(分區存儲和頁式存儲)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%88%86%E5%8D%80%E5%AD%98%E5%84%B2%E5%92%8C%E9%A0%81%E5%BC%8F%E5%AD%98%E5%84%B2)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-分區存儲和頁式存儲"><a href="#操作系統3-內存管理-分區存儲和頁式存儲" class="headerlink" title="操作系統3-內存管理(分區存儲和頁式存儲)"></a><strong>操作系統3-內存管理(分區存儲和頁式存儲)</strong></h3><h4 id="2-分區存儲管理方式"><a href="#2-分區存儲管理方式" class="headerlink" title="2. 分區存儲管理方式"></a>2. 分區存儲管理方式</h4><p>分區管理的基本思想是：<strong>將內存空間氛圍一個或若干個連續的區域，稱為分區。每個分區可以存放一個獨立的用戶程序。分區的特點是一個程序可以連續地加載內存。</strong></p>
+<p>分區可以分為：單一分區、固定分區、可變分區和重定位分區。</p>
+<p>2.1 <strong>單道程序的連續分配</strong></p>
+<p>單道程序的連續分配方式將內存分為系統區和用戶區，只能用於單用戶、單任務的操作系統。</p>
+<ol>
+<li><p>系統區</p>
+<p>系統區僅供操作系統使用，一般駐留在內存的低地址區，其中包括中斷向量。中斷向量是操作系統的<strong>核心功能模塊加載內存的起始地址</strong>。</p>
+</li>
+<li><p>用戶區</p>
+<p>操作系統所佔區域以外的全部內存空間，用戶區和系統區之間設立了嚴格的內存保護機制，防止用戶區的地址越界。</p>
+</li>
+</ol>
+<p>2.2 <strong>固定分區分配方式</strong></p>
+<p>系統在啟動時就劃分好多個分區，明確了分區的數量、大小和起始地址。這樣允許多道作業並發執行。但這樣也會使得部分分區的程序無法完全利用所有分區空間，也會導致部分程序因為佔用內存過大而無法裝入程序。因此會造成內存的浪費。</p>
+<p>2.3 <strong>動態分區分配</strong></p>
+<p>動態分區根據進程的實際需要動態地分割內存。當進程運行完畢並釋放了其所佔用的空間時，如果這塊空間有相鄰的空閒的內存空間，則它們被合併為更大的空閒的內存空間。</p>
+<p>動態分區需要解決的問題有：分區分配的數據結構、分區的分配算法、分區的分配與回收操作。</p>
+<ol>
+<li><p>數據結構</p>
+<p>常用的數據結構有空閒分區表和空閒分區鏈。</p>
+<ol>
+<li><p>空閒分區表結構為:</p>
+<ol>
+<li><ol>
+<li>空閒分區說明表</li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>序號</th>
+<th>分區大小(KB)</th>
+<th>分區地址(K)</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>64</td>
+<td>44</td>
+<td>可用</td>
+</tr>
+<tr>
+<td>2</td>
+<td>24</td>
+<td>132</td>
+<td>可用</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30</td>
+<td>210</td>
+<td>可用</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>空閒分區鏈</p>
+<p>每個分區的起始部分設置一個用於控制分區分配的信息，以及用於鏈接各分區的前向指針，形成一個鏈錶。</p>
+</li>
+</ol>
+</li>
+<li><p>分區分配算法</p>
+<p>新作業進入內存時，按照分配算法將空閒分區分配給作業。主要有以下四種分配算法。</p>
+<ol>
+<li>首次符合法(First Fit)。每次分配空閒區時，總是從鏈首開始查詢，直到找到一個符合要求的空閒塊。</li>
+<li>循環首次符合法(Next Fit)。在查詢內存空間時，不再從鏈首開始查，而是從上次分配內存的下一個空閒內存空間開始查詢。如果查到最後一個空間都不能滿足要求，指針應該又返回鏈首開始查詢，因為可能已經有其他作業釋放了足夠的內存空間。</li>
+<li>最佳符合法(Best Fit)。要求所有空閒空間按照大小排序，請求內存的指針從最小的內存塊開始查，直到找到第一個符合請求空間大小的內存塊。</li>
+</ol>
+</li>
+<li><p>分區分配和回收</p>
+<ol>
+<li><p>分配內存。設所請求分區的大小為u.size，分區表中內存的大小為m.size，若$m.size - u.size \leq size$，size是事先規定好的不再分割內存大小，如果空閒分區在被內存請求切割的大小小於這個size，則分區不再切割，將整個分區都分配給請求。否則從分區分割出一個和請求內存大小一致的內存，其餘內存仍留在空閒分區表或空閒分區鏈中。</p>
+</li>
+<li><p>回收內存。</p>
+<p>回收內存的主要工作是首先檢查是否有相鄰分區，有則合併使之成為一個連續的空閒區，避免形成許多離散的小分區。然後還要修改分區的有關控制信息。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>2.4 <strong>可重定位分區</strong></p>
+<ol>
+<li><p>緊湊</p>
+<p>在連續分配方式中，必須把一個程序裝入連續的內存空間中，如果系統中存在若干個離散的小分區，每個分區都不能使程序裝入其中。但是這些分區的大小之和大於程序的請求內存。這時可以通過重定位的方式將分隔這些分區的作業移動到一起，使得原來離散的小分區可以拼接成一個大分區。這種方式稱為“<strong>緊湊</strong>”。</p>
+</li>
+<li><p>動態重定位</p>
+<p>要想在動態重定位中將程序中的相對地址轉換為物理地址的工作推遲到程序指令進行時進行，需要得到硬件地址變換機構的支持。即在系統中加入一個重定位寄存器，用來裝入程序在內存中的起始地址。<strong>程序執行時，訪問的地址是由重定位寄存器的物理起始地址加上程序中的邏輯地址得到的</strong>。因此當需要移動程序佔用的內存地址時，只需要修改重定位寄存器中的地址就可以做到了，而不需要修改程序。</p>
+</li>
+<li><p>可重定位分區的分配與動態重定位分區的分配方式基本相同，只不過加入了“緊湊”的功能，使得離散的小分區內存空間得到了利用。</p>
+</li>
+</ol>
+<h4 id="3-頁式存儲管理"><a href="#3-頁式存儲管理" class="headerlink" title="3. 頁式存儲管理"></a>3. 頁式存儲管理</h4><p>3.1 <strong>分頁存儲的思想</strong></p>
+<p>不同於前面的連續分配的思想，分頁存儲允許程序被分配在不連續的內存空間中。為了實現這種想法，在分頁存儲管理中，主存被分為一個個大小相等的<strong>物理塊</strong>，而程序的地址空間被分為一些<strong>邏輯頁面</strong>。邏輯頁與物理塊的內存大小相等，程序和數據以頁為單位分配內存塊，將一個邏輯頁分配到一個物理塊中。為了便於實現地址變換，往往將物理塊的大小定為$2^n$個扇區，如1KB、2KB。</p>
+<p>3.2 <strong>頁式存儲管理的數據結構</strong></p>
+<ol>
+<li><p>頁面和物理塊</p>
+<p>頁面和物理塊的概念在上文已經有所介紹。在為進程分配內存時，以塊為單位將進程中的若干頁分配到不相接的塊中。每個邏輯頁和物理塊都有編號，邏輯頁號與物理塊號的對應關係，都已經記錄在了<strong>頁表</strong>中。頁表是每個進程都有一張的。</p>
+<p>頁面大小應適中，如果頁面過大，會造成頁內碎片過大。若是太小，則會造成頁表太大，佔用大量內存。</p>
+</li>
+<li><p>虛地址結構</p>
+<p>頁式存儲的虛地址結構包含<strong>頁號P</strong>和<strong>頁內偏移量W</strong>。若給定一個邏輯空間的地址A，頁面的大小為L。則P和W的計算方式為：</p>
+<p>$$ P = (int) [A/L] $$</p>
+<p>$$ W = A \mod L $$</p>
+</li>
+</ol>
+<p>3.3 <strong>頁式存儲管理的重定位方式</strong></p>
+<p>為了將用戶地址空間的邏輯地址變換為物理地址，需要設置地址變換機構。由於邏輯頁與物理塊的大小相等，所以邏輯頁內地址與物理頁內地址是一一對應的。所以重定位的主要任務是<strong>將邏輯頁的頁號轉換為內存中的物理塊號</strong>。這個工作是藉助頁表來實現的。</p>
+<p>頁表的功能由寄存器來實現，由於寄存器的空間有限，頁表的數量又很多，因此將整個頁表放入寄存器不太現實。現在通常是將頁表放置在內存中，只將設置一個頁表寄存器用來存放頁表的起始地址和長度。且這兩個數據並不是一直待在頁表寄存器中。進程並未執行時，這兩個數據存放在進程的PCB中，只有當調度到這個進程時，才將這兩個數據放入頁表寄存器中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[邏輯地址A] --&gt; |計算| B[頁內地址W]</span><br><span class="line">A --&gt; |計算| C[邏輯頁號P]</span><br><span class="line">C --&gt; |頁表寄存器| D[頁表地址 頁表長度n]</span><br><span class="line">D --&gt; E&#123;P&gt;&#x3D;n?&#125;</span><br><span class="line">E --&gt; |No|F[查頁表]</span><br><span class="line">E --&gt; |Yes|G[越界中斷]</span><br><span class="line">F --&gt; H[物理塊號]</span><br><span class="line">H --&gt; |乘以塊大小|I[物理塊基地址]</span><br><span class="line">I --&gt; J(+)</span><br><span class="line">B --&gt; J</span><br><span class="line">J --&gt; K[物理地址]</span><br></pre></td></tr></table></figure>
+
+<p>3.4 <strong>快表</strong></p>
+<p>在上述變換過程中可知，要想取出一個數據或指令，至少需要兩次訪問內存，為了提高效率，減少內存的訪問次數，可以將頁表放在一個高速緩存存儲器中。</p>
+<p>現在一般將正在運行進程的當前最常用的頁表放入快速存儲器中，存放這部分頁表內容的存儲器稱為<strong>相聯存儲器</strong>，也稱為聯想存儲器。這種存儲器還具有查找能力，如CPU給出的虛結構為(P,W)，分頁機構將虛結構送入相聯存儲器，存儲器立即和所有的頁號進行比較，找到符合的塊號B。然後根據(B,W)訪問內存。</p>
+<p>實際上在相聯存儲器查詢頁表的同時，系統也在主存的頁表中進程查詢，如果哪一邊查找到了，則立即停止另一邊的查詢。如果是在主存的頁表中查詢到的，則應把查得的頁號和塊號一並放入相聯存儲器的空閒單元中。若無空閒單元，則把最先裝入寄存器的那個頁號淘汰掉。</p>
+<p>3.5 <strong>兩級和多級頁表</strong></p>
+<ol>
+<li><p>兩級頁表</p>
+<p>隨著頁表越來越大，越來越難以找到足夠的內存來存放頁表。因此產生了多級頁表的想法。可以將頁表分成多個<strong>頁面</strong>，每個頁面與內存物理塊的大小相等，並未它們編號。離散地分佈在不同的物理塊中。同時為這些離散的頁面建立一張<strong>外層頁表</strong>。根據外層頁表找到頁面的方式與根據頁表找到物理塊的方式相似。同樣需要在地址機構中設置一個外層頁表寄存器用於存放外層頁表的起始地址。</p>
+</li>
+<li><p>多級頁表</p>
+<p>隨著計算機位數的增加，頁表的大小會越來越大，導致需要的儲存空間越來越大。因此需要建立更多級的頁表。</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(存儲器管理概述)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%AD%98%E5%84%B2%E5%99%A8%E7%AE%A1%E7%90%86%E6%A6%82%E8%BF%B0)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-存儲器管理概述"><a href="#操作系統3-內存管理-存儲器管理概述" class="headerlink" title="操作系統3-內存管理(存儲器管理概述)"></a><strong>操作系統3-內存管理(存儲器管理概述)</strong></h3><h4 id="1-存儲器管理概述"><a href="#1-存儲器管理概述" class="headerlink" title="1. 存儲器管理概述"></a>1. 存儲器管理概述</h4><p>1.1 <strong>存儲器的層次</strong></p>
+<p>寄存器 -&gt; 內存：包括內存、高速緩存、硬盤緩存 -&gt; 外部存儲器</p>
+<p>從左至右存儲速度遞減，存儲容量遞增。</p>
+<p>高速緩存雖然與內存同為內存，但是其採取了靜態RAM(SRAM)，而內存採用了動態RAM(DRAM)。SRAM的存儲速度接近於CPU的運行速度，但是成本遠高於內存，因此容量比內存小。</p>
+<p>寄存器則是CPU內部用來存儲數據的一塊區域。</p>
+<p>1.2 <strong>用戶程序的處理過程</strong></p>
+<p>系統對用戶程序的處理分為以下幾個階段：</p>
+<p>(1) 編譯。由編譯程序將用戶程序編譯成若干個目標模塊。</p>
+<p>(2) 鏈接。由鏈接程序將編譯後的目標代碼及它們需要的庫函數鏈接成一個裝入模塊。</p>
+<p>(3) 裝入。由裝入程序將裝入模塊裝入內存。</p>
+<p>1.3 <strong>存儲管理的幾個基本概念</strong></p>
+<ol>
+<li><p>邏輯空間和物理空間</p>
+<p><strong>邏輯空間</strong>是用戶的編程空間，也是程序空間。若是用機器語言編程，邏輯空間可以自己確定，若是用高級語言，則邏輯空間由編譯程序確定。編程空間通常從0開始編址。邏輯地址也叫虛地址、編程地址、CPU地址、相對地址等。</p>
+<p><strong>物理空間</strong>是由物理存儲單元確定的，即內存空間。是<strong>由存儲器總線掃描出來的空間。一個操作數加載內存的地址稱為物理地址。</strong></p>
+</li>
+<li><p><strong>重定位和地址變換</strong></p>
+<p>為確定程序在內存中的物理位置而進行地址變換叫做重定位。地址變換即將程序中的邏輯地址，包括指令本身的地址和指令中的操作數地址逐個變換成物理地址。</p>
+<p>重定位有以下兩種情況：其一，當程序裝入內存運行時，必須根據所分得空間的位置將程序的邏輯地址變換為響應的物理地址，以便將該程序定位在所分得的物理空間內；其二，程序在執行過程中，由於種種原因，在內存中挪動了位置，需要將程序的邏輯地址進行變換，以便該程序重新定位在新的位置上。</p>
+<p>如果地址變換在程序執行之前由編譯裝配程序完成，稱為<strong>靜態重定位</strong>。如果地址變換在程序執行過程中發生，稱為<strong>動態重定位</strong>。</p>
+</li>
+<li><p><strong>目標程序裝入內存的方式</strong></p>
+<p>程序只有裝入內存才能運行。裝入方式有<strong>絕對裝入方式、可重定位裝入方式和動態運行時裝入方式</strong>。</p>
+<ol>
+<li><p>絕對裝入方式。在編譯時，如果知道程序將駐留在內存中什麼地址，那麼編譯程序將產生絕對地址的目標代碼。裝入程序根據裝入模塊中的地址，將數據和地址裝入內存，無須對程序和數據的地址進行修改。</p>
+</li>
+<li><p>可重定位裝入方式。<strong>在程序執行之前，由操作系統的重定位裝入程序完成。</strong>一般是編譯程序不能預知所編譯的模塊在內存中的什麼位置。重定位程序根據內存起始地址，直接修改所涉及的邏輯地址，將內存的起始地址加上邏輯地址得到正確的內存地址。</p>
+<p>如程序中的某一條指令要取邏輯地址為3500的一個數，若程序裝入的起始地址為10000，則裝入程序將該地址修改為13500，這樣程序才能取到正確的數字。</p>
+</li>
+<li><p>動態運行時裝入方式。在程序運行時完成。這種轉換通常採用一個<strong>重定位寄存器</strong>完成。每次進行存儲訪問時，將取出的邏輯地址加上重定位寄存器的內容，形成正確的內存地址。這種方法通常用於多道程序環境中，因為有多道程序運行時，進程經常需要換進換出內存，每次進入內存其在內存的物理地址都是不一樣的。因此需要根據重定位寄存器來得到正確的內存地址。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>目標程序鏈接</strong></p>
+<p>實現鏈接的方法有靜態鏈接、裝入時動態鏈接和運行時動態鏈接等。</p>
+<ol>
+<li><strong>靜態鏈接</strong>。即將若干個模塊鏈接在一起，形成一個完整的裝入模塊。需要完成的工作是對相對地址進行修改，同時變換外部調用符號。</li>
+<li><strong>裝入時動態鏈接</strong>。這種方式中裝入程序邊將程序裝入內存邊鏈接，當在程序中發現外部調用模塊時，就去尋找相應的外部目標模塊，再裝入內存。</li>
+<li><strong>運行時動態鏈接</strong>。在這種鏈接方式中，可將某些目標模塊的鏈接推遲到執行時才進行。在執行過程中，若發現某一個調用模塊沒有裝入內存，由操作系統去找該模塊，由它裝入內存，並鏈接到調用模塊上。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(虛擬內存)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-虛擬內存"><a href="#操作系統3-內存管理-虛擬內存" class="headerlink" title="操作系統3-內存管理(虛擬內存)"></a><center><strong>操作系統3-內存管理(虛擬內存)</strong></center></h3><h4 id="5-虛擬存儲器"><a href="#5-虛擬存儲器" class="headerlink" title="5.虛擬存儲器"></a>5.虛擬存儲器</h4><p>5.1 <strong>局部性原理</strong></p>
+<p>早在1968年P.Dening就指出：程序在執行過程中呈現出局部性規律。即在很短的時間內，程序的執行儘限於某個部分，其訪問的內存也僅限於某個區域。</p>
+<p>局限性體現在時間和空間上，時間上程序中某條指令一旦執行，不就又可能再被執行。空間上某個存儲單元被訪問，不就又可能再被訪問。</p>
+<p>5.2 <strong>對換</strong></p>
+<ol>
+<li><p><strong>對換的引入</strong></p>
+<p>在多道程序環境下，可能出現內存中的某些進程由於等待某時間而進入阻塞狀態，其佔用了大量內存。同時外存中等待的許多作業由於得不到足夠的內存而無法進入運行狀態。為了解決這一問題，引入了“對換”技術。</p>
+<p>而“對換”，即是把內存中不能運行的進程或暫時不用的程序或數據，調出內存，以騰出足夠的內存空間，再調入以具備運行條件的進程或進程所需要的程序或數據。</p>
+<p>如果對換是以進程為整個單位，則稱為“整體對換”或“進程對換”。通常應用與分時系統中以解決內存緊張的問題。如果對換是以“頁”或“段”為單位，則稱為“頁面對換”或“分段對換”，統稱為“部分對換”。</p>
+<p><strong>“部分對換”是實現請求分頁的和請求分段式存儲管理的基礎，其目的是為了支持虛擬存儲系統。</strong></p>
+<p>為了實現進程對換，必須實現三方面的功能：對換空間的管理，進程的換入和換入。</p>
+</li>
+<li><p><strong>對換空間的管理</strong></p>
+<p>在具有對換功能的OS中，通常把外存分為<strong>文件區</strong>和<strong>對換區</strong>。</p>
+<p>對於文件的存儲，主要目標是提高存儲空間的利用率，因此採用離散式存儲的方式。而進程在對換區駐留的時間比較短暫，對換的操作很頻繁，因此主要目標是提高訪問的速度，因此採用連續存儲的方式。</p>
+<p><strong>對於對換區的管理可以參考前面的內存管理的動態分區模式</strong>。</p>
+</li>
+<li><p><strong>進程的換出換入</strong></p>
+<ol>
+<li>進程的換出。每當一個進程由於創建子進程而需要更多的內存空間，<strong>但又無足夠的內存空間時</strong>，系統應將某進程換出。其過程是：<strong>系統先選擇優先級最低的進程作為換出進程，然後啟動磁盤，將進程的程序和數據寫入對換區。若傳送過程未出現錯誤，則可回收該進程的內存空間，並修改該進程PCB的相關信息。</strong></li>
+<li>進程的換入。系統定時查看所有進程的狀態。找出已處於“就緒”狀態但被換出的進程，將其中換出時間最久的進程作為換入進程。直到無可換入的進程或無可換出的進程為止。</li>
+</ol>
+</li>
+</ol>
+<p>5.3 <strong>覆蓋</strong></p>
+<p>在單用戶系統中，為了能夠在小內存中運行大作業，一些計算機採用了“覆蓋”技術，即將一個大程序按照程序的邏輯結構劃分成若干個程序段或數據段，將不會同時執行從而不必同時裝入內存的程序段分在一組內，該組稱為<strong>覆蓋段</strong>。這段話可能比較難以理解，舉例說明一下。</p>
+<p>​    例4-2 ：有一個程序的程序結構如下圖，整個程序裝入需要160KB內存，但是圖中沒有箭頭相連的程序段都不會同時調用。如A和B不會同時在main內調用，所以當B程序段被調用時，A程序要麼已經運行完了，要麼要等待B先運行。所以A和B便可同時被分配到一段內存中，空間大小取兩段程序中較大的那個，即30KB。同理，C,D,E都可被分入一組。這樣下來，整段程序只需要10KB(main) + 30KB(A,B) + 40KB(C,D,E) = 80KB。從而節省了內存空間。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[main 10KB] --&gt; B[A 30KB]</span><br><span class="line">A --&gt; C[B 20KB]</span><br><span class="line">B --&gt; D[C 30KB]</span><br><span class="line">C --&gt; E[D 30KB]</span><br><span class="line">C --&gt; F[E 40KB]</span><br></pre></td></tr></table></figure>
+
+<p>這種覆蓋管理技術採用的是靜態存儲分配和靜態重定位方式。如果在採用動態重定位的系統中運行，就不需要實現指定覆蓋區，在執行中調用模塊自然會決定裝入哪塊內存。</p>
+<p><strong>覆蓋對於程序員並不透明</strong>。為了實現好的覆蓋效果，程序員需要在編寫程序時精心安排好程序的覆蓋結構，並用覆蓋描述語言描述覆蓋和覆蓋段。</p>
+<p>5.4 <strong>虛擬存儲器</strong></p>
+<p>前面講的都是將作業一次性裝入內存，但實際上一次性裝入內存是沒有必要的，會佔用大量的內存資源。由於程序運行的局限性，可以考慮一次只裝入部分的作業。</p>
+<ol>
+<li><p><strong>虛擬存儲器的概念</strong></p>
+<p>裝入作業時，僅將當前要運行的部分裝入內存，當要執行的部分沒有裝入內存時，就從磁盤調入內存。當內存已滿時，則將內存中暫時不用的頁調出內存，釋放空間，再加載所需要的頁。這樣就顯得系統具有內存容量遠大於實際的內存容量，這樣的存儲器稱為虛擬存儲器。</p>
+<p><strong>虛擬存儲器即在作業運行時，僅將部分的程序和數據裝入內存就可以運行的虛擬存儲系統。具體來講，即指具有置換和請求調入功能，可以從邏輯上對內存進行擴充的一種存儲器系統。</strong></p>
+<p>虛擬存儲器除了要求有一定容量的主存和輔存之外，還要求有能夠進行快速地址變換的地址變換機構。</p>
+</li>
+<li><p><strong>虛擬存儲器的實現方法</strong></p>
+<p>虛擬存儲器的實現包括請求分頁系統和請求分段系統。</p>
+<ol>
+<li>請求分頁系統。在分頁存儲的基礎上加入了請求分頁的功能和頁面置換的功能所形成的頁式虛擬存儲系統。請求調頁和頁面置換需要有頁表機構、缺頁中斷機制和地址變換機構的支持。</li>
+<li>請求分段系統。與請求分頁系統極為類似。但是固定帶下頁面變成了按照邏輯結構分的段。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分段存儲管理)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E6%AE%B5%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-請求分段存儲管理"><a href="#操作系統3-內存管理-請求分段存儲管理" class="headerlink" title="操作系統3-內存管理(請求分段存儲管理)"></a><strong>操作系統3-內存管理(請求分段存儲管理)</strong></h3><h4 id="8-請求分段存儲管理"><a href="#8-請求分段存儲管理" class="headerlink" title="8.請求分段存儲管理"></a>8.請求分段存儲管理</h4><p>8.1 <strong>請求分段的原理與硬件支持</strong></p>
+<p>在段式存儲管理實現的虛擬存儲器上，以段為單位進行換入，換出。相比於請求分頁存儲系統，分段存儲因為段的大小不固定，所以置換算法更加難以實現。請求分段管理的實現需要<strong>段表機制、缺段中斷機制和地址變換機構的支持</strong>。</p>
+<ol>
+<li><p>段表機制</p>
+<p>段表結構除了段名、段長和段在內存中的起始地址外，還增加了一下幾項：</p>
+<ol>
+<li>存取方式，用於標識本分段的存取屬性是執行、只讀還是可讀可寫。</li>
+<li>訪問字段A，含義與請求分段的響應字段相同，用於記錄被訪問段的頻率。</li>
+<li>修改位M，表示該頁進入內存後是否被修改過。</li>
+<li>存在位P。表示該段是否已被調入內存。</li>
+<li>增補位，表示該段在運行過程中是否動態增長。</li>
+<li>外存起始地址。表示本段在外存的起始磁盤塊號。</li>
+</ol>
+</li>
+<li><p>缺頁中斷機制</p>
+<p>與請求分頁系統類似。</p>
+</li>
+<li><p>地址表換機構</p>
+<p>與請求分頁系統類似</p>
+</li>
+</ol>
+<p>8.2 <strong>段的共享與保護</strong></p>
+<p>段是按邏輯意義劃分的，可以按名存取，所以可以方便地實現內存的共享，並進行有效的內存保護。</p>
+<ol>
+<li><p>段的共享</p>
+<p>所謂共享，即兩個或以上的作業共用一個子程序段或數據段，該部分在內存中只有一個副本。如多個c程序都調用了Math.h庫，共用一個程序。具體的操作是在每個進程的段表中，在響應的表項加上共享段在內存的起始地址。</p>
+<p>當用戶進程或作業要共享內存的某一段時，只要<strong>用戶使用相同的名字</strong>，就可以在新的段表中填入已存在段的內存起始地址。</p>
+<p>為了實現共享段，可以在系統中設置一個共享段表，所以共享段都在表中佔一個表項。表中除了記錄段的一些基本信息之外，還記錄了訪問該段的進程數量count。當新增進程訪問時，就在段表中填上進程名、存取控制權限，然後count加一，標明增加一個進程訪問該共享字段。當每個進程在訪問結束後，便會將count 減一，當沒有進程共享此段時，系統便會釋放其內存。</p>
+</li>
+<li><p>段的保護</p>
+<p>主要包括地址越界保護和存取方式控制保護。</p>
+<p><strong>地址越界保護</strong>是為了保持段之間的相對獨立。但是有的段是運行動態增長的，這樣的段當段內地址大於段長時是允許的，這一點可以通過段的增補位來控制。</p>
+<p><strong>存取控制檢查</strong>，段表的每個表項都有設置存取控制字段來設置存取權限。</p>
+<p><strong>環保護結構</strong>。規定低標號的環具有較高的優先權，操作系統居于0環，重要軟件居於中間環，一般的居於外環。程序的訪問和調用遵循以下原則：</p>
+<ol>
+<li>一個程序可以訪問駐留在相同環或較低環的數據。</li>
+<li>一個程序可以調用駐留在相同環或高特權環的服務。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/物理地址擴展</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/</url>
+    <content><![CDATA[<h3 id="物理地址擴展-Physical-Address-Extension-PAE"><a href="#物理地址擴展-Physical-Address-Extension-PAE" class="headerlink" title="物理地址擴展(Physical Address Extension, PAE)"></a><strong>物理地址擴展(Physical Address Extension, PAE)</strong></h3><p>今早在知乎上看到一個新概念——物理地址擴展，查閱了許多資料，發現都只是將維基百科上的敘述再講了一遍，依舊十分晦澀難懂，於是打算自己用更加易懂的語言將自己的感悟寫下。</p>
+<p>早期的CPU和操作系統都是32位的，可以訪問的物理內存只有4G。後來4G不夠用了，於是人們想辦法去擴展物理內存。</p>
+<p>Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是怎麼做到支持PAE的呢？</p>
+<p>首先Intel做的是將CPU原來的32根地址線增加到了36根地址線。都知道CPU可以訪問的內存大小根本是有地址線的位數決定的，CPU增加了4根地址線後，可以訪問的內存就變成了原來的$2^4$倍，也就是64G內存。</p>
+<p>但是只是從硬件層面實現內存的擴展是不行的，為了與32位的CPU相適應，所有的軟件都是設計成32位的，只能訪問4GB的內存。難道現在有64GB的內存可以訪問還是只能給軟件訪問4GB嗎？當然不行。</p>
+<p>於是就誕生了PAE。</p>
+<p>對於每個軟件或者說每個進程來說，其可以訪問的虛擬地址或者說邏輯地址空間還是4GB不變的，但是操作系統可以通過地址映射將虛擬地址映射到不同物理地址，這就允許多個進程的使用內存加起來超過了4GB。原來是所有的進程共享4GB內存，現在是所有的進程都可以訪問4GB內存，但是加起來共享64GB內存。</p>
+<p>題外話：地址映射同時需要操作系統和CPU的支持。在CPU的內部，有一個叫MMU的部件，這個MMU不是Manchester Metropolitan University, 而是Memory Management Unit，在CPU內部負責CPU的內存訪問需求，功能包括<strong>虛擬地址到物理地址的轉換</strong>、內存保護、中央處理器告訴緩存的控制等。</p>
+<p>如果CPU沒有MMU，CPU要訪問內存時傳出的地址就直接送到了內存的針腳上，等於直接訪問了物理內存，由於內存碎片化線性的存在，內存的使用率將大大降低。如果操作系統不知道CPU不支持邏輯地址的話就更加恐怖，CPU將直接將邏輯地址當做物理地址傳給內存，將訪問到錯誤的內存地址。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2310756-67a4ff2b53385008.png" alt=""></p>
+<p>而啟用了MMU的CPU，CPU執行單元發出的地址將被MMU截獲，進行一次地址轉換後才傳給內存。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2310756-3b1e7fc263f0642a.png" alt=""></p>
+<p>而在執行過程中，操作系統和MMU是這樣的配合的：</p>
+<ul>
+<li>操作系統在初始化或分配、释放内存时会执行一些指令在物理内存中填写页表，然后用指令设置MMU，告诉MMU页表在物理内存中的什么位置。</li>
+<li>设置好之后，CPU每次执行访问内存的指令都会自动引发MMU做查表和地址转换操作，地址转换操作由硬件自动完成，不需要用指令控制MMU去做。</li>
+</ul>
+<p>註：題外話中大部分內容引用自<a href="https://www.cnblogs.com/alantu2018/p/9002309.html" target="_blank" rel="noopener">這篇文章</a>。</p>
+<p>但是隨著大型軟件的推出，又出現了一個問題——如果進程需要訪問超過4GB的內存怎麼辦呢？</p>
+<p>對於需要超過4GB內存的軟件來說，需要操作系統提供另外的支持技術，這種技術在Windows上叫Address Windowing Extension(AWE)，在類Unix上則有多種不統一的技術在使用。</p>
+<p>為了實現這種技術，需要對頁表的結構進行改進。</p>
+<p>在傳統的分頁結構中，32位的線性地址通常是如下分配的。由於圖是本地的，所以請對照</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/42a98226cffc1e1786864ca94a90f603738de969?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
+<p>32位的地址線中，從高往低，10位用於頁表的尋址，10位用於頁的尋址，最後12位用於頁內偏移量的尋址，頁的大小為4KiB(懷有疑惑)。</p>
+<p>現在還沒有談論到PAE，我們先弄清楚頁表的結構。在頁表的表項的第7位叫做PS(Page Size)，如果這個位設為1，則頁目錄的表項不再指向頁表，而是指向一個4MiB的頁。</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/37d12f2eb9389b50c0ce20ca8535e5dde7116e71?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
+<p>在啟用PAE後，為了可以使用附加的地址位，頁表和頁目錄中的表項都從32位增加到了64位。可以查找的範圍更大了，但是頁目錄和頁表的總大小要保持不變，所以只有9位可以用來查找頁目錄和頁表，為了能夠依舊有那麼多頁目錄和頁表可以用，於是就引入了一級頁目錄指針，共佔兩位，可以尋址到4個頁目錄。</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/6c224f4a20a446234ff965fa9822720e0cf3d773?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統4-文件系統/LVM</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/LVM/</url>
+    <content><![CDATA[<h3 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a><strong>LVM</strong></h3><p>LVM for Logical Volume Manager(邏輯捲管理)。</p>
+<p>用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。</p>
+<p>LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。</p>
+<p>LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。LVM再從卷組中劃分不同的<strong>邏輯卷</strong>作為新的邏輯設備，邏輯卷在物理層面上不必是磁盤上連續的一片，其可以跨越多個物理卷。對於上層設備來說，相當於底層所有的存儲設備都連成了一片，這就形成了一個類似內存中的邏輯空間的東西。</p>
+<p>對於LVM來說，跨卷存儲和調整分區大小只需要從邏輯層面修改響應文件信息，而物理層面的存儲信息不需要變化。當用戶增加物理卷時，只需要將新分區加入卷組並擴充邏輯卷即可。</p>
+<h4 id="Linux下製作LVM"><a href="#Linux下製作LVM" class="headerlink" title="Linux下製作LVM"></a><strong>Linux下製作LVM</strong></h4><p>安裝Linux時LVM並不會自動的安裝，需要用戶手動製作，製作時為了體現LVM跨分區跨磁盤的效果，最好將LVM製作在多個磁盤下。</p>
+<p>假設有兩塊磁盤/dev/sda1, /dev/sda2</p>
+<ol>
+<li><p>首先創建物理卷</p>
+<figure class="highlight plain"><figcaption><span>/dev/sda1```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;pvcreate &#x2F;dev&#x2F;sda2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>創建卷組</p>
+<figure class="highlight plain"><figcaption><span>vg_name</span><a href="/dev/sda1">/dev/sda2```</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">   vg_name是卷組的名字</span><br><span class="line"></span><br><span class="line">3. 創建好後可以通過&#96;&#96;&#96;vgdisplay&#96;&#96;&#96;查看VG的情況。</span><br><span class="line"></span><br><span class="line">4. 創建LVM邏輯卷</span><br><span class="line"></span><br><span class="line">   &#96;&#96;&#96;lvcreate  -L size -n lvm_name vg_name</span><br></pre></td></tr></table></figure>
+
+<p>-L參數後面接需要創建的邏輯卷的大小，單位是kKmMgGtT</p>
+<p>-n參數後面則接需要創建的邏輯卷的名字。</p>
+<p>最後需要在哪個卷組中創建邏輯卷就加上哪個卷組的名字。</p>
+<p>更多的參數可以通過<code>man lvcreate</code>命令查看。</p>
+</li>
+<li><p>創建好的邏輯卷文件可以通過<code>/dev/vg_name/lvm_name</code>路徑查看。</p>
+</li>
+<li><p>邏輯卷創建好後就可以進行文件系統的創建了，創建方式和正常創建在磁盤裡面基本沒有差別。</p>
+</li>
+<li><p>邏輯卷的擴容。</p>
+<figure class="highlight plain"><figcaption><span>-L size</span><a href="/dev/vg_name/lvm_name```">link</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">-L參數與前面同義。</span><br><span class="line"></span><br><span class="line">邏輯卷擴容後還需要命令文件系統識別新的文件系統大小。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;resize2fs &#x2F;dev&#x2F;vg_name&#x2F;lvm_name</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LVM的掛載。和正常操作基本一樣。</p>
+</li>
+<li><p>設置開機自動掛載</p>
+<p>打開fstab</p>
+<figure class="highlight vim"><figcaption><span>/etc/fstab```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">在最下面增加一行：</span><br><span class="line"></span><br><span class="line">```/dev/vg_name/lvm_name /mnt/path ext4 defaults <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>/mnt/path寫為你的LVM的掛載路徑。</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(頁面置換算法)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E9%A0%81%E9%9D%A2%E7%BD%AE%E6%8F%9B%E7%AE%97%E6%B3%95)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-頁面置換算法"><a href="#操作系統3-內存管理-頁面置換算法" class="headerlink" title="操作系統3-內存管理(頁面置換算法)"></a><strong>操作系統3-內存管理(頁面置換算法)</strong></h3><h4 id="7-頁面置換算法"><a href="#7-頁面置換算法" class="headerlink" title="7. 頁面置換算法"></a>7. 頁面置換算法</h4><p>在上一節講過, 換入換出頁面要根據特定的算法來執行, 這種算法就是頁面置換算法. 不合適的算法可能會使系統發生抖動，所謂抖動即指剛剛換出的頁面又要換回來，換回來不久又要換出去，這樣就導致系統的大部分工作時間都花在了頁面調度上，導致效率不高。</p>
+<p>下面是幾種常見的頁面置換算法：</p>
+<p>7.1 先入先出頁面置換算法</p>
+<p>顧名思義，根據隊列的數據結構的思想，總是將內存存在最久的頁面先換出。</p>
+<p>7.2 <strong>最近最久未使用頁面置換算法(Least Recently Used)</strong></p>
+<p>這種算法是一種比較好的算法，但是主要問題在於如何找到哪一頁是最近最久未被使用的頁面。為此需要兩類硬件的支持：</p>
+<ol>
+<li><p>寄存器。用於記錄某進程在內存中各頁的使用情況。系統為內存中每個進程都設置一個移位寄存器，可表示為$ R = R_{n-1} R_{n-2} …R_1 $。</p>
+<p>當進程訪問某物理塊時，要將相應寄存器的$R_{n-1}$位置變成1。此時，定時信號每隔一段時間將寄存器右移一位。如果把這個n位的寄存器看成是一個n位的二進制數，則最小數值的寄存器所對應的頁面就是最近最久未使用的頁面。</p>
+</li>
+<li><p>棧。利用一個特殊的棧來保存當前使用的各個頁面的頁號。每當進程訪問某頁面時，便將該頁面從棧中移出，壓入棧中。這樣，位於棧底的總是最近最久未被使用的頁面。(這個比較易於理解)</p>
+</li>
+</ol>
+<p>7.3 <strong>最佳置換算法(Optimal Page Replacement)</strong></p>
+<p>是Belady於1966年提出的一種理論上的理想算法，它所選擇的淘汰的頁面是最長時間不被使用的，可以保證最低的缺頁率。之所以說是理論算法是因為該算法需要知道該進程整體的頁面走向，即知道在哪一步需要用到哪一頁，但這是很難實現的。但是可以用來做算法題以及評價其他算法。</p>
+<p>7.4 <strong>時鐘置換算法</strong></p>
+<p>這是一種LRU的近似算法，但不像LRU那樣需要很多的硬件支持。</p>
+<p>時鐘置換算法為每一頁都設置一位訪問位，再將內存中所有頁面都通過鏈接指針連成一個隊列。當某頁被訪問時，則將該位置為1。由於將修改過的頁面換出時，頁面需要重新寫入外存，話費一定的時間。所以在選擇淘汰頁面時，要同時考慮到頁面的修改位和訪問位。根據訪問位和修改位可以組合成下列四種類型的頁面：</p>
+<ol>
+<li>(A = 0,M = 0)。最佳淘汰頁，既未被修改，又最近未被訪問。</li>
+<li>最近未被訪問，但已修改，不是很好的淘汰頁。</li>
+<li>最近訪問了，但未被修改。可能會再次訪問。</li>
+<li>最近既被訪問了，又有修改。最後淘汰的頁面。</li>
+</ol>
+<p>尋找過程：</p>
+<ol>
+<li>第一輪：指針從當前位置開始掃描循環隊列，尋找A=0，M=0的頁面。第一次掃描期間不改變訪問位A。</li>
+<li>第二輪：若第二輪未找到可以淘汰的頁面，則第二輪掃描A=0,M=1的頁面。第二輪掃描期間將掃描過的頁面的訪問位置為0。</li>
+<li>如果第二輪扔失敗。則再回到開始位置重複第一輪，如果再失敗，則再重複第二輪，這是一定能找到目標淘汰頁。因為所有的訪問位都已置為0。</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分頁內存管理)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E9%A0%81%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-請求分頁內存管理"><a href="#操作系統3-內存管理-請求分頁內存管理" class="headerlink" title="操作系統3-內存管理(請求分頁內存管理)"></a><center><strong>操作系統3-內存管理(請求分頁內存管理)</strong></center></h3><h4 id="6-請求分頁內存管理方式"><a href="#6-請求分頁內存管理方式" class="headerlink" title="6. 請求分頁內存管理方式"></a>6. 請求分頁內存管理方式</h4><p>6.1 <strong>請求分頁的實現</strong></p>
+<p>請求分頁是常用的實現虛擬存儲器的方式，其實現需要頁表機制、缺頁中斷機制和地址變換機構的支持。</p>
+<ol>
+<li><p>頁表機制</p>
+<p>分頁系統中地址映像是用過頁表實現的。在請求分頁的系統中，頁表項包括：邏輯頁號、物理塊號、狀態位P、訪問字段A、修改位M和外存地址。</p>
+<ol>
+<li>狀態位P用於指示該頁是否已經調入內存。</li>
+<li>訪問字段A，用於記錄本頁在一段時間內被訪問的次數，或最近多長時間沒被訪問，供置換算法換出頁面時參考。</li>
+<li>修改位M，表示該頁在調出內存後是否被修改過。由於<strong>內存的每一頁在外存中都有備份</strong>，所以在該頁被換出時，系統會查詢該頁的修改位，若被修改過，則將該頁再寫入內存；若調入內存後未被修改過，則直接進行覆蓋。</li>
+<li>外存地址，表示該頁在外存中的地址，若外存採用磁盤，則是磁盤塊號。</li>
+</ol>
+</li>
+<li><p>缺頁中斷機構</p>
+<p>在請求分頁中，若訪問的頁不在主存，便產生一個缺頁中斷。(這個缺頁中斷與前面的缺頁中斷並不是一回事。前面的缺頁中斷找不到頁面說明頁面已經丟失了，這個找不到頁面說明頁面還在外存中，沒有換入主存。)缺頁中斷與一般的中斷相比有明顯的區別：</p>
+<ol>
+<li>在指令執行期間產生和處理中斷信號。</li>
+<li>一條指令在執行期間可能產生多次中斷。系統中的硬件應能保存多次中斷時的狀態，保證能夠返回到中斷前的狀態。</li>
+</ol>
+</li>
+<li><p>地址變換機構</p>
+<p>地址變換過程如圖所示</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[程序請求訪問一頁] --&gt; B&#123;頁號&gt;頁表中頁號&#125;</span><br><span class="line">B --&gt; |Yes|C[越界中斷]</span><br><span class="line">B --&gt; |No|D[CPU檢索快表]</span><br><span class="line">D --&gt; E&#123;頁表項在快表中&#125;</span><br><span class="line">E --&gt; |No|F[訪問頁表]</span><br><span class="line">E --&gt; |Yes|G[修改訪問位和修改位]</span><br><span class="line">F --&gt; I&#123;頁在內存&#125;</span><br><span class="line">I --&gt; |No|J[缺頁中斷]</span><br><span class="line">I --&gt; |Yes|K[修改快表]</span><br><span class="line">K --&gt; G</span><br><span class="line">G --&gt; L[形成物理地址]</span><br><span class="line">L --&gt; M(地址變換結束)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>6.2 <strong>內存分配策略</strong></p>
+<p>在為進程分配內存時，主要涉及三個問題：最小物理塊數的確定；物理塊的分配策略；物理塊的分配算法。</p>
+<ol>
+<li><p>最小物理塊數的確定</p>
+<p>最小物理塊數，即能保證程序能正常運行的最小物理塊數。</p>
+</li>
+<li><p><strong>物理塊的分配策略</strong></p>
+<p>在請求分頁系統中，可採用兩種內存分配策略：固定分配策略和可變分配策略。在進行置換時，也可採取兩種策略：全局置換和局部置換。</p>
+<ol>
+<li><p>固定分配局部置換</p>
+<p>基於進程的類型或程序管理員的建議，為每個進程分配一定數目的物理塊，整個運行期間都不再改變。如果程序在運行時發現缺頁，必須先從內存中換出一個頁面才能換入新的頁面，這樣才能整體內存不變。</p>
+<p>這種方式的缺點在難以確定物理塊的數目，分配過多或過少都會造成系統整體效率的下降。</p>
+</li>
+<li><p>可變分配全局置換</p>
+<p>採用這種策略時，系統會先為每個進程都分配一定數目的物理塊，而OS自身也會保持一定數目的空閒物理塊。當進程發生缺頁中斷時，系統會分配一個空閒的物理塊給該進程以調入新的頁面。這樣每個進程都能獲得新的物理塊，直到系統的空閒物理塊用完。這時候再發送缺頁中斷時，OS就從內存中調出一頁，該頁可能是任一進程的頁。具體的調換算法在後面會講到。</p>
+</li>
+<li><p>可變分配局部變換</p>
+<p>同樣是系統在一開始為每個進程分配一定數目的物理塊，但是進程在發生缺頁中斷時，只能從自己進程中調出一頁。這樣就不會影響其他進程。但是系統會時刻觀察所有進程的缺頁中斷發生的頻率，缺頁中斷發生非常頻繁的進程會分配若干物理塊，直到中斷頻率降低到一定程度。同樣，缺頁中斷發生頻率過低的進程就會抽走若干物理塊，使得整體的缺頁中斷發生的頻率都控制在一定範圍。</p>
+</li>
+</ol>
+</li>
+<li><p>物理塊的分配算法</p>
+<p>物理塊的分配應該綜合考慮到進程的優先級和進程的大小，在重要的實時控制系統中，優先級高的進程就能分配到更多的物理塊。</p>
 </li>
 </ol>
 ]]></content>
@@ -1118,445 +1594,16 @@
 ]]></content>
   </entry>
   <entry>
-    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(分區存儲和頁式存儲)</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%88%86%E5%8D%80%E5%AD%98%E5%84%B2%E5%92%8C%E9%A0%81%E5%BC%8F%E5%AD%98%E5%84%B2)/</url>
-    <content><![CDATA[<h3 id="操作系統3-內存管理-分區存儲和頁式存儲"><a href="#操作系統3-內存管理-分區存儲和頁式存儲" class="headerlink" title="操作系統3-內存管理(分區存儲和頁式存儲)"></a><strong>操作系統3-內存管理(分區存儲和頁式存儲)</strong></h3><h4 id="2-分區存儲管理方式"><a href="#2-分區存儲管理方式" class="headerlink" title="2. 分區存儲管理方式"></a>2. 分區存儲管理方式</h4><p>分區管理的基本思想是：<strong>將內存空間氛圍一個或若干個連續的區域，稱為分區。每個分區可以存放一個獨立的用戶程序。分區的特點是一個程序可以連續地加載內存。</strong></p>
-<p>分區可以分為：單一分區、固定分區、可變分區和重定位分區。</p>
-<p>2.1 <strong>單道程序的連續分配</strong></p>
-<p>單道程序的連續分配方式將內存分為系統區和用戶區，只能用於單用戶、單任務的操作系統。</p>
-<ol>
-<li><p>系統區</p>
-<p>系統區僅供操作系統使用，一般駐留在內存的低地址區，其中包括中斷向量。中斷向量是操作系統的<strong>核心功能模塊加載內存的起始地址</strong>。</p>
-</li>
-<li><p>用戶區</p>
-<p>操作系統所佔區域以外的全部內存空間，用戶區和系統區之間設立了嚴格的內存保護機制，防止用戶區的地址越界。</p>
-</li>
-</ol>
-<p>2.2 <strong>固定分區分配方式</strong></p>
-<p>系統在啟動時就劃分好多個分區，明確了分區的數量、大小和起始地址。這樣允許多道作業並發執行。但這樣也會使得部分分區的程序無法完全利用所有分區空間，也會導致部分程序因為佔用內存過大而無法裝入程序。因此會造成內存的浪費。</p>
-<p>2.3 <strong>動態分區分配</strong></p>
-<p>動態分區根據進程的實際需要動態地分割內存。當進程運行完畢並釋放了其所佔用的空間時，如果這塊空間有相鄰的空閒的內存空間，則它們被合併為更大的空閒的內存空間。</p>
-<p>動態分區需要解決的問題有：分區分配的數據結構、分區的分配算法、分區的分配與回收操作。</p>
-<ol>
-<li><p>數據結構</p>
-<p>常用的數據結構有空閒分區表和空閒分區鏈。</p>
-<ol>
-<li><p>空閒分區表結構為:</p>
-<ol>
-<li><ol>
-<li>空閒分區說明表</li>
-</ol>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>序號</th>
-<th>分區大小(KB)</th>
-<th>分區地址(K)</th>
-<th>狀態</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>64</td>
-<td>44</td>
-<td>可用</td>
-</tr>
-<tr>
-<td>2</td>
-<td>24</td>
-<td>132</td>
-<td>可用</td>
-</tr>
-<tr>
-<td>3</td>
-<td>30</td>
-<td>210</td>
-<td>可用</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>空閒分區鏈</p>
-<p>每個分區的起始部分設置一個用於控制分區分配的信息，以及用於鏈接各分區的前向指針，形成一個鏈錶。</p>
-</li>
-</ol>
-</li>
-<li><p>分區分配算法</p>
-<p>新作業進入內存時，按照分配算法將空閒分區分配給作業。主要有以下四種分配算法。</p>
-<ol>
-<li>首次符合法(First Fit)。每次分配空閒區時，總是從鏈首開始查詢，直到找到一個符合要求的空閒塊。</li>
-<li>循環首次符合法(Next Fit)。在查詢內存空間時，不再從鏈首開始查，而是從上次分配內存的下一個空閒內存空間開始查詢。如果查到最後一個空間都不能滿足要求，指針應該又返回鏈首開始查詢，因為可能已經有其他作業釋放了足夠的內存空間。</li>
-<li>最佳符合法(Best Fit)。要求所有空閒空間按照大小排序，請求內存的指針從最小的內存塊開始查，直到找到第一個符合請求空間大小的內存塊。</li>
-</ol>
-</li>
-<li><p>分區分配和回收</p>
-<ol>
-<li><p>分配內存。設所請求分區的大小為u.size，分區表中內存的大小為m.size，若$m.size - u.size \leq size$，size是事先規定好的不再分割內存大小，如果空閒分區在被內存請求切割的大小小於這個size，則分區不再切割，將整個分區都分配給請求。否則從分區分割出一個和請求內存大小一致的內存，其餘內存仍留在空閒分區表或空閒分區鏈中。</p>
-</li>
-<li><p>回收內存。</p>
-<p>回收內存的主要工作是首先檢查是否有相鄰分區，有則合併使之成為一個連續的空閒區，避免形成許多離散的小分區。然後還要修改分區的有關控制信息。</p>
-</li>
-</ol>
-</li>
-</ol>
-<p>2.4 <strong>可重定位分區</strong></p>
-<ol>
-<li><p>緊湊</p>
-<p>在連續分配方式中，必須把一個程序裝入連續的內存空間中，如果系統中存在若干個離散的小分區，每個分區都不能使程序裝入其中。但是這些分區的大小之和大於程序的請求內存。這時可以通過重定位的方式將分隔這些分區的作業移動到一起，使得原來離散的小分區可以拼接成一個大分區。這種方式稱為“<strong>緊湊</strong>”。</p>
-</li>
-<li><p>動態重定位</p>
-<p>要想在動態重定位中將程序中的相對地址轉換為物理地址的工作推遲到程序指令進行時進行，需要得到硬件地址變換機構的支持。即在系統中加入一個重定位寄存器，用來裝入程序在內存中的起始地址。<strong>程序執行時，訪問的地址是由重定位寄存器的物理起始地址加上程序中的邏輯地址得到的</strong>。因此當需要移動程序佔用的內存地址時，只需要修改重定位寄存器中的地址就可以做到了，而不需要修改程序。</p>
-</li>
-<li><p>可重定位分區的分配與動態重定位分區的分配方式基本相同，只不過加入了“緊湊”的功能，使得離散的小分區內存空間得到了利用。</p>
-</li>
-</ol>
-<h4 id="3-頁式存儲管理"><a href="#3-頁式存儲管理" class="headerlink" title="3. 頁式存儲管理"></a>3. 頁式存儲管理</h4><p>3.1 <strong>分頁存儲的思想</strong></p>
-<p>不同於前面的連續分配的思想，分頁存儲允許程序被分配在不連續的內存空間中。為了實現這種想法，在分頁存儲管理中，主存被分為一個個大小相等的<strong>物理塊</strong>，而程序的地址空間被分為一些<strong>邏輯頁面</strong>。邏輯頁與物理塊的內存大小相等，程序和數據以頁為單位分配內存塊，將一個邏輯頁分配到一個物理塊中。為了便於實現地址變換，往往將物理塊的大小定為$2^n$個扇區，如1KB、2KB。</p>
-<p>3.2 <strong>頁式存儲管理的數據結構</strong></p>
-<ol>
-<li><p>頁面和物理塊</p>
-<p>頁面和物理塊的概念在上文已經有所介紹。在為進程分配內存時，以塊為單位將進程中的若干頁分配到不相接的塊中。每個邏輯頁和物理塊都有編號，邏輯頁號與物理塊號的對應關係，都已經記錄在了<strong>頁表</strong>中。頁表是每個進程都有一張的。</p>
-<p>頁面大小應適中，如果頁面過大，會造成頁內碎片過大。若是太小，則會造成頁表太大，佔用大量內存。</p>
-</li>
-<li><p>虛地址結構</p>
-<p>頁式存儲的虛地址結構包含<strong>頁號P</strong>和<strong>頁內偏移量W</strong>。若給定一個邏輯空間的地址A，頁面的大小為L。則P和W的計算方式為：</p>
-<p>$$ P = (int) [A/L] $$</p>
-<p>$$ W = A \mod L $$</p>
-</li>
-</ol>
-<p>3.3 <strong>頁式存儲管理的重定位方式</strong></p>
-<p>為了將用戶地址空間的邏輯地址變換為物理地址，需要設置地址變換機構。由於邏輯頁與物理塊的大小相等，所以邏輯頁內地址與物理頁內地址是一一對應的。所以重定位的主要任務是<strong>將邏輯頁的頁號轉換為內存中的物理塊號</strong>。這個工作是藉助頁表來實現的。</p>
-<p>頁表的功能由寄存器來實現，由於寄存器的空間有限，頁表的數量又很多，因此將整個頁表放入寄存器不太現實。現在通常是將頁表放置在內存中，只將設置一個頁表寄存器用來存放頁表的起始地址和長度。且這兩個數據並不是一直待在頁表寄存器中。進程並未執行時，這兩個數據存放在進程的PCB中，只有當調度到這個進程時，才將這兩個數據放入頁表寄存器中。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[邏輯地址A] --&gt; |計算| B[頁內地址W]</span><br><span class="line">A --&gt; |計算| C[邏輯頁號P]</span><br><span class="line">C --&gt; |頁表寄存器| D[頁表地址 頁表長度n]</span><br><span class="line">D --&gt; E&#123;P&gt;&#x3D;n?&#125;</span><br><span class="line">E --&gt; |No|F[查頁表]</span><br><span class="line">E --&gt; |Yes|G[越界中斷]</span><br><span class="line">F --&gt; H[物理塊號]</span><br><span class="line">H --&gt; |乘以塊大小|I[物理塊基地址]</span><br><span class="line">I --&gt; J(+)</span><br><span class="line">B --&gt; J</span><br><span class="line">J --&gt; K[物理地址]</span><br></pre></td></tr></table></figure>
+    <title>OperatingSystem/操作系統4-文件系統/掛載文件系統的高級方式</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%8E%9B%E8%BC%89%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E7%9A%84%E9%AB%98%E7%B4%9A%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<h4 id="掛載文件系統的高級方式"><a href="#掛載文件系統的高級方式" class="headerlink" title="掛載文件系統的高級方式"></a><strong>掛載文件系統的高級方式</strong></h4><p>相比大家在安裝一些比較複雜的Linux系統(如ArchLinux)時都有過掛載文件系統的經歷，常規操作都是</p>
+<figure class="highlight plain"><figcaption><span>/dev/sda1</span><a href="/mnt```">link</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">但是這個逼格不夠高。</span><br><span class="line"></span><br><span class="line">mount這個命令是通過系統調用mount來實現的，通過&#96;&#96;&#96;man mount&#96;&#96;&#96;可以查看到mount的系統調用定義在&#96;&#96;&#96;&lt;sys&#x2F;mount.h&gt;&#96;&#96;&#96;中。</span><br><span class="line"></span><br><span class="line">於是可以查到mount的定義為</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;c</span><br><span class="line">#include &lt;sys&#x2F;mount.h&gt;</span><br><span class="line">int mount(const char *source, const char *target,const char *filesystemtype, unsigned long mountflags,const void *data);</span><br></pre></td></tr></table></figure>
 
-<p>3.4 <strong>快表</strong></p>
-<p>在上述變換過程中可知，要想取出一個數據或指令，至少需要兩次訪問內存，為了提高效率，減少內存的訪問次數，可以將頁表放在一個高速緩存存儲器中。</p>
-<p>現在一般將正在運行進程的當前最常用的頁表放入快速存儲器中，存放這部分頁表內容的存儲器稱為<strong>相聯存儲器</strong>，也稱為聯想存儲器。這種存儲器還具有查找能力，如CPU給出的虛結構為(P,W)，分頁機構將虛結構送入相聯存儲器，存儲器立即和所有的頁號進行比較，找到符合的塊號B。然後根據(B,W)訪問內存。</p>
-<p>實際上在相聯存儲器查詢頁表的同時，系統也在主存的頁表中進程查詢，如果哪一邊查找到了，則立即停止另一邊的查詢。如果是在主存的頁表中查詢到的，則應把查得的頁號和塊號一並放入相聯存儲器的空閒單元中。若無空閒單元，則把最先裝入寄存器的那個頁號淘汰掉。</p>
-<p>3.5 <strong>兩級和多級頁表</strong></p>
-<ol>
-<li><p>兩級頁表</p>
-<p>隨著頁表越來越大，越來越難以找到足夠的內存來存放頁表。因此產生了多級頁表的想法。可以將頁表分成多個<strong>頁面</strong>，每個頁面與內存物理塊的大小相等，並未它們編號。離散地分佈在不同的物理塊中。同時為這些離散的頁面建立一張<strong>外層頁表</strong>。根據外層頁表找到頁面的方式與根據頁表找到物理塊的方式相似。同樣需要在地址機構中設置一個外層頁表寄存器用於存放外層頁表的起始地址。</p>
-</li>
-<li><p>多級頁表</p>
-<p>隨著計算機位數的增加，頁表的大小會越來越大，導致需要的儲存空間越來越大。因此需要建立更多級的頁表。</p>
-</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(Linux系統的內存管理方法)</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(Linux%E7%B3%BB%E7%B5%B1%E7%9A%84%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86%E6%96%B9%E6%B3%95)/</url>
-    <content><![CDATA[<h3 id="操作系統3-內存管理-Linux系統的內存管理方法"><a href="#操作系統3-內存管理-Linux系統的內存管理方法" class="headerlink" title="操作系統3-內存管理(Linux系統的內存管理方法)"></a><strong>操作系統3-內存管理(Linux系統的內存管理方法)</strong></h3><h4 id="9-Linux系統的內存管理方法"><a href="#9-Linux系統的內存管理方法" class="headerlink" title="9.Linux系統的內存管理方法"></a>9.<strong>Linux系統的內存管理方法</strong></h4><p>Linux採用“按需調頁”算法，支持三層管理策略。由於Intel CPU在硬件級提供了段式存儲管理和二層頁式存儲管理，Linux作為軟件，必須與之兼容。所以Linux實際上放棄了段式存儲管理，將第二層的頁式管理與第一層的頁式管理合併，因此整整發揮作用的是以<strong>頁目錄和頁表為中心的數據結構和函數。</strong></p>
-<p>9.1 <strong>Linux的分頁管理機制</strong></p>
-<p>在Linux中，每個進程都可以訪問4GB的線性虛擬內存空間，注意可以訪問的空間和實際享有的空間並不是一回事。其中0<del>3GB的虛擬內存地址空間為用戶空間，用戶進程可以直接訪問；3</del>4GB的空間為內核態空間，存放僅供內核態訪問的代碼和數據，當用戶進程通過中斷或系統調用訪問內核態空間時，就會觸發處理特權級轉換，從用戶態轉到內核態。</p>
-<p><strong>所有進程從3GB到4GB的虛擬空間是一樣的，有相同的頁目錄項和頁表，對應同樣的物理內存段，Linux以此方式讓內核態進程共享代碼段和數據段。</strong></p>
-<p>Linux採用“按需調頁”管理內存，標準Linux的虛存頁表為3級頁表，依次為頁目錄(Page Directory, PGD)、中間頁目錄(Page Middle Directory, PMD)和頁表(Page Table, PTE)。</p>
-<p>而在Intel微型計算機上，Linux的頁表結構實際只有兩級，PGD和PMD合二為一，在用戶進程通過mm_struct結構來管理進程中與存儲相關的信息。</p>
-<p>9.2 <strong>虛存段的組織與管理</strong></p>
-<p>為了能夠自然地管理進程虛存空間，Linux定義了虛存段(virtual memory are, vma)，一個vma段時某個進程的一段連續的虛擬空間，在這段虛擬空間的所有單元擁有相同的特征。例如屬於同一進程，有相同的訪問權限等。</p>
-<p>9.3 <strong>內存的共享</strong></p>
-<p>Linux內存的共享並不設置一個共享頁表，而是讓共享該頁的各進程的頁表項直接指向共享頁。這種方式節約內存，但是效率較低。</p>
-<p>9.4 <strong>內存空間管理</strong></p>
-<p>Linux物理空間以頁幀為單位，就相當於前面講的物理塊，大小等於頁長，對於Intel CPU默認是4KB。</p>
-<p>Linux對物理內存的管理通過mem_map來描述，mem_map在系統初始化時，由free_area_init()來創建。用bitmap記錄所有物理內存的空閒情況，也有這個函數創建。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(存儲器管理概述)</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%AD%98%E5%84%B2%E5%99%A8%E7%AE%A1%E7%90%86%E6%A6%82%E8%BF%B0)/</url>
-    <content><![CDATA[<h3 id="操作系統3-內存管理-存儲器管理概述"><a href="#操作系統3-內存管理-存儲器管理概述" class="headerlink" title="操作系統3-內存管理(存儲器管理概述)"></a><strong>操作系統3-內存管理(存儲器管理概述)</strong></h3><h4 id="1-存儲器管理概述"><a href="#1-存儲器管理概述" class="headerlink" title="1. 存儲器管理概述"></a>1. 存儲器管理概述</h4><p>1.1 <strong>存儲器的層次</strong></p>
-<p>寄存器 -&gt; 內存：包括內存、高速緩存、硬盤緩存 -&gt; 外部存儲器</p>
-<p>從左至右存儲速度遞減，存儲容量遞增。</p>
-<p>高速緩存雖然與內存同為內存，但是其採取了靜態RAM(SRAM)，而內存採用了動態RAM(DRAM)。SRAM的存儲速度接近於CPU的運行速度，但是成本遠高於內存，因此容量比內存小。</p>
-<p>寄存器則是CPU內部用來存儲數據的一塊區域。</p>
-<p>1.2 <strong>用戶程序的處理過程</strong></p>
-<p>系統對用戶程序的處理分為以下幾個階段：</p>
-<p>(1) 編譯。由編譯程序將用戶程序編譯成若干個目標模塊。</p>
-<p>(2) 鏈接。由鏈接程序將編譯後的目標代碼及它們需要的庫函數鏈接成一個裝入模塊。</p>
-<p>(3) 裝入。由裝入程序將裝入模塊裝入內存。</p>
-<p>1.3 <strong>存儲管理的幾個基本概念</strong></p>
-<ol>
-<li><p>邏輯空間和物理空間</p>
-<p><strong>邏輯空間</strong>是用戶的編程空間，也是程序空間。若是用機器語言編程，邏輯空間可以自己確定，若是用高級語言，則邏輯空間由編譯程序確定。編程空間通常從0開始編址。邏輯地址也叫虛地址、編程地址、CPU地址、相對地址等。</p>
-<p><strong>物理空間</strong>是由物理存儲單元確定的，即內存空間。是<strong>由存儲器總線掃描出來的空間。一個操作數加載內存的地址稱為物理地址。</strong></p>
-</li>
-<li><p><strong>重定位和地址變換</strong></p>
-<p>為確定程序在內存中的物理位置而進行地址變換叫做重定位。地址變換即將程序中的邏輯地址，包括指令本身的地址和指令中的操作數地址逐個變換成物理地址。</p>
-<p>重定位有以下兩種情況：其一，當程序裝入內存運行時，必須根據所分得空間的位置將程序的邏輯地址變換為響應的物理地址，以便將該程序定位在所分得的物理空間內；其二，程序在執行過程中，由於種種原因，在內存中挪動了位置，需要將程序的邏輯地址進行變換，以便該程序重新定位在新的位置上。</p>
-<p>如果地址變換在程序執行之前由編譯裝配程序完成，稱為<strong>靜態重定位</strong>。如果地址變換在程序執行過程中發生，稱為<strong>動態重定位</strong>。</p>
-</li>
-<li><p><strong>目標程序裝入內存的方式</strong></p>
-<p>程序只有裝入內存才能運行。裝入方式有<strong>絕對裝入方式、可重定位裝入方式和動態運行時裝入方式</strong>。</p>
-<ol>
-<li><p>絕對裝入方式。在編譯時，如果知道程序將駐留在內存中什麼地址，那麼編譯程序將產生絕對地址的目標代碼。裝入程序根據裝入模塊中的地址，將數據和地址裝入內存，無須對程序和數據的地址進行修改。</p>
-</li>
-<li><p>可重定位裝入方式。<strong>在程序執行之前，由操作系統的重定位裝入程序完成。</strong>一般是編譯程序不能預知所編譯的模塊在內存中的什麼位置。重定位程序根據內存起始地址，直接修改所涉及的邏輯地址，將內存的起始地址加上邏輯地址得到正確的內存地址。</p>
-<p>如程序中的某一條指令要取邏輯地址為3500的一個數，若程序裝入的起始地址為10000，則裝入程序將該地址修改為13500，這樣程序才能取到正確的數字。</p>
-</li>
-<li><p>動態運行時裝入方式。在程序運行時完成。這種轉換通常採用一個<strong>重定位寄存器</strong>完成。每次進行存儲訪問時，將取出的邏輯地址加上重定位寄存器的內容，形成正確的內存地址。這種方法通常用於多道程序環境中，因為有多道程序運行時，進程經常需要換進換出內存，每次進入內存其在內存的物理地址都是不一樣的。因此需要根據重定位寄存器來得到正確的內存地址。</p>
-</li>
-</ol>
-</li>
-<li><p><strong>目標程序鏈接</strong></p>
-<p>實現鏈接的方法有靜態鏈接、裝入時動態鏈接和運行時動態鏈接等。</p>
-<ol>
-<li><strong>靜態鏈接</strong>。即將若干個模塊鏈接在一起，形成一個完整的裝入模塊。需要完成的工作是對相對地址進行修改，同時變換外部調用符號。</li>
-<li><strong>裝入時動態鏈接</strong>。這種方式中裝入程序邊將程序裝入內存邊鏈接，當在程序中發現外部調用模塊時，就去尋找相應的外部目標模塊，再裝入內存。</li>
-<li><strong>運行時動態鏈接</strong>。在這種鏈接方式中，可將某些目標模塊的鏈接推遲到執行時才進行。在執行過程中，若發現某一個調用模塊沒有裝入內存，由操作系統去找該模塊，由它裝入內存，並鏈接到調用模塊上。</li>
-</ol>
-</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(虛擬內存)</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98)/</url>
-    <content><![CDATA[<h3 id="操作系統3-內存管理-虛擬內存"><a href="#操作系統3-內存管理-虛擬內存" class="headerlink" title="操作系統3-內存管理(虛擬內存)"></a><center><strong>操作系統3-內存管理(虛擬內存)</strong></center></h3><h4 id="5-虛擬存儲器"><a href="#5-虛擬存儲器" class="headerlink" title="5.虛擬存儲器"></a>5.虛擬存儲器</h4><p>5.1 <strong>局部性原理</strong></p>
-<p>早在1968年P.Dening就指出：程序在執行過程中呈現出局部性規律。即在很短的時間內，程序的執行儘限於某個部分，其訪問的內存也僅限於某個區域。</p>
-<p>局限性體現在時間和空間上，時間上程序中某條指令一旦執行，不就又可能再被執行。空間上某個存儲單元被訪問，不就又可能再被訪問。</p>
-<p>5.2 <strong>對換</strong></p>
-<ol>
-<li><p><strong>對換的引入</strong></p>
-<p>在多道程序環境下，可能出現內存中的某些進程由於等待某時間而進入阻塞狀態，其佔用了大量內存。同時外存中等待的許多作業由於得不到足夠的內存而無法進入運行狀態。為了解決這一問題，引入了“對換”技術。</p>
-<p>而“對換”，即是把內存中不能運行的進程或暫時不用的程序或數據，調出內存，以騰出足夠的內存空間，再調入以具備運行條件的進程或進程所需要的程序或數據。</p>
-<p>如果對換是以進程為整個單位，則稱為“整體對換”或“進程對換”。通常應用與分時系統中以解決內存緊張的問題。如果對換是以“頁”或“段”為單位，則稱為“頁面對換”或“分段對換”，統稱為“部分對換”。</p>
-<p><strong>“部分對換”是實現請求分頁的和請求分段式存儲管理的基礎，其目的是為了支持虛擬存儲系統。</strong></p>
-<p>為了實現進程對換，必須實現三方面的功能：對換空間的管理，進程的換入和換入。</p>
-</li>
-<li><p><strong>對換空間的管理</strong></p>
-<p>在具有對換功能的OS中，通常把外存分為<strong>文件區</strong>和<strong>對換區</strong>。</p>
-<p>對於文件的存儲，主要目標是提高存儲空間的利用率，因此採用離散式存儲的方式。而進程在對換區駐留的時間比較短暫，對換的操作很頻繁，因此主要目標是提高訪問的速度，因此採用連續存儲的方式。</p>
-<p><strong>對於對換區的管理可以參考前面的內存管理的動態分區模式</strong>。</p>
-</li>
-<li><p><strong>進程的換出換入</strong></p>
-<ol>
-<li>進程的換出。每當一個進程由於創建子進程而需要更多的內存空間，<strong>但又無足夠的內存空間時</strong>，系統應將某進程換出。其過程是：<strong>系統先選擇優先級最低的進程作為換出進程，然後啟動磁盤，將進程的程序和數據寫入對換區。若傳送過程未出現錯誤，則可回收該進程的內存空間，並修改該進程PCB的相關信息。</strong></li>
-<li>進程的換入。系統定時查看所有進程的狀態。找出已處於“就緒”狀態但被換出的進程，將其中換出時間最久的進程作為換入進程。直到無可換入的進程或無可換出的進程為止。</li>
-</ol>
-</li>
-</ol>
-<p>5.3 <strong>覆蓋</strong></p>
-<p>在單用戶系統中，為了能夠在小內存中運行大作業，一些計算機採用了“覆蓋”技術，即將一個大程序按照程序的邏輯結構劃分成若干個程序段或數據段，將不會同時執行從而不必同時裝入內存的程序段分在一組內，該組稱為<strong>覆蓋段</strong>。這段話可能比較難以理解，舉例說明一下。</p>
-<p>​    例4-2 ：有一個程序的程序結構如下圖，整個程序裝入需要160KB內存，但是圖中沒有箭頭相連的程序段都不會同時調用。如A和B不會同時在main內調用，所以當B程序段被調用時，A程序要麼已經運行完了，要麼要等待B先運行。所以A和B便可同時被分配到一段內存中，空間大小取兩段程序中較大的那個，即30KB。同理，C,D,E都可被分入一組。這樣下來，整段程序只需要10KB(main) + 30KB(A,B) + 40KB(C,D,E) = 80KB。從而節省了內存空間。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[main 10KB] --&gt; B[A 30KB]</span><br><span class="line">A --&gt; C[B 20KB]</span><br><span class="line">B --&gt; D[C 30KB]</span><br><span class="line">C --&gt; E[D 30KB]</span><br><span class="line">C --&gt; F[E 40KB]</span><br></pre></td></tr></table></figure>
+<p>所以我們可以通過C語言調用系統函數，來完成系統調用。</p>
+<p>首先準備好已經創建了文件系統的磁盤分區和掛載點，然後寫一個C文件mymount.c</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mount.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;  </span></span></span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (mount(<span class="string">"/dev/sdb1"</span>, <span class="string">"/mnt/scratch"</span>, <span class="string">"xfs"</span>, <span class="number">0</span>, <span class="literal">NULL</span>)) &#123;  </span><br><span class="line">                perror(<span class="string">"mount failed"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>這種覆蓋管理技術採用的是靜態存儲分配和靜態重定位方式。如果在採用動態重定位的系統中運行，就不需要實現指定覆蓋區，在執行中調用模塊自然會決定裝入哪塊內存。</p>
-<p><strong>覆蓋對於程序員並不透明</strong>。為了實現好的覆蓋效果，程序員需要在編寫程序時精心安排好程序的覆蓋結構，並用覆蓋描述語言描述覆蓋和覆蓋段。</p>
-<p>5.4 <strong>虛擬存儲器</strong></p>
-<p>前面講的都是將作業一次性裝入內存，但實際上一次性裝入內存是沒有必要的，會佔用大量的內存資源。由於程序運行的局限性，可以考慮一次只裝入部分的作業。</p>
-<ol>
-<li><p><strong>虛擬存儲器的概念</strong></p>
-<p>裝入作業時，僅將當前要運行的部分裝入內存，當要執行的部分沒有裝入內存時，就從磁盤調入內存。當內存已滿時，則將內存中暫時不用的頁調出內存，釋放空間，再加載所需要的頁。這樣就顯得系統具有內存容量遠大於實際的內存容量，這樣的存儲器稱為虛擬存儲器。</p>
-<p><strong>虛擬存儲器即在作業運行時，僅將部分的程序和數據裝入內存就可以運行的虛擬存儲系統。具體來講，即指具有置換和請求調入功能，可以從邏輯上對內存進行擴充的一種存儲器系統。</strong></p>
-<p>虛擬存儲器除了要求有一定容量的主存和輔存之外，還要求有能夠進行快速地址變換的地址變換機構。</p>
-</li>
-<li><p><strong>虛擬存儲器的實現方法</strong></p>
-<p>虛擬存儲器的實現包括請求分頁系統和請求分段系統。</p>
-<ol>
-<li>請求分頁系統。在分頁存儲的基礎上加入了請求分頁的功能和頁面置換的功能所形成的頁式虛擬存儲系統。請求調頁和頁面置換需要有頁表機構、缺頁中斷機制和地址變換機構的支持。</li>
-<li>請求分段系統。與請求分頁系統極為類似。但是固定帶下頁面變成了按照邏輯結構分的段。</li>
-</ol>
-</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(段式存儲管理)</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/</url>
-    <content><![CDATA[<h3 id="操作系統3-內存管理-段式存儲管理"><a href="#操作系統3-內存管理-段式存儲管理" class="headerlink" title="操作系統3-內存管理(段式存儲管理)"></a><strong>操作系統3-內存管理(段式存儲管理)</strong></h3><h4 id="4-段式存儲管理"><a href="#4-段式存儲管理" class="headerlink" title="4 段式存儲管理"></a>4 段式存儲管理</h4><p>4.1 <strong>段式存儲的思想</strong></p>
-<p>頁式存儲僅僅考慮了程序的長度，可以使一個程序可以不連續地加載內存，但是沒有考慮程序的邏輯結構。<strong>一個程序在加載內存時，其不同部分的訪問權限是不一樣的</strong>。比如程序部分可以多個進程共享，無法修改。而數據部分可以修改，只能由一個進程獨佔。</p>
-<ol>
-<li><p>分段</p>
-<p>在分段存儲管理方式中，<strong>段是一組邏輯信息組合</strong>。例如把作業按邏輯關係加以組織，劃分成若干段，並按這些段來劃分內存，這些段可以是主程序段MAIN，子程序段X、數據段D和堆棧段S等。加載內存時，段與段之間可以是不連續的。一個操作數的邏輯地址由段號s和段內偏移量w組成。</p>
-</li>
-<li><p>段表</p>
-<p>系統為每個進程建立了一張表，每個段都有一個表項。其中記錄了<strong>段號、段長、內存始址和存取控制</strong>。內存始址即該段在內存中的起始地址。</p>
-</li>
-<li><p>地址變換機構</p>
-<p>為了實現重定位，在系統中設置了段表寄存器，用於存放段表的起始地址和段表長度TL。段表存放在內存中。段表的地址變換與頁表的地址變換類似，在此略過。</p>
-</li>
-</ol>
-<p>4.2 <strong>段頁式存儲管理</strong></p>
-<p>段頁式存儲管理吸取了分頁式和分段式的優點，是現在應用比較廣泛的一種存儲方式。</p>
-<p>段頁式存儲的基本思想：</p>
-<ol>
-<li>採用分頁式存儲管理的方式將內存劃分為一些大小相等的物理塊。</li>
-<li>邏輯空間採用分段式的方式按程序的邏輯關係把進程的地址空間分成若干邏輯段。</li>
-<li><strong>段內分頁</strong>。將每個邏輯段按頁式存儲管理的方式分為一些大小相等的邏輯頁，其大小等於內存塊大小。在每個段內，從0開始連續地編號。</li>
-<li>邏輯結構地址。一個邏輯地址由段號s、段內頁號p和頁內地址d構成。</li>
-<li>內存分配。內存以物理塊為單位分配給每個進程。</li>
-<li>段表、頁表和段表地址寄存器。系統為每個進程或作業建立一個段表，在每一段內建立一個頁表。</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分頁內存管理)</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E9%A0%81%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86)/</url>
-    <content><![CDATA[<h3 id="操作系統3-內存管理-請求分頁內存管理"><a href="#操作系統3-內存管理-請求分頁內存管理" class="headerlink" title="操作系統3-內存管理(請求分頁內存管理)"></a><center><strong>操作系統3-內存管理(請求分頁內存管理)</strong></center></h3><h4 id="6-請求分頁內存管理方式"><a href="#6-請求分頁內存管理方式" class="headerlink" title="6. 請求分頁內存管理方式"></a>6. 請求分頁內存管理方式</h4><p>6.1 <strong>請求分頁的實現</strong></p>
-<p>請求分頁是常用的實現虛擬存儲器的方式，其實現需要頁表機制、缺頁中斷機制和地址變換機構的支持。</p>
-<ol>
-<li><p>頁表機制</p>
-<p>分頁系統中地址映像是用過頁表實現的。在請求分頁的系統中，頁表項包括：邏輯頁號、物理塊號、狀態位P、訪問字段A、修改位M和外存地址。</p>
-<ol>
-<li>狀態位P用於指示該頁是否已經調入內存。</li>
-<li>訪問字段A，用於記錄本頁在一段時間內被訪問的次數，或最近多長時間沒被訪問，供置換算法換出頁面時參考。</li>
-<li>修改位M，表示該頁在調出內存後是否被修改過。由於<strong>內存的每一頁在外存中都有備份</strong>，所以在該頁被換出時，系統會查詢該頁的修改位，若被修改過，則將該頁再寫入內存；若調入內存後未被修改過，則直接進行覆蓋。</li>
-<li>外存地址，表示該頁在外存中的地址，若外存採用磁盤，則是磁盤塊號。</li>
-</ol>
-</li>
-<li><p>缺頁中斷機構</p>
-<p>在請求分頁中，若訪問的頁不在主存，便產生一個缺頁中斷。(這個缺頁中斷與前面的缺頁中斷並不是一回事。前面的缺頁中斷找不到頁面說明頁面已經丟失了，這個找不到頁面說明頁面還在外存中，沒有換入主存。)缺頁中斷與一般的中斷相比有明顯的區別：</p>
-<ol>
-<li>在指令執行期間產生和處理中斷信號。</li>
-<li>一條指令在執行期間可能產生多次中斷。系統中的硬件應能保存多次中斷時的狀態，保證能夠返回到中斷前的狀態。</li>
-</ol>
-</li>
-<li><p>地址變換機構</p>
-<p>地址變換過程如圖所示</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[程序請求訪問一頁] --&gt; B&#123;頁號&gt;頁表中頁號&#125;</span><br><span class="line">B --&gt; |Yes|C[越界中斷]</span><br><span class="line">B --&gt; |No|D[CPU檢索快表]</span><br><span class="line">D --&gt; E&#123;頁表項在快表中&#125;</span><br><span class="line">E --&gt; |No|F[訪問頁表]</span><br><span class="line">E --&gt; |Yes|G[修改訪問位和修改位]</span><br><span class="line">F --&gt; I&#123;頁在內存&#125;</span><br><span class="line">I --&gt; |No|J[缺頁中斷]</span><br><span class="line">I --&gt; |Yes|K[修改快表]</span><br><span class="line">K --&gt; G</span><br><span class="line">G --&gt; L[形成物理地址]</span><br><span class="line">L --&gt; M(地址變換結束)</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>6.2 <strong>內存分配策略</strong></p>
-<p>在為進程分配內存時，主要涉及三個問題：最小物理塊數的確定；物理塊的分配策略；物理塊的分配算法。</p>
-<ol>
-<li><p>最小物理塊數的確定</p>
-<p>最小物理塊數，即能保證程序能正常運行的最小物理塊數。</p>
-</li>
-<li><p><strong>物理塊的分配策略</strong></p>
-<p>在請求分頁系統中，可採用兩種內存分配策略：固定分配策略和可變分配策略。在進行置換時，也可採取兩種策略：全局置換和局部置換。</p>
-<ol>
-<li><p>固定分配局部置換</p>
-<p>基於進程的類型或程序管理員的建議，為每個進程分配一定數目的物理塊，整個運行期間都不再改變。如果程序在運行時發現缺頁，必須先從內存中換出一個頁面才能換入新的頁面，這樣才能整體內存不變。</p>
-<p>這種方式的缺點在難以確定物理塊的數目，分配過多或過少都會造成系統整體效率的下降。</p>
-</li>
-<li><p>可變分配全局置換</p>
-<p>採用這種策略時，系統會先為每個進程都分配一定數目的物理塊，而OS自身也會保持一定數目的空閒物理塊。當進程發生缺頁中斷時，系統會分配一個空閒的物理塊給該進程以調入新的頁面。這樣每個進程都能獲得新的物理塊，直到系統的空閒物理塊用完。這時候再發送缺頁中斷時，OS就從內存中調出一頁，該頁可能是任一進程的頁。具體的調換算法在後面會講到。</p>
-</li>
-<li><p>可變分配局部變換</p>
-<p>同樣是系統在一開始為每個進程分配一定數目的物理塊，但是進程在發生缺頁中斷時，只能從自己進程中調出一頁。這樣就不會影響其他進程。但是系統會時刻觀察所有進程的缺頁中斷發生的頻率，缺頁中斷發生非常頻繁的進程會分配若干物理塊，直到中斷頻率降低到一定程度。同樣，缺頁中斷發生頻率過低的進程就會抽走若干物理塊，使得整體的缺頁中斷發生的頻率都控制在一定範圍。</p>
-</li>
-</ol>
-</li>
-<li><p>物理塊的分配算法</p>
-<p>物理塊的分配應該綜合考慮到進程的優先級和進程的大小，在重要的實時控制系統中，優先級高的進程就能分配到更多的物理塊。</p>
-</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>OperatingSystem/操作系統3-內存管理/物理地址擴展</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/</url>
-    <content><![CDATA[<h3 id="物理地址擴展-Physical-Address-Extension-PAE"><a href="#物理地址擴展-Physical-Address-Extension-PAE" class="headerlink" title="物理地址擴展(Physical Address Extension, PAE)"></a><strong>物理地址擴展(Physical Address Extension, PAE)</strong></h3><p>今早在知乎上看到一個新概念——物理地址擴展，查閱了許多資料，發現都只是將維基百科上的敘述再講了一遍，依舊十分晦澀難懂，於是打算自己用更加易懂的語言將自己的感悟寫下。</p>
-<p>早期的CPU和操作系統都是32位的，可以訪問的物理內存只有4G。後來4G不夠用了，於是人們想辦法去擴展物理內存。</p>
-<p>Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是怎麼做到支持PAE的呢？</p>
-<p>首先Intel做的是將CPU原來的32根地址線增加到了36根地址線。都知道CPU可以訪問的內存大小根本是有地址線的位數決定的，CPU增加了4根地址線後，可以訪問的內存就變成了原來的$2^4$倍，也就是64G內存。</p>
-<p>但是只是從硬件層面實現內存的擴展是不行的，為了與32位的CPU相適應，所有的軟件都是設計成32位的，只能訪問4GB的內存。難道現在有64GB的內存可以訪問還是只能給軟件訪問4GB嗎？當然不行。</p>
-<p>於是就誕生了PAE。</p>
-<p>對於每個軟件或者說每個進程來說，其可以訪問的虛擬地址或者說邏輯地址空間還是4GB不變的，但是操作系統可以通過地址映射將虛擬地址映射到不同物理地址，這就允許多個進程的使用內存加起來超過了4GB。原來是所有的進程共享4GB內存，現在是所有的進程都可以訪問4GB內存，但是加起來共享64GB內存。</p>
-<p>題外話：地址映射同時需要操作系統和CPU的支持。在CPU的內部，有一個叫MMU的部件，這個MMU不是Manchester Metropolitan University, 而是Memory Management Unit，在CPU內部負責CPU的內存訪問需求，功能包括<strong>虛擬地址到物理地址的轉換</strong>、內存保護、中央處理器告訴緩存的控制等。</p>
-<p>如果CPU沒有MMU，CPU要訪問內存時傳出的地址就直接送到了內存的針腳上，等於直接訪問了物理內存，由於內存碎片化線性的存在，內存的使用率將大大降低。如果操作系統不知道CPU不支持邏輯地址的話就更加恐怖，CPU將直接將邏輯地址當做物理地址傳給內存，將訪問到錯誤的內存地址。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2310756-67a4ff2b53385008.png" alt=""></p>
-<p>而啟用了MMU的CPU，CPU執行單元發出的地址將被MMU截獲，進行一次地址轉換後才傳給內存。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2310756-3b1e7fc263f0642a.png" alt=""></p>
-<p>而在執行過程中，操作系統和MMU是這樣的配合的：</p>
-<ul>
-<li>操作系統在初始化或分配、释放内存时会执行一些指令在物理内存中填写页表，然后用指令设置MMU，告诉MMU页表在物理内存中的什么位置。</li>
-<li>设置好之后，CPU每次执行访问内存的指令都会自动引发MMU做查表和地址转换操作，地址转换操作由硬件自动完成，不需要用指令控制MMU去做。</li>
-</ul>
-<p>註：題外話中大部分內容引用自<a href="https://www.cnblogs.com/alantu2018/p/9002309.html" target="_blank" rel="noopener">這篇文章</a>。</p>
-<p>但是隨著大型軟件的推出，又出現了一個問題——如果進程需要訪問超過4GB的內存怎麼辦呢？</p>
-<p>對於需要超過4GB內存的軟件來說，需要操作系統提供另外的支持技術，這種技術在Windows上叫Address Windowing Extension(AWE)，在類Unix上則有多種不統一的技術在使用。</p>
-<p>為了實現這種技術，需要對頁表的結構進行改進。</p>
-<p>在傳統的分頁結構中，32位的線性地址通常是如下分配的。由於圖是本地的，所以請對照</p>
-<p><img src="https://bkimg.cdn.bcebos.com/pic/42a98226cffc1e1786864ca94a90f603738de969?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
-<p>32位的地址線中，從高往低，10位用於頁表的尋址，10位用於頁的尋址，最後12位用於頁內偏移量的尋址，頁的大小為4KiB(懷有疑惑)。</p>
-<p>現在還沒有談論到PAE，我們先弄清楚頁表的結構。在頁表的表項的第7位叫做PS(Page Size)，如果這個位設為1，則頁目錄的表項不再指向頁表，而是指向一個4MiB的頁。</p>
-<p><img src="https://bkimg.cdn.bcebos.com/pic/37d12f2eb9389b50c0ce20ca8535e5dde7116e71?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
-<p>在啟用PAE後，為了可以使用附加的地址位，頁表和頁目錄中的表項都從32位增加到了64位。可以查找的範圍更大了，但是頁目錄和頁表的總大小要保持不變，所以只有9位可以用來查找頁目錄和頁表，為了能夠依舊有那麼多頁目錄和頁表可以用，於是就引入了一級頁目錄指針，共佔兩位，可以尋址到4個頁目錄。</p>
-<p><img src="https://bkimg.cdn.bcebos.com/pic/6c224f4a20a446234ff965fa9822720e0cf3d773?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(頁面置換算法)</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E9%A0%81%E9%9D%A2%E7%BD%AE%E6%8F%9B%E7%AE%97%E6%B3%95)/</url>
-    <content><![CDATA[<h3 id="操作系統3-內存管理-頁面置換算法"><a href="#操作系統3-內存管理-頁面置換算法" class="headerlink" title="操作系統3-內存管理(頁面置換算法)"></a><strong>操作系統3-內存管理(頁面置換算法)</strong></h3><h4 id="7-頁面置換算法"><a href="#7-頁面置換算法" class="headerlink" title="7. 頁面置換算法"></a>7. 頁面置換算法</h4><p>在上一節講過, 換入換出頁面要根據特定的算法來執行, 這種算法就是頁面置換算法. 不合適的算法可能會使系統發生抖動，所謂抖動即指剛剛換出的頁面又要換回來，換回來不久又要換出去，這樣就導致系統的大部分工作時間都花在了頁面調度上，導致效率不高。</p>
-<p>下面是幾種常見的頁面置換算法：</p>
-<p>7.1 先入先出頁面置換算法</p>
-<p>顧名思義，根據隊列的數據結構的思想，總是將內存存在最久的頁面先換出。</p>
-<p>7.2 <strong>最近最久未使用頁面置換算法(Least Recently Used)</strong></p>
-<p>這種算法是一種比較好的算法，但是主要問題在於如何找到哪一頁是最近最久未被使用的頁面。為此需要兩類硬件的支持：</p>
-<ol>
-<li><p>寄存器。用於記錄某進程在內存中各頁的使用情況。系統為內存中每個進程都設置一個移位寄存器，可表示為$ R = R_{n-1} R_{n-2} …R_1 $。</p>
-<p>當進程訪問某物理塊時，要將相應寄存器的$R_{n-1}$位置變成1。此時，定時信號每隔一段時間將寄存器右移一位。如果把這個n位的寄存器看成是一個n位的二進制數，則最小數值的寄存器所對應的頁面就是最近最久未使用的頁面。</p>
-</li>
-<li><p>棧。利用一個特殊的棧來保存當前使用的各個頁面的頁號。每當進程訪問某頁面時，便將該頁面從棧中移出，壓入棧中。這樣，位於棧底的總是最近最久未被使用的頁面。(這個比較易於理解)</p>
-</li>
-</ol>
-<p>7.3 <strong>最佳置換算法(Optimal Page Replacement)</strong></p>
-<p>是Belady於1966年提出的一種理論上的理想算法，它所選擇的淘汰的頁面是最長時間不被使用的，可以保證最低的缺頁率。之所以說是理論算法是因為該算法需要知道該進程整體的頁面走向，即知道在哪一步需要用到哪一頁，但這是很難實現的。但是可以用來做算法題以及評價其他算法。</p>
-<p>7.4 <strong>時鐘置換算法</strong></p>
-<p>這是一種LRU的近似算法，但不像LRU那樣需要很多的硬件支持。</p>
-<p>時鐘置換算法為每一頁都設置一位訪問位，再將內存中所有頁面都通過鏈接指針連成一個隊列。當某頁被訪問時，則將該位置為1。由於將修改過的頁面換出時，頁面需要重新寫入外存，話費一定的時間。所以在選擇淘汰頁面時，要同時考慮到頁面的修改位和訪問位。根據訪問位和修改位可以組合成下列四種類型的頁面：</p>
-<ol>
-<li>(A = 0,M = 0)。最佳淘汰頁，既未被修改，又最近未被訪問。</li>
-<li>最近未被訪問，但已修改，不是很好的淘汰頁。</li>
-<li>最近訪問了，但未被修改。可能會再次訪問。</li>
-<li>最近既被訪問了，又有修改。最後淘汰的頁面。</li>
-</ol>
-<p>尋找過程：</p>
-<ol>
-<li>第一輪：指針從當前位置開始掃描循環隊列，尋找A=0，M=0的頁面。第一次掃描期間不改變訪問位A。</li>
-<li>第二輪：若第二輪未找到可以淘汰的頁面，則第二輪掃描A=0,M=1的頁面。第二輪掃描期間將掃描過的頁面的訪問位置為0。</li>
-<li>如果第二輪扔失敗。則再回到開始位置重複第一輪，如果再失敗，則再重複第二輪，這是一定能找到目標淘汰頁。因為所有的訪問位都已置為0。</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分段存儲管理)</title>
-    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E6%AE%B5%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/</url>
-    <content><![CDATA[<h3 id="操作系統3-內存管理-請求分段存儲管理"><a href="#操作系統3-內存管理-請求分段存儲管理" class="headerlink" title="操作系統3-內存管理(請求分段存儲管理)"></a><strong>操作系統3-內存管理(請求分段存儲管理)</strong></h3><h4 id="8-請求分段存儲管理"><a href="#8-請求分段存儲管理" class="headerlink" title="8.請求分段存儲管理"></a>8.請求分段存儲管理</h4><p>8.1 <strong>請求分段的原理與硬件支持</strong></p>
-<p>在段式存儲管理實現的虛擬存儲器上，以段為單位進行換入，換出。相比於請求分頁存儲系統，分段存儲因為段的大小不固定，所以置換算法更加難以實現。請求分段管理的實現需要<strong>段表機制、缺段中斷機制和地址變換機構的支持</strong>。</p>
-<ol>
-<li><p>段表機制</p>
-<p>段表結構除了段名、段長和段在內存中的起始地址外，還增加了一下幾項：</p>
-<ol>
-<li>存取方式，用於標識本分段的存取屬性是執行、只讀還是可讀可寫。</li>
-<li>訪問字段A，含義與請求分段的響應字段相同，用於記錄被訪問段的頻率。</li>
-<li>修改位M，表示該頁進入內存後是否被修改過。</li>
-<li>存在位P。表示該段是否已被調入內存。</li>
-<li>增補位，表示該段在運行過程中是否動態增長。</li>
-<li>外存起始地址。表示本段在外存的起始磁盤塊號。</li>
-</ol>
-</li>
-<li><p>缺頁中斷機制</p>
-<p>與請求分頁系統類似。</p>
-</li>
-<li><p>地址表換機構</p>
-<p>與請求分頁系統類似</p>
-</li>
-</ol>
-<p>8.2 <strong>段的共享與保護</strong></p>
-<p>段是按邏輯意義劃分的，可以按名存取，所以可以方便地實現內存的共享，並進行有效的內存保護。</p>
-<ol>
-<li><p>段的共享</p>
-<p>所謂共享，即兩個或以上的作業共用一個子程序段或數據段，該部分在內存中只有一個副本。如多個c程序都調用了Math.h庫，共用一個程序。具體的操作是在每個進程的段表中，在響應的表項加上共享段在內存的起始地址。</p>
-<p>當用戶進程或作業要共享內存的某一段時，只要<strong>用戶使用相同的名字</strong>，就可以在新的段表中填入已存在段的內存起始地址。</p>
-<p>為了實現共享段，可以在系統中設置一個共享段表，所以共享段都在表中佔一個表項。表中除了記錄段的一些基本信息之外，還記錄了訪問該段的進程數量count。當新增進程訪問時，就在段表中填上進程名、存取控制權限，然後count加一，標明增加一個進程訪問該共享字段。當每個進程在訪問結束後，便會將count 減一，當沒有進程共享此段時，系統便會釋放其內存。</p>
-</li>
-<li><p>段的保護</p>
-<p>主要包括地址越界保護和存取方式控制保護。</p>
-<p><strong>地址越界保護</strong>是為了保持段之間的相對獨立。但是有的段是運行動態增長的，這樣的段當段內地址大於段長時是允許的，這一點可以通過段的增補位來控制。</p>
-<p><strong>存取控制檢查</strong>，段表的每個表項都有設置存取控制字段來設置存取權限。</p>
-<p><strong>環保護結構</strong>。規定低標號的環具有較高的優先權，操作系統居于0環，重要軟件居於中間環，一般的居於外環。程序的訪問和調用遵循以下原則：</p>
-<ol>
-<li>一個程序可以訪問駐留在相同環或較低環的數據。</li>
-<li>一個程序可以調用駐留在相同環或高特權環的服務。</li>
-</ol>
-</li>
-</ol>
+<p>編譯運行就可以完成掛載了。</p>
 ]]></content>
   </entry>
 </search>
