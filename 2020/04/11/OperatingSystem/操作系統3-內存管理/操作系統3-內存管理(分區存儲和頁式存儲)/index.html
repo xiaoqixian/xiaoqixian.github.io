@@ -20,19 +20,21 @@
     <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="A man can be destoryed but not defeated">
-    <meta name="description" content="A man can be destoryed but not defeated">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lunar">
-<meta property="og:url" content="http://yoursite.com/archives/2020/04/index.html">
+    <meta name="description" content="操作系統3-內存管理(分區存儲和頁式存儲)2. 分區存儲管理方式分區管理的基本思想是：將內存空間氛圍一個或若干個連續的區域，稱為分區。每個分區可以存放一個獨立的用戶程序。分區的特點是一個程序可以連續地加載內存。 分區可以分為：單一分區、固定分區、可變分區和重定位分區。 2.1 單道程序的連續分配 單道程序的連續分配方式將內存分為系統區和用戶區，只能用於單用戶、單任務的操作系統。  系統區 系統區僅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OperatingSystem&#x2F;操作系統3-內存管理&#x2F;操作系統3-內存管理(分區存儲和頁式存儲)">
+<meta property="og:url" content="http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%88%86%E5%8D%80%E5%AD%98%E5%84%B2%E5%92%8C%E9%A0%81%E5%BC%8F%E5%AD%98%E5%84%B2)/index.html">
 <meta property="og:site_name" content="Lunar">
-<meta property="og:description" content="A man can be destoryed but not defeated">
+<meta property="og:description" content="操作系統3-內存管理(分區存儲和頁式存儲)2. 分區存儲管理方式分區管理的基本思想是：將內存空間氛圍一個或若干個連續的區域，稱為分區。每個分區可以存放一個獨立的用戶程序。分區的特點是一個程序可以連續地加載內存。 分區可以分為：單一分區、固定分區、可變分區和重定位分區。 2.1 單道程序的連續分配 單道程序的連續分配方式將內存分為系統區和用戶區，只能用於單用戶、單任務的操作系統。  系統區 系統區僅">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-11T02:34:59.819Z">
+<meta property="article:modified_time" content="2020-02-04T07:15:48.785Z">
 <meta property="article:author" content="XiaoQixian">
 <meta name="twitter:card" content="summary">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
-    <title>LunarRoom</title>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(分區存儲和頁式存儲) · LunarRoom</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -213,12 +215,23 @@
 <meta name="generator" content="Hexo 4.2.0"></head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LunarRoom</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(分區存儲和頁式存儲)</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>LunarRoom</a>
 </header>
@@ -230,24 +243,68 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/fengling.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(分區存儲和頁式存儲)
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.7k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/04/11</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -348,306 +405,180 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B11/" >
-            
-                <span>OperatingSystem/操作系統4-文件系統/操作系統4-文件系統1</span>
-        </a>
-        <div class="abstract-content">
-            操作系統4-文件系統文件
-文件是計算機系統中信息存放的一種組織形式
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="操作系統3-內存管理-分區存儲和頁式存儲"><a href="#操作系統3-內存管理-分區存儲和頁式存儲" class="headerlink" title="操作系統3-內存管理(分區存儲和頁式存儲)"></a><strong>操作系統3-內存管理(分區存儲和頁式存儲)</strong></h3><h4 id="2-分區存儲管理方式"><a href="#2-分區存儲管理方式" class="headerlink" title="2. 分區存儲管理方式"></a>2. 分區存儲管理方式</h4><p>分區管理的基本思想是：<strong>將內存空間氛圍一個或若干個連續的區域，稱為分區。每個分區可以存放一個獨立的用戶程序。分區的特點是一個程序可以連續地加載內存。</strong></p>
+<p>分區可以分為：單一分區、固定分區、可變分區和重定位分區。</p>
+<p>2.1 <strong>單道程序的連續分配</strong></p>
+<p>單道程序的連續分配方式將內存分為系統區和用戶區，只能用於單用戶、單任務的操作系統。</p>
+<ol>
+<li><p>系統區</p>
+<p>系統區僅供操作系統使用，一般駐留在內存的低地址區，其中包括中斷向量。中斷向量是操作系統的<strong>核心功能模塊加載內存的起始地址</strong>。</p>
+</li>
+<li><p>用戶區</p>
+<p>操作系統所佔區域以外的全部內存空間，用戶區和系統區之間設立了嚴格的內存保護機制，防止用戶區的地址越界。</p>
+</li>
+</ol>
+<p>2.2 <strong>固定分區分配方式</strong></p>
+<p>系統在啟動時就劃分好多個分區，明確了分區的數量、大小和起始地址。這樣允許多道作業並發執行。但這樣也會使得部分分區的程序無法完全利用所有分區空間，也會導致部分程序因為佔用內存過大而無法裝入程序。因此會造成內存的浪費。</p>
+<p>2.3 <strong>動態分區分配</strong></p>
+<p>動態分區根據進程的實際需要動態地分割內存。當進程運行完畢並釋放了其所佔用的空間時，如果這塊空間有相鄰的空閒的內存空間，則它們被合併為更大的空閒的內存空間。</p>
+<p>動態分區需要解決的問題有：分區分配的數據結構、分區的分配算法、分區的分配與回收操作。</p>
+<ol>
+<li><p>數據結構</p>
+<p>常用的數據結構有空閒分區表和空閒分區鏈。</p>
+<ol>
+<li><p>空閒分區表結構為:</p>
+<ol>
+<li><ol>
+<li>空閒分區說明表</li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>序號</th>
+<th>分區大小(KB)</th>
+<th>分區地址(K)</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>64</td>
+<td>44</td>
+<td>可用</td>
+</tr>
+<tr>
+<td>2</td>
+<td>24</td>
+<td>132</td>
+<td>可用</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30</td>
+<td>210</td>
+<td>可用</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>空閒分區鏈</p>
+<p>每個分區的起始部分設置一個用於控制分區分配的信息，以及用於鏈接各分區的前向指針，形成一個鏈錶。</p>
+</li>
+</ol>
+</li>
+<li><p>分區分配算法</p>
+<p>新作業進入內存時，按照分配算法將空閒分區分配給作業。主要有以下四種分配算法。</p>
+<ol>
+<li>首次符合法(First Fit)。每次分配空閒區時，總是從鏈首開始查詢，直到找到一個符合要求的空閒塊。</li>
+<li>循環首次符合法(Next Fit)。在查詢內存空間時，不再從鏈首開始查，而是從上次分配內存的下一個空閒內存空間開始查詢。如果查到最後一個空間都不能滿足要求，指針應該又返回鏈首開始查詢，因為可能已經有其他作業釋放了足夠的內存空間。</li>
+<li>最佳符合法(Best Fit)。要求所有空閒空間按照大小排序，請求內存的指針從最小的內存塊開始查，直到找到第一個符合請求空間大小的內存塊。</li>
+</ol>
+</li>
+<li><p>分區分配和回收</p>
+<ol>
+<li><p>分配內存。設所請求分區的大小為u.size，分區表中內存的大小為m.size，若$m.size - u.size \leq size$，size是事先規定好的不再分割內存大小，如果空閒分區在被內存請求切割的大小小於這個size，則分區不再切割，將整個分區都分配給請求。否則從分區分割出一個和請求內存大小一致的內存，其餘內存仍留在空閒分區表或空閒分區鏈中。</p>
+</li>
+<li><p>回收內存。</p>
+<p>回收內存的主要工作是首先檢查是否有相鄰分區，有則合併使之成為一個連續的空閒區，避免形成許多離散的小分區。然後還要修改分區的有關控制信息。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>2.4 <strong>可重定位分區</strong></p>
+<ol>
+<li><p>緊湊</p>
+<p>在連續分配方式中，必須把一個程序裝入連續的內存空間中，如果系統中存在若干個離散的小分區，每個分區都不能使程序裝入其中。但是這些分區的大小之和大於程序的請求內存。這時可以通過重定位的方式將分隔這些分區的作業移動到一起，使得原來離散的小分區可以拼接成一個大分區。這種方式稱為“<strong>緊湊</strong>”。</p>
+</li>
+<li><p>動態重定位</p>
+<p>要想在動態重定位中將程序中的相對地址轉換為物理地址的工作推遲到程序指令進行時進行，需要得到硬件地址變換機構的支持。即在系統中加入一個重定位寄存器，用來裝入程序在內存中的起始地址。<strong>程序執行時，訪問的地址是由重定位寄存器的物理起始地址加上程序中的邏輯地址得到的</strong>。因此當需要移動程序佔用的內存地址時，只需要修改重定位寄存器中的地址就可以做到了，而不需要修改程序。</p>
+</li>
+<li><p>可重定位分區的分配與動態重定位分區的分配方式基本相同，只不過加入了“緊湊”的功能，使得離散的小分區內存空間得到了利用。</p>
+</li>
+</ol>
+<h4 id="3-頁式存儲管理"><a href="#3-頁式存儲管理" class="headerlink" title="3. 頁式存儲管理"></a>3. 頁式存儲管理</h4><p>3.1 <strong>分頁存儲的思想</strong></p>
+<p>不同於前面的連續分配的思想，分頁存儲允許程序被分配在不連續的內存空間中。為了實現這種想法，在分頁存儲管理中，主存被分為一個個大小相等的<strong>物理塊</strong>，而程序的地址空間被分為一些<strong>邏輯頁面</strong>。邏輯頁與物理塊的內存大小相等，程序和數據以頁為單位分配內存塊，將一個邏輯頁分配到一個物理塊中。為了便於實現地址變換，往往將物理塊的大小定為$2^n$個扇區，如1KB、2KB。</p>
+<p>3.2 <strong>頁式存儲管理的數據結構</strong></p>
+<ol>
+<li><p>頁面和物理塊</p>
+<p>頁面和物理塊的概念在上文已經有所介紹。在為進程分配內存時，以塊為單位將進程中的若干頁分配到不相接的塊中。每個邏輯頁和物理塊都有編號，邏輯頁號與物理塊號的對應關係，都已經記錄在了<strong>頁表</strong>中。頁表是每個進程都有一張的。</p>
+<p>頁面大小應適中，如果頁面過大，會造成頁內碎片過大。若是太小，則會造成頁表太大，佔用大量內存。</p>
+</li>
+<li><p>虛地址結構</p>
+<p>頁式存儲的虛地址結構包含<strong>頁號P</strong>和<strong>頁內偏移量W</strong>。若給定一個邏輯空間的地址A，頁面的大小為L。則P和W的計算方式為：</p>
+<p>$$ P = (int) [A/L] $$</p>
+<p>$$ W = A \mod L $$</p>
+</li>
+</ol>
+<p>3.3 <strong>頁式存儲管理的重定位方式</strong></p>
+<p>為了將用戶地址空間的邏輯地址變換為物理地址，需要設置地址變換機構。由於邏輯頁與物理塊的大小相等，所以邏輯頁內地址與物理頁內地址是一一對應的。所以重定位的主要任務是<strong>將邏輯頁的頁號轉換為內存中的物理塊號</strong>。這個工作是藉助頁表來實現的。</p>
+<p>頁表的功能由寄存器來實現，由於寄存器的空間有限，頁表的數量又很多，因此將整個頁表放入寄存器不太現實。現在通常是將頁表放置在內存中，只將設置一個頁表寄存器用來存放頁表的起始地址和長度。且這兩個數據並不是一直待在頁表寄存器中。進程並未執行時，這兩個數據存放在進程的PCB中，只有當調度到這個進程時，才將這兩個數據放入頁表寄存器中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[邏輯地址A] --&gt; |計算| B[頁內地址W]</span><br><span class="line">A --&gt; |計算| C[邏輯頁號P]</span><br><span class="line">C --&gt; |頁表寄存器| D[頁表地址 頁表長度n]</span><br><span class="line">D --&gt; E&#123;P&gt;&#x3D;n?&#125;</span><br><span class="line">E --&gt; |No|F[查頁表]</span><br><span class="line">E --&gt; |Yes|G[越界中斷]</span><br><span class="line">F --&gt; H[物理塊號]</span><br><span class="line">H --&gt; |乘以塊大小|I[物理塊基地址]</span><br><span class="line">I --&gt; J(+)</span><br><span class="line">B --&gt; J</span><br><span class="line">J --&gt; K[物理地址]</span><br></pre></td></tr></table></figure>
 
-文件的分類
+<p>3.4 <strong>快表</strong></p>
+<p>在上述變換過程中可知，要想取出一個數據或指令，至少需要兩次訪問內存，為了提高效率，減少內存的訪問次數，可以將頁表放在一個高速緩存存儲器中。</p>
+<p>現在一般將正在運行進程的當前最常用的頁表放入快速存儲器中，存放這部分頁表內容的存儲器稱為<strong>相聯存儲器</strong>，也稱為聯想存儲器。這種存儲器還具有查找能力，如CPU給出的虛結構為(P,W)，分頁機構將虛結構送入相聯存儲器，存儲器立即和所有的頁號進行比較，找到符合的塊號B。然後根據(B,W)訪問內存。</p>
+<p>實際上在相聯存儲器查詢頁表的同時，系統也在主存的頁表中進程查詢，如果哪一邊查找到了，則立即停止另一邊的查詢。如果是在主存的頁表中查詢到的，則應把查得的頁號和塊號一並放入相聯存儲器的空閒單元中。若無空閒單元，則把最先裝入寄存器的那個頁號淘汰掉。</p>
+<p>3.5 <strong>兩級和多級頁表</strong></p>
+<ol>
+<li><p>兩級頁表</p>
+<p>隨著頁表越來越大，越來越難以找到足夠的內存來存放頁表。因此產生了多級頁表的想法。可以將頁表分成多個<strong>頁面</strong>，每個頁面與內存物理塊的大小相等，並未它們編號。離散地分佈在不同的物理塊中。同時為這些離散的頁面建立一張<strong>外層頁表</strong>。根據外層頁表找到頁面的方式與根據頁表找到物理塊的方式相似。同樣需要在地址機構中設置一個外層頁表寄存器用於存放外層頁表的起始地址。</p>
+</li>
+<li><p>多級頁表</p>
+<p>隨著計算機位數的增加，頁表的大小會越來越大，導致需要的儲存空間越來越大。因此需要建立更多級的頁表。</p>
+</li>
+</ol>
 
-普通文件：如保存在磁盤上的c文件，可執行文件，以及目錄等。這種文件的特性是數據在存儲設備上存放，內核提供了對數據的抽象訪問。
-字符設備文件：一種能夠像文件一樣被訪問的設備，如控制台，串口等。
-塊設備文件：磁盤是此類文件的經典代表，操作系統對這種數據的訪問進行重新的格式設計。
-socket文件：Linux通過網絡進行通信的方式，對網絡的訪問可以通過文件描述符的抽象實現，訪問網絡和訪問普通文件類似，進程通過對socket文件讀寫來實現消息的傳遞。
-
-Linux對於這些文件的訪問時類似的，因為Linux強大的虛...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%8E%9B%E8%BC%89%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E7%9A%84%E9%AB%98%E7%B4%9A%E6%96%B9%E5%BC%8F/" >
-            
-                <span>OperatingSystem/操作系統4-文件系統/掛載文件系統的高級方式</span>
-        </a>
-        <div class="abstract-content">
-            掛載文件系統的高級方式相比大家在安裝一些比較複雜的Linux系統(如ArchLinux)時都有過掛載文件系統的經歷，常規操作都是
-/dev/sda1link12345678910但是這個逼格不夠高。mount這個命令是通過系統調用mount來實現的，通過&#96;&#96;&#96;man mount&#96;&#96;&#96;可以查看到mount的系統調用定義在&#96;&#96;&#96;&lt;sys&#x2F;mount.h&gt;&#96;&#96;&#96;中。於是可以查到mount的定義為&#96;&#96;&#96;c#include &lt;sys&#x2F;moun...
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://yoursite.com">XiaoQixian</a>
+            <p>原文链接：<a href="http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%88%86%E5%8D%80%E5%AD%98%E5%84%B2%E5%92%8C%E9%A0%81%E5%BC%8F%E5%AD%98%E5%84%B2)/">http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%88%86%E5%8D%80%E5%AD%98%E5%84%B2%E5%92%8C%E9%A0%81%E5%BC%8F%E5%AD%98%E5%84%B2)/</a>
+            <p>发表日期：<a href="http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%88%86%E5%8D%80%E5%AD%98%E5%84%B2%E5%92%8C%E9%A0%81%E5%BC%8F%E5%AD%98%E5%84%B2)/">April 11th 2020, 10:34:59 am</a>
+            <p>更新日期：<a href="http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%88%86%E5%8D%80%E5%AD%98%E5%84%B2%E5%92%8C%E9%A0%81%E5%BC%8F%E5%AD%98%E5%84%B2)/">February 4th 2020, 3:15:48 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/LVM/" >
-            
-                <span>OperatingSystem/操作系統4-文件系統/LVM</span>
-        </a>
-        <div class="abstract-content">
-            LVMLVM for Logical Volume Manager(邏輯捲管理)。
-用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。
-LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。
-LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/物理地址擴展</span>
-        </a>
-        <div class="abstract-content">
-            物理地址擴展(Physical Address Extension, PAE)今早在知乎上看到一個新概念——物理地址擴展，查閱了許多資料，發現都只是將維基百科上的敘述再講了一遍，依舊十分晦澀難懂，於是打算自己用更加易懂的語言將自己的感悟寫下。
-早期的CPU和操作系統都是32位的，可以訪問的物理內存只有4G。後來4G不夠用了，於是人們想辦法去擴展物理內存。
-Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是怎麼做到支持PAE的呢？
-首先Intel做的是將CPU原來的32根地址線增加到了36根地址線。都知道CPU可以訪問的內存大小根本是有地址線的位數...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E9%A0%81%E9%9D%A2%E7%BD%AE%E6%8F%9B%E7%AE%97%E6%B3%95)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(頁面置換算法)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(頁面置換算法)7. 頁面置換算法在上一節講過, 換入換出頁面要根據特定的算法來執行, 這種算法就是頁面置換算法. 不合適的算法可能會使系統發生抖動，所謂抖動即指剛剛換出的頁面又要換回來，換回來不久又要換出去，這樣就導致系統的大部分工作時間都花在了頁面調度上，導致效率不高。
-下面是幾種常見的頁面置換算法：
-7.1 先入先出頁面置換算法
-顧名思義，根據隊列的數據結構的思想，總是將內存存在最久的頁面先換出。
-7.2 最近最久未使用頁面置換算法(Least Recently Used)
-這種算法是一種比較好的算法，但是主要問題在於如何找到哪一頁是最近最久未被使用的頁面。為此...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E9%A0%81%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分頁內存管理)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(請求分頁內存管理)6. 請求分頁內存管理方式6.1 請求分頁的實現
-請求分頁是常用的實現虛擬存儲器的方式，其實現需要頁表機制、缺頁中斷機制和地址變換機構的支持。
-
-頁表機制
-分頁系統中地址映像是用過頁表實現的。在請求分頁的系統中，頁表項包括：邏輯頁號、物理塊號、狀態位P、訪問字段A、修改位M和外存地址。
-
-狀態位P用於指示該頁是否已經調入內存。
-訪問字段A，用於記錄本頁在一段時間內被訪問的次數，或最近多長時間沒被訪問，供置換算法換出頁面時參考。
-修改位M，表示該頁在調出內存後是否被修改過。由於內存的每一頁在外存中都有備份，所以在該頁被換出時，系統會查詢該頁的修改位，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E6%AE%B5%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分段存儲管理)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(請求分段存儲管理)8.請求分段存儲管理8.1 請求分段的原理與硬件支持
-在段式存儲管理實現的虛擬存儲器上，以段為單位進行換入，換出。相比於請求分頁存儲系統，分段存儲因為段的大小不固定，所以置換算法更加難以實現。請求分段管理的實現需要段表機制、缺段中斷機制和地址變換機構的支持。
-
-段表機制
-段表結構除了段名、段長和段在內存中的起始地址外，還增加了一下幾項：
-
-存取方式，用於標識本分段的存取屬性是執行、只讀還是可讀可寫。
-訪問字段A，含義與請求分段的響應字段相同，用於記錄被訪問段的頻率。
-修改位M，表示該頁進入內存後是否被修改過。
-存在位P。表示該段是否已被調入內存。
-...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(虛擬內存)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(虛擬內存)5.虛擬存儲器5.1 局部性原理
-早在1968年P.Dening就指出：程序在執行過程中呈現出局部性規律。即在很短的時間內，程序的執行儘限於某個部分，其訪問的內存也僅限於某個區域。
-局限性體現在時間和空間上，時間上程序中某條指令一旦執行，不就又可能再被執行。空間上某個存儲單元被訪問，不就又可能再被訪問。
-5.2 對換
-
-對換的引入
-在多道程序環境下，可能出現內存中的某些進程由於等待某時間而進入阻塞狀態，其佔用了大量內存。同時外存中等待的許多作業由於得不到足夠的內存而無法進入運行狀態。為了解決這一問題，引入了“對換”技術。
-而“對換”，即是把內存中不能運行的...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(段式存儲管理)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(段式存儲管理)4 段式存儲管理4.1 段式存儲的思想
-頁式存儲僅僅考慮了程序的長度，可以使一個程序可以不連續地加載內存，但是沒有考慮程序的邏輯結構。一個程序在加載內存時，其不同部分的訪問權限是不一樣的。比如程序部分可以多個進程共享，無法修改。而數據部分可以修改，只能由一個進程獨佔。
-
-分段
-在分段存儲管理方式中，段是一組邏輯信息組合。例如把作業按邏輯關係加以組織，劃分成若干段，並按這些段來劃分內存，這些段可以是主程序段MAIN，子程序段X、數據段D和堆棧段S等。加載內存時，段與段之間可以是不連續的。一個操作數的邏輯地址由段號s和段內偏移量w組成。
-
-段表
-系統為每個...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%AD%98%E5%84%B2%E5%99%A8%E7%AE%A1%E7%90%86%E6%A6%82%E8%BF%B0)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(存儲器管理概述)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(存儲器管理概述)1. 存儲器管理概述1.1 存儲器的層次
-寄存器 -&gt; 內存：包括內存、高速緩存、硬盤緩存 -&gt; 外部存儲器
-從左至右存儲速度遞減，存儲容量遞增。
-高速緩存雖然與內存同為內存，但是其採取了靜態RAM(SRAM)，而內存採用了動態RAM(DRAM)。SRAM的存儲速度接近於CPU的運行速度，但是成本遠高於內存，因此容量比內存小。
-寄存器則是CPU內部用來存儲數據的一塊區域。
-1.2 用戶程序的處理過程
-系統對用戶程序的處理分為以下幾個階段：
-(1) 編譯。由編譯程序將用戶程序編譯成若干個目標模塊。
-(2) 鏈接。由鏈接程序將編譯後的目標代碼...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%AD%98%E5%84%B2%E5%99%A8%E7%AE%A1%E7%90%86%E6%A6%82%E8%BF%B0)/" title= "OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(存儲器管理概述)">
+                    <div class="nextTitle">OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(存儲器管理概述)</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(Linux%E7%B3%BB%E7%B5%B1%E7%9A%84%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86%E6%96%B9%E6%B3%95)/" title= "OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(Linux系統的內存管理方法)">
+                    <div class="prevTitle">OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(Linux系統的內存管理方法)</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
-    <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2020/04/page/2/">2</a><a class="page-number" href="/archives/2020/04/page/3/">3</a><a class="extend next" rel="next" href="/archives/2020/04/page/2/">NEXT &gt;</a>
-    </nav>
     
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -732,6 +663,24 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#操作系統3-內存管理-分區存儲和頁式存儲"><span class="toc-number">1.</span> <span class="toc-text">操作系統3-內存管理(分區存儲和頁式存儲)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-分區存儲管理方式"><span class="toc-number">1.1.</span> <span class="toc-text">2. 分區存儲管理方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-頁式存儲管理"><span class="toc-number">1.2.</span> <span class="toc-text">3. 頁式存儲管理</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1388,6 +1337,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>

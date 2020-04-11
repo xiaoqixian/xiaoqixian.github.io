@@ -20,19 +20,27 @@
     <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="A man can be destoryed but not defeated">
-    <meta name="description" content="A man can be destoryed but not defeated">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lunar">
-<meta property="og:url" content="http://yoursite.com/archives/2020/04/index.html">
+    <meta name="description" content="物理地址擴展(Physical Address Extension, PAE)今早在知乎上看到一個新概念——物理地址擴展，查閱了許多資料，發現都只是將維基百科上的敘述再講了一遍，依舊十分晦澀難懂，於是打算自己用更加易懂的語言將自己的感悟寫下。 早期的CPU和操作系統都是32位的，可以訪問的物理內存只有4G。後來4G不夠用了，於是人們想辦法去擴展物理內存。 Intel Pentium pro以上的C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OperatingSystem&#x2F;操作系統3-內存管理&#x2F;物理地址擴展">
+<meta property="og:url" content="http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/index.html">
 <meta property="og:site_name" content="Lunar">
-<meta property="og:description" content="A man can be destoryed but not defeated">
+<meta property="og:description" content="物理地址擴展(Physical Address Extension, PAE)今早在知乎上看到一個新概念——物理地址擴展，查閱了許多資料，發現都只是將維基百科上的敘述再講了一遍，依舊十分晦澀難懂，於是打算自己用更加易懂的語言將自己的感悟寫下。 早期的CPU和操作系統都是32位的，可以訪問的物理內存只有4G。後來4G不夠用了，於是人們想辦法去擴展物理內存。 Intel Pentium pro以上的C">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2310756-67a4ff2b53385008.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2310756-3b1e7fc263f0642a.png">
+<meta property="og:image" content="https://bkimg.cdn.bcebos.com/pic/42a98226cffc1e1786864ca94a90f603738de969?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5">
+<meta property="og:image" content="https://bkimg.cdn.bcebos.com/pic/37d12f2eb9389b50c0ce20ca8535e5dde7116e71?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5">
+<meta property="og:image" content="https://bkimg.cdn.bcebos.com/pic/6c224f4a20a446234ff965fa9822720e0cf3d773?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5">
+<meta property="article:published_time" content="2020-04-11T02:34:59.839Z">
+<meta property="article:modified_time" content="2020-04-10T03:01:05.901Z">
 <meta property="article:author" content="XiaoQixian">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2310756-67a4ff2b53385008.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
-    <title>LunarRoom</title>
+    <title>OperatingSystem/操作系統3-內存管理/物理地址擴展 · LunarRoom</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -213,12 +221,23 @@
 <meta name="generator" content="Hexo 4.2.0"></head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LunarRoom</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">OperatingSystem/操作系統3-內存管理/物理地址擴展</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>LunarRoom</a>
 </header>
@@ -230,24 +249,68 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/fengling.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            OperatingSystem/操作系統3-內存管理/物理地址擴展
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/04/11</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -348,306 +411,85 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B11/" >
-            
-                <span>OperatingSystem/操作系統4-文件系統/操作系統4-文件系統1</span>
-        </a>
-        <div class="abstract-content">
-            操作系統4-文件系統文件
-文件是計算機系統中信息存放的一種組織形式
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="物理地址擴展-Physical-Address-Extension-PAE"><a href="#物理地址擴展-Physical-Address-Extension-PAE" class="headerlink" title="物理地址擴展(Physical Address Extension, PAE)"></a><strong>物理地址擴展(Physical Address Extension, PAE)</strong></h3><p>今早在知乎上看到一個新概念——物理地址擴展，查閱了許多資料，發現都只是將維基百科上的敘述再講了一遍，依舊十分晦澀難懂，於是打算自己用更加易懂的語言將自己的感悟寫下。</p>
+<p>早期的CPU和操作系統都是32位的，可以訪問的物理內存只有4G。後來4G不夠用了，於是人們想辦法去擴展物理內存。</p>
+<p>Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是怎麼做到支持PAE的呢？</p>
+<p>首先Intel做的是將CPU原來的32根地址線增加到了36根地址線。都知道CPU可以訪問的內存大小根本是有地址線的位數決定的，CPU增加了4根地址線後，可以訪問的內存就變成了原來的$2^4$倍，也就是64G內存。</p>
+<p>但是只是從硬件層面實現內存的擴展是不行的，為了與32位的CPU相適應，所有的軟件都是設計成32位的，只能訪問4GB的內存。難道現在有64GB的內存可以訪問還是只能給軟件訪問4GB嗎？當然不行。</p>
+<p>於是就誕生了PAE。</p>
+<p>對於每個軟件或者說每個進程來說，其可以訪問的虛擬地址或者說邏輯地址空間還是4GB不變的，但是操作系統可以通過地址映射將虛擬地址映射到不同物理地址，這就允許多個進程的使用內存加起來超過了4GB。原來是所有的進程共享4GB內存，現在是所有的進程都可以訪問4GB內存，但是加起來共享64GB內存。</p>
+<p>題外話：地址映射同時需要操作系統和CPU的支持。在CPU的內部，有一個叫MMU的部件，這個MMU不是Manchester Metropolitan University, 而是Memory Management Unit，在CPU內部負責CPU的內存訪問需求，功能包括<strong>虛擬地址到物理地址的轉換</strong>、內存保護、中央處理器告訴緩存的控制等。</p>
+<p>如果CPU沒有MMU，CPU要訪問內存時傳出的地址就直接送到了內存的針腳上，等於直接訪問了物理內存，由於內存碎片化線性的存在，內存的使用率將大大降低。如果操作系統不知道CPU不支持邏輯地址的話就更加恐怖，CPU將直接將邏輯地址當做物理地址傳給內存，將訪問到錯誤的內存地址。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2310756-67a4ff2b53385008.png" alt=""></p>
+<p>而啟用了MMU的CPU，CPU執行單元發出的地址將被MMU截獲，進行一次地址轉換後才傳給內存。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2310756-3b1e7fc263f0642a.png" alt=""></p>
+<p>而在執行過程中，操作系統和MMU是這樣的配合的：</p>
+<ul>
+<li>操作系統在初始化或分配、释放内存时会执行一些指令在物理内存中填写页表，然后用指令设置MMU，告诉MMU页表在物理内存中的什么位置。</li>
+<li>设置好之后，CPU每次执行访问内存的指令都会自动引发MMU做查表和地址转换操作，地址转换操作由硬件自动完成，不需要用指令控制MMU去做。</li>
+</ul>
+<p>註：題外話中大部分內容引用自<a href="https://www.cnblogs.com/alantu2018/p/9002309.html" target="_blank" rel="noopener">這篇文章</a>。</p>
+<p>但是隨著大型軟件的推出，又出現了一個問題——如果進程需要訪問超過4GB的內存怎麼辦呢？</p>
+<p>對於需要超過4GB內存的軟件來說，需要操作系統提供另外的支持技術，這種技術在Windows上叫Address Windowing Extension(AWE)，在類Unix上則有多種不統一的技術在使用。</p>
+<p>為了實現這種技術，需要對頁表的結構進行改進。</p>
+<p>在傳統的分頁結構中，32位的線性地址通常是如下分配的。由於圖是本地的，所以請對照</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/42a98226cffc1e1786864ca94a90f603738de969?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
+<p>32位的地址線中，從高往低，10位用於頁表的尋址，10位用於頁的尋址，最後12位用於頁內偏移量的尋址，頁的大小為4KiB(懷有疑惑)。</p>
+<p>現在還沒有談論到PAE，我們先弄清楚頁表的結構。在頁表的表項的第7位叫做PS(Page Size)，如果這個位設為1，則頁目錄的表項不再指向頁表，而是指向一個4MiB的頁。</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/37d12f2eb9389b50c0ce20ca8535e5dde7116e71?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
+<p>在啟用PAE後，為了可以使用附加的地址位，頁表和頁目錄中的表項都從32位增加到了64位。可以查找的範圍更大了，但是頁目錄和頁表的總大小要保持不變，所以只有9位可以用來查找頁目錄和頁表，為了能夠依舊有那麼多頁目錄和頁表可以用，於是就引入了一級頁目錄指針，共佔兩位，可以尋址到4個頁目錄。</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/6c224f4a20a446234ff965fa9822720e0cf3d773?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
 
-文件的分類
-
-普通文件：如保存在磁盤上的c文件，可執行文件，以及目錄等。這種文件的特性是數據在存儲設備上存放，內核提供了對數據的抽象訪問。
-字符設備文件：一種能夠像文件一樣被訪問的設備，如控制台，串口等。
-塊設備文件：磁盤是此類文件的經典代表，操作系統對這種數據的訪問進行重新的格式設計。
-socket文件：Linux通過網絡進行通信的方式，對網絡的訪問可以通過文件描述符的抽象實現，訪問網絡和訪問普通文件類似，進程通過對socket文件讀寫來實現消息的傳遞。
-
-Linux對於這些文件的訪問時類似的，因為Linux強大的虛...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%8E%9B%E8%BC%89%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E7%9A%84%E9%AB%98%E7%B4%9A%E6%96%B9%E5%BC%8F/" >
-            
-                <span>OperatingSystem/操作系統4-文件系統/掛載文件系統的高級方式</span>
-        </a>
-        <div class="abstract-content">
-            掛載文件系統的高級方式相比大家在安裝一些比較複雜的Linux系統(如ArchLinux)時都有過掛載文件系統的經歷，常規操作都是
-/dev/sda1link12345678910但是這個逼格不夠高。mount這個命令是通過系統調用mount來實現的，通過&#96;&#96;&#96;man mount&#96;&#96;&#96;可以查看到mount的系統調用定義在&#96;&#96;&#96;&lt;sys&#x2F;mount.h&gt;&#96;&#96;&#96;中。於是可以查到mount的定義為&#96;&#96;&#96;c#include &lt;sys&#x2F;moun...
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://yoursite.com">XiaoQixian</a>
+            <p>原文链接：<a href="http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/">http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/</a>
+            <p>发表日期：<a href="http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/">April 11th 2020, 10:34:59 am</a>
+            <p>更新日期：<a href="http://yoursite.com/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/">April 10th 2020, 11:01:05 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/LVM/" >
-            
-                <span>OperatingSystem/操作系統4-文件系統/LVM</span>
-        </a>
-        <div class="abstract-content">
-            LVMLVM for Logical Volume Manager(邏輯捲管理)。
-用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。
-LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。
-LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/物理地址擴展</span>
-        </a>
-        <div class="abstract-content">
-            物理地址擴展(Physical Address Extension, PAE)今早在知乎上看到一個新概念——物理地址擴展，查閱了許多資料，發現都只是將維基百科上的敘述再講了一遍，依舊十分晦澀難懂，於是打算自己用更加易懂的語言將自己的感悟寫下。
-早期的CPU和操作系統都是32位的，可以訪問的物理內存只有4G。後來4G不夠用了，於是人們想辦法去擴展物理內存。
-Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是怎麼做到支持PAE的呢？
-首先Intel做的是將CPU原來的32根地址線增加到了36根地址線。都知道CPU可以訪問的內存大小根本是有地址線的位數...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E9%A0%81%E9%9D%A2%E7%BD%AE%E6%8F%9B%E7%AE%97%E6%B3%95)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(頁面置換算法)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(頁面置換算法)7. 頁面置換算法在上一節講過, 換入換出頁面要根據特定的算法來執行, 這種算法就是頁面置換算法. 不合適的算法可能會使系統發生抖動，所謂抖動即指剛剛換出的頁面又要換回來，換回來不久又要換出去，這樣就導致系統的大部分工作時間都花在了頁面調度上，導致效率不高。
-下面是幾種常見的頁面置換算法：
-7.1 先入先出頁面置換算法
-顧名思義，根據隊列的數據結構的思想，總是將內存存在最久的頁面先換出。
-7.2 最近最久未使用頁面置換算法(Least Recently Used)
-這種算法是一種比較好的算法，但是主要問題在於如何找到哪一頁是最近最久未被使用的頁面。為此...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E9%A0%81%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分頁內存管理)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(請求分頁內存管理)6. 請求分頁內存管理方式6.1 請求分頁的實現
-請求分頁是常用的實現虛擬存儲器的方式，其實現需要頁表機制、缺頁中斷機制和地址變換機構的支持。
-
-頁表機制
-分頁系統中地址映像是用過頁表實現的。在請求分頁的系統中，頁表項包括：邏輯頁號、物理塊號、狀態位P、訪問字段A、修改位M和外存地址。
-
-狀態位P用於指示該頁是否已經調入內存。
-訪問字段A，用於記錄本頁在一段時間內被訪問的次數，或最近多長時間沒被訪問，供置換算法換出頁面時參考。
-修改位M，表示該頁在調出內存後是否被修改過。由於內存的每一頁在外存中都有備份，所以在該頁被換出時，系統會查詢該頁的修改位，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E6%AE%B5%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分段存儲管理)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(請求分段存儲管理)8.請求分段存儲管理8.1 請求分段的原理與硬件支持
-在段式存儲管理實現的虛擬存儲器上，以段為單位進行換入，換出。相比於請求分頁存儲系統，分段存儲因為段的大小不固定，所以置換算法更加難以實現。請求分段管理的實現需要段表機制、缺段中斷機制和地址變換機構的支持。
-
-段表機制
-段表結構除了段名、段長和段在內存中的起始地址外，還增加了一下幾項：
-
-存取方式，用於標識本分段的存取屬性是執行、只讀還是可讀可寫。
-訪問字段A，含義與請求分段的響應字段相同，用於記錄被訪問段的頻率。
-修改位M，表示該頁進入內存後是否被修改過。
-存在位P。表示該段是否已被調入內存。
-...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(虛擬內存)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(虛擬內存)5.虛擬存儲器5.1 局部性原理
-早在1968年P.Dening就指出：程序在執行過程中呈現出局部性規律。即在很短的時間內，程序的執行儘限於某個部分，其訪問的內存也僅限於某個區域。
-局限性體現在時間和空間上，時間上程序中某條指令一旦執行，不就又可能再被執行。空間上某個存儲單元被訪問，不就又可能再被訪問。
-5.2 對換
-
-對換的引入
-在多道程序環境下，可能出現內存中的某些進程由於等待某時間而進入阻塞狀態，其佔用了大量內存。同時外存中等待的許多作業由於得不到足夠的內存而無法進入運行狀態。為了解決這一問題，引入了“對換”技術。
-而“對換”，即是把內存中不能運行的...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(段式存儲管理)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(段式存儲管理)4 段式存儲管理4.1 段式存儲的思想
-頁式存儲僅僅考慮了程序的長度，可以使一個程序可以不連續地加載內存，但是沒有考慮程序的邏輯結構。一個程序在加載內存時，其不同部分的訪問權限是不一樣的。比如程序部分可以多個進程共享，無法修改。而數據部分可以修改，只能由一個進程獨佔。
-
-分段
-在分段存儲管理方式中，段是一組邏輯信息組合。例如把作業按邏輯關係加以組織，劃分成若干段，並按這些段來劃分內存，這些段可以是主程序段MAIN，子程序段X、數據段D和堆棧段S等。加載內存時，段與段之間可以是不連續的。一個操作數的邏輯地址由段號s和段內偏移量w組成。
-
-段表
-系統為每個...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%AD%98%E5%84%B2%E5%99%A8%E7%AE%A1%E7%90%86%E6%A6%82%E8%BF%B0)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(存儲器管理概述)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(存儲器管理概述)1. 存儲器管理概述1.1 存儲器的層次
-寄存器 -&gt; 內存：包括內存、高速緩存、硬盤緩存 -&gt; 外部存儲器
-從左至右存儲速度遞減，存儲容量遞增。
-高速緩存雖然與內存同為內存，但是其採取了靜態RAM(SRAM)，而內存採用了動態RAM(DRAM)。SRAM的存儲速度接近於CPU的運行速度，但是成本遠高於內存，因此容量比內存小。
-寄存器則是CPU內部用來存儲數據的一塊區域。
-1.2 用戶程序的處理過程
-系統對用戶程序的處理分為以下幾個階段：
-(1) 編譯。由編譯程序將用戶程序編譯成若干個目標模塊。
-(2) 鏈接。由鏈接程序將編譯後的目標代碼...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/LVM/" title= "OperatingSystem/操作系統4-文件系統/LVM">
+                    <div class="nextTitle">OperatingSystem/操作系統4-文件系統/LVM</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E9%A0%81%E9%9D%A2%E7%BD%AE%E6%8F%9B%E7%AE%97%E6%B3%95)/" title= "OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(頁面置換算法)">
+                    <div class="prevTitle">OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(頁面置換算法)</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
-    <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2020/04/page/2/">2</a><a class="page-number" href="/archives/2020/04/page/3/">3</a><a class="extend next" rel="next" href="/archives/2020/04/page/2/">NEXT &gt;</a>
-    </nav>
     
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -732,6 +574,24 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#物理地址擴展-Physical-Address-Extension-PAE"><span class="toc-number">1.</span> <span class="toc-text">物理地址擴展(Physical Address Extension, PAE)</span></a></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1388,6 +1248,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>

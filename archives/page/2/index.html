@@ -23,7 +23,7 @@
     <meta name="description" content="A man can be destoryed but not defeated">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lunar">
-<meta property="og:url" content="http://yoursite.com/archives/2020/04/index.html">
+<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
 <meta property="og:site_name" content="Lunar">
 <meta property="og:description" content="A man can be destoryed but not defeated">
 <meta property="og:locale" content="zh_CN">
@@ -356,22 +356,21 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B11/" >
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%88%86%E5%8D%80%E5%AD%98%E5%84%B2%E5%92%8C%E9%A0%81%E5%BC%8F%E5%AD%98%E5%84%B2)/" >
             
-                <span>OperatingSystem/操作系統4-文件系統/操作系統4-文件系統1</span>
+                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(分區存儲和頁式存儲)</span>
         </a>
         <div class="abstract-content">
-            操作系統4-文件系統文件
-文件是計算機系統中信息存放的一種組織形式
+            操作系統3-內存管理(分區存儲和頁式存儲)2. 分區存儲管理方式分區管理的基本思想是：將內存空間氛圍一個或若干個連續的區域，稱為分區。每個分區可以存放一個獨立的用戶程序。分區的特點是一個程序可以連續地加載內存。
+分區可以分為：單一分區、固定分區、可變分區和重定位分區。
+2.1 單道程序的連續分配
+單道程序的連續分配方式將內存分為系統區和用戶區，只能用於單用戶、單任務的操作系統。
 
-文件的分類
+系統區
+系統區僅供操作系統使用，一般駐留在內存的低地址區，其中包括中斷向量。中斷向量是操作系統的核心功能模塊加載內存的起始地址。
 
-普通文件：如保存在磁盤上的c文件，可執行文件，以及目錄等。這種文件的特性是數據在存儲設備上存放，內核提供了對數據的抽象訪問。
-字符設備文件：一種能夠像文件一樣被訪問的設備，如控制台，串口等。
-塊設備文件：磁盤是此類文件的經典代表，操作系統對這種數據的訪問進行重新的格式設計。
-socket文件：Linux通過網絡進行通信的方式，對網絡的訪問可以通過文件描述符的抽象實現，訪問網絡和訪問普通文件類似，進程通過對socket文件讀寫來實現消息的傳遞。
-
-Linux對於這些文件的訪問時類似的，因為Linux強大的虛...
+用戶區
+操作系統所佔區域以外的全部內存空間，用戶區和系統區之間設立了嚴格的內存...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -389,13 +388,14 @@ Linux對於這些文件的訪問時類似的，因為Linux強大的虛...
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%8E%9B%E8%BC%89%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E7%9A%84%E9%AB%98%E7%B4%9A%E6%96%B9%E5%BC%8F/" >
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(Linux%E7%B3%BB%E7%B5%B1%E7%9A%84%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86%E6%96%B9%E6%B3%95)/" >
             
-                <span>OperatingSystem/操作系統4-文件系統/掛載文件系統的高級方式</span>
+                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(Linux系統的內存管理方法)</span>
         </a>
         <div class="abstract-content">
-            掛載文件系統的高級方式相比大家在安裝一些比較複雜的Linux系統(如ArchLinux)時都有過掛載文件系統的經歷，常規操作都是
-/dev/sda1link12345678910但是這個逼格不夠高。mount這個命令是通過系統調用mount來實現的，通過&#96;&#96;&#96;man mount&#96;&#96;&#96;可以查看到mount的系統調用定義在&#96;&#96;&#96;&lt;sys&#x2F;mount.h&gt;&#96;&#96;&#96;中。於是可以查到mount的定義為&#96;&#96;&#96;c#include &lt;sys&#x2F;moun...
+            操作系統3-內存管理(Linux系統的內存管理方法)9.Linux系統的內存管理方法Linux採用“按需調頁”算法，支持三層管理策略。由於Intel CPU在硬件級提供了段式存儲管理和二層頁式存儲管理，Linux作為軟件，必須與之兼容。所以Linux實際上放棄了段式存儲管理，將第二層的頁式管理與第一層的頁式管理合併，因此整整發揮作用的是以頁目錄和頁表為中心的數據結構和函數。
+9.1 Linux的分頁管理機制
+在Linux中，每個進程都可以訪問4GB的線性虛擬內存空間，注意可以訪問的空間和實際享有的空間並不是一回事。其中03GB的虛擬內存地址空間為用戶空間，用戶進程可以直接訪問；34GB的...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -413,100 +413,20 @@ Linux對於這些文件的訪問時類似的，因為Linux強大的虛...
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/LVM/" >
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%963(%E6%AD%BB%E9%8E%96)/" >
             
-                <span>OperatingSystem/操作系統4-文件系統/LVM</span>
+                <span>OperatingSystem/操作系統2-處理機調度與死鎖/操作系統2-處理機調度與死鎖3(死鎖)</span>
         </a>
         <div class="abstract-content">
-            LVMLVM for Logical Volume Manager(邏輯捲管理)。
-用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。
-LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。
-LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/物理地址擴展</span>
-        </a>
-        <div class="abstract-content">
-            物理地址擴展(Physical Address Extension, PAE)今早在知乎上看到一個新概念——物理地址擴展，查閱了許多資料，發現都只是將維基百科上的敘述再講了一遍，依舊十分晦澀難懂，於是打算自己用更加易懂的語言將自己的感悟寫下。
-早期的CPU和操作系統都是32位的，可以訪問的物理內存只有4G。後來4G不夠用了，於是人們想辦法去擴展物理內存。
-Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是怎麼做到支持PAE的呢？
-首先Intel做的是將CPU原來的32根地址線增加到了36根地址線。都知道CPU可以訪問的內存大小根本是有地址線的位數...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E9%A0%81%E9%9D%A2%E7%BD%AE%E6%8F%9B%E7%AE%97%E6%B3%95)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(頁面置換算法)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(頁面置換算法)7. 頁面置換算法在上一節講過, 換入換出頁面要根據特定的算法來執行, 這種算法就是頁面置換算法. 不合適的算法可能會使系統發生抖動，所謂抖動即指剛剛換出的頁面又要換回來，換回來不久又要換出去，這樣就導致系統的大部分工作時間都花在了頁面調度上，導致效率不高。
-下面是幾種常見的頁面置換算法：
-7.1 先入先出頁面置換算法
-顧名思義，根據隊列的數據結構的思想，總是將內存存在最久的頁面先換出。
-7.2 最近最久未使用頁面置換算法(Least Recently Used)
-這種算法是一種比較好的算法，但是主要問題在於如何找到哪一頁是最近最久未被使用的頁面。為此...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E9%A0%81%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86)/" >
-            
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分頁內存管理)</span>
-        </a>
-        <div class="abstract-content">
-            操作系統3-內存管理(請求分頁內存管理)6. 請求分頁內存管理方式6.1 請求分頁的實現
-請求分頁是常用的實現虛擬存儲器的方式，其實現需要頁表機制、缺頁中斷機制和地址變換機構的支持。
+            操作系統-處理機調度與死鎖3(死鎖)7.死鎖問題死鎖是指多個進程等待其它進程佔有的資源，因而無限期等待下去的局面。 
+系統發生死鎖時，一定具備以下四個條件：
 
-頁表機制
-分頁系統中地址映像是用過頁表實現的。在請求分頁的系統中，頁表項包括：邏輯頁號、物理塊號、狀態位P、訪問字段A、修改位M和外存地址。
+互斥條件。對於一個排他性資源，某一時刻最多允許一個進程佔有。
+佔有且申請條件。進程至少已佔有一個資源，又要申請新的資源。此時該進程阻塞，且在等待過程中不釋放已經佔有的資源。
+不可搶佔條件。進程獲得的資源在未使用之前，其他進程不得搶佔該資源。
+環路條件。若干個進程相互要佔有彼此的資源，形成一個環路。
 
-狀態位P用於指示該頁是否已經調入內存。
-訪問字段A，用於記錄本頁在一段時間內被訪問的次數，或最近多長時間沒被訪問，供置換算法換出頁面時參考。
-修改位M，表示該頁在調出內存後是否被修改過。由於內存的每一頁在外存中都有備份，所以在該頁被換出時，系統會查詢該頁的修改位，...
+8.死鎖的避免要避免死鎖，分為靜態策略和動態策略。靜態策略主要是實現避免形成四個必要條件。而動態策略則是為進程安排一個安全的推進順序...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -524,21 +444,87 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E6%AE%B5%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/" >
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96(%E8%AA%BF%E5%BA%A6%E7%AE%97%E6%B3%95)/" >
             
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分段存儲管理)</span>
+                <span>OperatingSystem/操作系統2-處理機調度與死鎖/操作系統2-處理機調度與死鎖(調度算法)</span>
         </a>
         <div class="abstract-content">
-            操作系統3-內存管理(請求分段存儲管理)8.請求分段存儲管理8.1 請求分段的原理與硬件支持
-在段式存儲管理實現的虛擬存儲器上，以段為單位進行換入，換出。相比於請求分頁存儲系統，分段存儲因為段的大小不固定，所以置換算法更加難以實現。請求分段管理的實現需要段表機制、缺段中斷機制和地址變換機構的支持。
+            操作系統-處理機調度和死鎖5.調度算法5.1 FCFS調度算法
+FCFS(First Come First Served)調度算法是一種簡單的調度算法。該算法按照作業/進程進入隊列的先後順序進行調度。
+5.2 短作業(短進程)優先算法
+短作業優先調度算法(Shortest Job First,SJF)是指對短作業或短進程優先的算法，這裡短指的是運行時間的長短。但其缺點也很明顯：
 
-段表機制
-段表結構除了段名、段長和段在內存中的起始地址外，還增加了一下幾項：
+當不斷有短進程進入時，將使得長進程無限期延長，在批處理系統中可能比較適用。但對於實時系統，這種算法會導致部分進程不及時響應的問題。
+為考慮緊迫作業，不能保證緊迫作業優先處理。
 
-存取方式，用於標識本分段的存取屬性是執行、只讀還是可讀可寫。
-訪問字段A，含義與請求分段的響應字段相同，用於記錄被訪問段的頻率。
-修改位M，表示該頁進入內存後是否被修改過。
-存在位P。表示該段是否已被調入內存。
+5.3 高響應比優先調度算法(H...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96(%E4%BD%9C%E6%A5%AD%E8%88%87%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86%E4%BB%8B%E7%B4%B9)/" >
+            
+                <span>OperatingSystem/操作系統2-處理機調度與死鎖/操作系統2-處理機調度與死鎖(作業與進程管理介紹)</span>
+        </a>
+        <div class="abstract-content">
+            操作系統-處理機調度與死鎖1.作業管理1.1 作業的概念
+作業是用戶在一次解題或一個事務處理過程中要求計算機所做工作的集合。它由程序、數據和作業說明書組成，系統通過作業說明書來控制程序和數據，並且在批處理系統中，作業是加載內存的基本單位。
+作業分為脫機作業和聯機作業。脫機作業是指用戶不能直接與計算機系統交互，中間必須通過操作員干預的作業。通常在批處理系統中運行，又稱為批處理作業。聯機作業是指用戶可以通過鍵盤或控制台上的操作命令或圖形界面等方式控制作業的運行。在分時和批處理兼容的系統中，一般前端作業為聯機作業，批處理作業則為後端作業。
+1.2 作業的狀態
+作業有四個狀態：
+(1) 提交狀態...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E9%80%B2%E7%A8%8B%E7%9A%84%E4%BA%92%E6%96%A5%E8%88%87%E5%90%8C%E6%AD%A5)/" >
+            
+                <span>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(進程的互斥與同步)</span>
+        </a>
+        <div class="abstract-content">
+            操作系统-进程管理2(进程的同步与互斥)
+进程的同步与互斥
+
+
+两个或两个以上的进程不能同时使用的资源称为临界资源。临界资源的存在带来了进程之间的互斥访问的问题。
+
+进程互斥：逻辑上完全独立、毫无关系的两个进程因为竞争同一块资源而相互制约，称为进程互斥。
+
+进程同步：有协作关系的进程不断调整它们之间的相对速度或执行过程，以保证临界资源的合理利用和进程的顺利执行。一般借由中间媒体实现：如信号量操作、加锁操作等。同步机制应遵循的规则：
+
+空闲让进
+忙则等待
+有限等待：进程等待进入临界区的时间必须是有限的，避免进入忙等状态
+让权等待：进程不能进入自己的临界区时，应立即释放处理机。
+
+
+锁机制
 ...
         </div>
         <div class="abstract-post-meta">
@@ -557,19 +543,29 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98)/" >
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E9%80%B2%E7%A8%8B%E4%BB%8B%E7%B4%B9)/" >
             
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(虛擬內存)</span>
+                <span>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(進程介紹)</span>
         </a>
         <div class="abstract-content">
-            操作系統3-內存管理(虛擬內存)5.虛擬存儲器5.1 局部性原理
-早在1968年P.Dening就指出：程序在執行過程中呈現出局部性規律。即在很短的時間內，程序的執行儘限於某個部分，其訪問的內存也僅限於某個區域。
-局限性體現在時間和空間上，時間上程序中某條指令一旦執行，不就又可能再被執行。空間上某個存儲單元被訪問，不就又可能再被訪問。
-5.2 對換
+            操作系统-进程管理1
+进程的基本状态和转换
 
-對換的引入
-在多道程序環境下，可能出現內存中的某些進程由於等待某時間而進入阻塞狀態，其佔用了大量內存。同時外存中等待的許多作業由於得不到足夠的內存而無法進入運行狀態。為了解決這一問題，引入了“對換”技術。
-而“對換”，即是把內存中不能運行的...
+
+基本状态：
+
+就绪状态：外部条件已经满足，但因为得不到CPU资源，暂时无法运行
+执行状态：就绪状态得到CPU资源后进入执行状态
+阻塞状态：进程因为等待某件事情的发生而暂时不能执行，也就是不具备外部执行条件。
+
+
+进程转换：
+进程在被挂起(suspend)之后进入静止状态，静止状态也分为就绪和阻塞。因此进程共有5种状态。通过Active激活原语可将静止进程转换到活动进程，同样通过suspend原语可以将活动进程变为静止进程，即为挂起。
+
+
+
+Linux进程的状态
+Linux在内核中通过task_struct结构来表示，进程状态通过该结构的st...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -587,19 +583,25 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/" >
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1)/" >
             
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(段式存儲管理)</span>
+                <span>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(进程通信)</span>
         </a>
         <div class="abstract-content">
-            操作系統3-內存管理(段式存儲管理)4 段式存儲管理4.1 段式存儲的思想
-頁式存儲僅僅考慮了程序的長度，可以使一個程序可以不連續地加載內存，但是沒有考慮程序的邏輯結構。一個程序在加載內存時，其不同部分的訪問權限是不一樣的。比如程序部分可以多個進程共享，無法修改。而數據部分可以修改，只能由一個進程獨佔。
+            操作系统-进程管理3(进程通信)
+进程通信
+进程间的通信分为控制信息的传送和大量信息的传送两种，控制信息的传送称为低级通信，大批量数据的传送称为高级通信。
+高级通信分为共享存储系统、消息传递系统和管道通信系统。
 
-分段
-在分段存儲管理方式中，段是一組邏輯信息組合。例如把作業按邏輯關係加以組織，劃分成若干段，並按這些段來劃分內存，這些段可以是主程序段MAIN，子程序段X、數據段D和堆棧段S等。加載內存時，段與段之間可以是不連續的。一個操作數的邏輯地址由段號s和段內偏移量w組成。
 
-段表
-系統為每個...
+
+共享存储系器系统
+
+共享存储器系统类型：在共享存储系统中，相互通信的进程共享某些数据结构或共享存储区，进程之间能通过这些空间进行通信。
+
+
+共享数据结构的通信：在这种方式中，要使各进程间共享某些数据结构以实现进程间的信息交换。如生产者-消费者问题中，生产进程和消费进程共享了empty和full的信号量，使得彼此知道能否放置或拿走产品。这种方式只适用于传递少量的数据。
+共享存...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -617,20 +619,52 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%AD%98%E5%84%B2%E5%99%A8%E7%AE%A1%E7%90%86%E6%A6%82%E8%BF%B0)/" >
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E7%BA%BF%E7%A8%8B)/" >
             
-                <span>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(存儲器管理概述)</span>
+                <span>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(线程)</span>
         </a>
         <div class="abstract-content">
-            操作系統3-內存管理(存儲器管理概述)1. 存儲器管理概述1.1 存儲器的層次
-寄存器 -&gt; 內存：包括內存、高速緩存、硬盤緩存 -&gt; 外部存儲器
-從左至右存儲速度遞減，存儲容量遞增。
-高速緩存雖然與內存同為內存，但是其採取了靜態RAM(SRAM)，而內存採用了動態RAM(DRAM)。SRAM的存儲速度接近於CPU的運行速度，但是成本遠高於內存，因此容量比內存小。
-寄存器則是CPU內部用來存儲數據的一塊區域。
-1.2 用戶程序的處理過程
-系統對用戶程序的處理分為以下幾個階段：
-(1) 編譯。由編譯程序將用戶程序編譯成若干個目標模塊。
-(2) 鏈接。由鏈接程序將編譯後的目標代碼...
+            操作系统-进程管理(线程)
+线程
+
+
+线程的基本概念
+线程是比进程更小的、能够独立运行的基本单位，线程比进程能更好地提高程序的并行执行速度，充分利用多处理机的优越性。引用线程主要是为了提高系统的处理效率，减少处理机的空转时间和进行调度时因保护CPU现场浪费的时间。
+线程是进程中执行运算的最小单位，即执行处理机调度的基本单位。在引入线程的操作系统中，可以在一个进程内部进行线程的切换。
+进程是资源分配的基本单位，同一进程的所有线程共享该进程的所有资源。线程是分配处理机的基本单位，真正在处理机上运行的是线程。
+Linux系统中没有区分进程和线程，它们都使用相同的描述方法，使用相同的调度和管理策...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E4%B9%A0%E9%A2%98)/" >
+            
+                <span>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(习题)</span>
+        </a>
+        <div class="abstract-content">
+            操作系统-进程管理(习题)本文将回答一下课后的习题
+
+程序并发执行为什么会失去封闭性和再现性
+答：在并行执行程序时，系统资源由多个程序所共享，则这些资源必然由这些程序来改变。程序执行时，必然会受到其他程序的影响。正是因为如此，不能以程序作为作为描述其执行过程的基本单位，催生了后来进程及进程上下文的出现。
+
+什么叫进程的并发性？
+答：进程的并发性是指操作系统中可以同时运行多个进程，CPU虽然一次只能执行一个进程，但可以在多个进程之间进行快速的切换，宏观时间上来看就是多个进程在并行执行。
+
+试说明PCB的作用，为什么说PCB是进程存在的唯一标志？
+答：进程是由PCB、程序和数据集合构成的，P...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -645,7 +679,7 @@ Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2020/04/page/2/">2</a><a class="page-number" href="/archives/2020/04/page/3/">3</a><a class="extend next" rel="next" href="/archives/2020/04/page/2/">NEXT &gt;</a>
+        <a class="extend prev" rel="prev" href="/archives/">&lt; PREV</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/">NEXT &gt;</a>
     </nav>
     
 </main>

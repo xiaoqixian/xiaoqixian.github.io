@@ -1,0 +1,1608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>LVM</title>
+    <url>/2020/04/11/LVM/</url>
+    <content><![CDATA[<h3 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a><strong>LVM</strong></h3><p>LVM for Logical Volume Manager(邏輯捲管理)。</p>
+<p>用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。</p>
+<p>LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。</p>
+<p>LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。LVM再從卷組中劃分不同的<strong>邏輯卷</strong>作為新的邏輯設備，邏輯卷在物理層面上不必是磁盤上連續的一片，其可以跨越多個物理卷。對於上層設備來說，相當於底層所有的存儲設備都連成了一片，這就形成了一個類似內存中的邏輯空間的東西。</p>
+<p>對於LVM來說，跨卷存儲和調整分區大小只需要從邏輯層面修改響應文件信息，而物理層面的存儲信息不需要變化。當用戶增加物理卷時，只需要將新分區加入卷組並擴充邏輯卷即可。</p>
+<h4 id="Linux下製作LVM"><a href="#Linux下製作LVM" class="headerlink" title="Linux下製作LVM"></a><strong>Linux下製作LVM</strong></h4><p>安裝Linux時LVM並不會自動的安裝，需要用戶手動製作，製作時為了體現LVM跨分區跨磁盤的效果，最好將LVM製作在多個磁盤下。</p>
+<p>假設有兩塊磁盤/dev/sda1, /dev/sda2</p>
+<ol>
+<li><p>首先創建物理卷</p>
+<figure class="highlight plain"><figcaption><span>/dev/sda1```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;pvcreate &#x2F;dev&#x2F;sda2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>創建卷組</p>
+<figure class="highlight plain"><figcaption><span>vg_name</span><a href="/dev/sda1">/dev/sda2```</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">   vg_name是卷組的名字</span><br><span class="line"></span><br><span class="line">3. 創建好後可以通過&#96;&#96;&#96;vgdisplay&#96;&#96;&#96;查看VG的情況。</span><br><span class="line"></span><br><span class="line">4. 創建LVM邏輯卷</span><br><span class="line"></span><br><span class="line">   &#96;&#96;&#96;lvcreate  -L size -n lvm_name vg_name</span><br></pre></td></tr></table></figure>
+
+<p>-L參數後面接需要創建的邏輯卷的大小，單位是kKmMgGtT</p>
+<p>-n參數後面則接需要創建的邏輯卷的名字。</p>
+<p>最後需要在哪個卷組中創建邏輯卷就加上哪個卷組的名字。</p>
+<p>更多的參數可以通過<code>man lvcreate</code>命令查看。</p>
+</li>
+<li><p>創建好的邏輯卷文件可以通過<code>/dev/vg_name/lvm_name</code>路徑查看。</p>
+</li>
+<li><p>邏輯卷創建好後就可以進行文件系統的創建了，創建方式和正常創建在磁盤裡面基本沒有差別。</p>
+</li>
+<li><p>邏輯卷的擴容。</p>
+<figure class="highlight plain"><figcaption><span>-L size</span><a href="/dev/vg_name/lvm_name```">link</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">-L參數與前面同義。</span><br><span class="line"></span><br><span class="line">邏輯卷擴容後還需要命令文件系統識別新的文件系統大小。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;resize2fs &#x2F;dev&#x2F;vg_name&#x2F;lvm_name</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LVM的掛載。和正常操作基本一樣。</p>
+</li>
+<li><p>設置開機自動掛載</p>
+<p>打開fstab</p>
+<figure class="highlight vim"><figcaption><span>/etc/fstab```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">在最下面增加一行：</span><br><span class="line"></span><br><span class="line">```/dev/vg_name/lvm_name /mnt/path ext4 defaults <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>/mnt/path寫為你的LVM的掛載路徑。</p>
+</li>
+</ol>
+<p>tags:</p>
+<p>​            -Linux</p>
+<p>​            -OperatingSystem</p>
+<p>categories:</p>
+<p>​            -Linux</p>
+<p>​            -OperatingSystem</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Linux的常用目錄</title>
+    <url>/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/</url>
+    <content><![CDATA[<h4 id="Linux的常用目錄"><a href="#Linux的常用目錄" class="headerlink" title="Linux的常用目錄"></a><strong>Linux的常用目錄</strong></h4><ul>
+<li><p>/etc:包括絕大多數Linux系統引導所需的配置文件，系統引導時讀取配置文件，按照配置文件的選項來進行不同的啟動。root有權限修改，一般用戶有權限查看。</p>
+</li>
+<li><p>/lib:包含C編譯程序所需要的函數庫，是一組二進制文件，如glibc等。</p>
+</li>
+<li><p>/usr:usr是UNIX Software Resource的縮寫。包含絕大部分用戶都能訪問的應用程序和文件，如src、local。Linux的內核就是在/usr/src中。</p>
+<ul>
+<li>/usr/bin:這個目錄存放用戶命令(普通用戶)</li>
+<li>/usr/include:存放編程語言的頭文件和包含文件。</li>
+<li>/usr/lib:各個應用軟件的庫函數和目標文件</li>
+<li>/usr/local:系統管理員安裝自行下載的軟件的目錄</li>
+<li>/usr/sbin:系統命令(超級用戶)</li>
+<li>/usr/src:放置系統源代碼</li>
+</ul>
+</li>
+<li><p>/var:包含經常變化的文件，諸如日誌或數據庫等。</p>
+<ul>
+<li>/var/cache:存放應用程序產生的臨時文件</li>
+<li>/var/lib:存放程序在執行過程中需要用到的數據文件，每個軟件都在此目錄下有自己獨立的目錄</li>
+<li>/var/lock:記錄程序的鎖狀態</li>
+<li>/var/log:存放程序的登錄文件</li>
+<li>/var/run:某些程序在運行時，存放它們的PID在其中</li>
+</ul>
+</li>
+<li><p>/tmp:臨時性的存儲</p>
+</li>
+<li><p>/bin:大多數的命令存放在這裡。</p>
+</li>
+<li><p>/home:主要存放用戶賬號，並且可以支持ftp的用戶管理，即遠程用戶管理。系統管理員增加用戶時，系統可以在home目錄下創建與用戶同名的目錄，此目錄下一般默認有desktop目錄。比如我創建了一個名為lunar的用戶，那麼在這個目錄下就會創建一個lunar的目錄下。一般建議lunar用戶產生的文件也存放在這個lunar目錄下。</p>
+</li>
+<li><p>/dev:這個目錄下存放一種設備文件的特殊文件，dev for device</p>
+</li>
+<li><p>/mnt:在Linux系統中，它是專門給外掛的文件系統使用的，裡面的兩個文件cdrom、floopy登錄光驅、軟驅時要用到。各種額外設備(通常是存儲設備)在掛載後都會在該目錄下生成響應的文件。</p>
+<p>所謂掛載，指操作系統使一個存儲設備上的計算機文件和目錄可供用戶通過文件系統訪問的一個過程。一般當計算機關機時，每個已掛載存儲都將經歷一次卸載，以確保所有排隊的數據被寫入。在Linux下，掛載的目錄可以不為空，但是掛載後以前的內容將不可用。在掛載時，所要掛載的存儲設備的文件系統要與操作系統的文件格式相兼容。</p>
+</li>
+<li><p>/opt:存放用戶安裝的第三方軟件</p>
+</li>
+<li><p>/proc:特殊的動態目錄，用以維護系統信息和狀態，包含當前運行中的進程信息。</p>
+</li>
+<li><p>/sbin:重要的系統二進制文件。</p>
+</li>
+<li><p>/sys:系統文件。/sys本身是一個虛擬文件系統，/sys目录和/proc目录的作用差不多，都是用于存放前启动环境下的系统信息，但相比于proc文件系统而言，挂载在/sys目录下的sysf文件系统提供了一种更方便的从内存中获得内核信息的方式。</p>
+</li>
+<li><p>/root:只要超級用戶有權限登錄，相當於超級用戶的主目錄。</p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/04/10/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(习题)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E4%B9%A0%E9%A2%98)/</url>
+    <content><![CDATA[<h4 id="操作系统-进程管理-习题"><a href="#操作系统-进程管理-习题" class="headerlink" title="操作系统-进程管理(习题)"></a>操作系统-进程管理(习题)</h4><p>本文将回答一下课后的习题</p>
+<ol>
+<li><p>程序并发执行为什么会失去封闭性和再现性</p>
+<p>答：在并行执行程序时，系统资源由多个程序所共享，则这些资源必然由这些程序来改变。程序执行时，必然会受到其他程序的影响。正是因为如此，不能以程序作为作为描述其执行过程的基本单位，催生了后来进程及进程上下文的出现。</p>
+</li>
+<li><p>什么叫进程的并发性？</p>
+<p>答：进程的并发性是指操作系统中可以同时运行多个进程，CPU虽然一次只能执行一个进程，但可以在多个进程之间进行快速的切换，宏观时间上来看就是多个进程在并行执行。</p>
+</li>
+<li><p>试说明PCB的作用，为什么说PCB是进程存在的唯一标志？</p>
+<p>答：进程是由PCB、程序和数据集合构成的，PCB的存在体现了进程的动态性。</p>
+<p>进程包含了进程标识符、处理机状态(由处理机的各种寄存器的内容组成)、进程调度信息和进程控制信息。</p>
+<p>PCB的存在是进程可以并发执行的关键，进程从被唤醒到被挂起和被切换都需要PCB记录信息。</p>
+<p>在进程被创建时，PCB最早被创建，进程被撤销时，PCB最晚被释放。所以可以说PCB是进程存在的标志。</p>
+</li>
+<li><p>进程的创建包含了哪些过程</p>
+<p>(1) 申请空白PCB。为新进程申请一个唯一的进程标识符，在PCB集合中申请一块空白PCB。</p>
+<p>(2) 为新进程分配资源。主要是新进程的程序、数据及用户栈所需的内存空间。</p>
+<p>(3) 初始化PCB。主要是将各种信息填入PCB中，如：进程标识符、父进程标识符、处理机状态，将程序计数器指向程序的入口地址，栈指针指向栈顶，处理机控制信息，新进程设置为就绪状态，新进程的优先级。</p>
+<p>(4) 将新进程的PCB插入就绪队列。</p>
+</li>
+<li><p>进程的高级通信方式有哪几种？</p>
+<p>(1) 共享存储器系统：相互通信的进程共享某些数据结构或存储区，进程之间通过这些空间通信。</p>
+<p>(2) 消息传递系统：分为直接通信方式和间接通信方式。直接通信即两个进程之间直接发送message。间接通信即发送进程将message发送到信箱。信箱又分为私有信箱、公有信箱和共享信箱。发送进程发送消息时，先在自己的内存中申请一发送区，将要发送的正文和其他一些信息填入其中。发送原语则负责根据消息长度设置一个缓冲区，即“信箱”。将要发送的信息复制到其中。接收进程再从缓冲区里复制信息。</p>
+</li>
+<li><p>Linux系统的进程有几种状态？</p>
+<p>(1) TASK-RUNNING状态。包含了运行状态和就绪状态，具体是哪一种要靠是否占用了CPU资源来区分。</p>
+<p>(2) TASK-INTERRUPTIBLE状态。进程正在等待某些事件。可中断状态的进程可以被信号唤醒进入就绪状态等待被调入。</p>
+<p>(3) TASK_UNINTERRUPTIBLE状态。因为某些硬件资源没满足而中断的进程。</p>
+<p>(4) TASK_ZOMBIE状态。僵死状态。由于某些原因进程被终止，进程所有的资源都已经被释放，但是PCB信息还被保留。这种状态就称为僵死状态。</p>
+<p>(5) TASK_STOPPED状态。暂停状态。一般由运行状态转换而来，等待某种特殊处理。</p>
+</li>
+<li><p>在读者-写者问题中，修改问题的同步算法，当有写进程到达时，后续读进程必须等待，而不管是否有读进程在读文件。试写出相应的程序段。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">semaphore mutex; <span class="comment">//mutex是对文件进行读\写操作的信号量。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> readcount = <span class="number">0</span>, arrive = <span class="number">0</span>;<span class="comment">//arrive是表示写进程是否到达的变量，0表示未到达，1表示到达。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">writer</span><span class="params">()</span> </span>&#123;	</span><br><span class="line">	arrive = <span class="number">1</span>;</span><br><span class="line">	wait(mutex);</span><br><span class="line">	写操作...</span><br><span class="line">	signal(mutex);</span><br><span class="line">	arrive = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (arrive == <span class="number">1</span>) <span class="keyword">return</span>; </span><br><span class="line">	<span class="keyword">if</span> (readcount == <span class="number">0</span>) &#123;</span><br><span class="line">		wait(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">	readcount++;</span><br><span class="line">	读操作...</span><br><span class="line">	readcount--;</span><br><span class="line">	signal(mutex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(线程)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E7%BA%BF%E7%A8%8B)/</url>
+    <content><![CDATA[<h4 id="操作系统-进程管理-线程"><a href="#操作系统-进程管理-线程" class="headerlink" title="操作系统-进程管理(线程)"></a>操作系统-进程管理(线程)</h4><ol start="10">
+<li>线程</li>
+</ol>
+<ul>
+<li><p>线程的基本概念</p>
+<p>线程是比进程更小的、能够独立运行的基本单位，线程比进程能更好地提高程序的并行执行速度，充分利用多处理机的优越性。引用线程主要是为了提高系统的处理效率，减少处理机的空转时间和进行调度时因保护CPU现场浪费的时间。</p>
+<p>线程是<strong>进程中执行运算的最小单位</strong>，即执行处理机调度的基本单位。在引入线程的操作系统中，可以在一个进程内部进行线程的切换。</p>
+<p>进程是资源分配的基本单位，同一进程的所有线程共享该进程的所有资源。线程是分配处理机的基本单位，真正在处理机上运行的是线程。</p>
+<p>Linux系统中没有区分进程和线程，它们都使用相同的描述方法，使用相同的调度和管理策略。</p>
+</li>
+<li><p>线程的状态与转换操作</p>
+<p>线程只有三种基本状态：<strong>执行、阻塞和就绪</strong>。针对线程的三种状态，存在五种操作来转换线程的状态。</p>
+<ul>
+<li><p>派生(Spawn)</p>
+<p>线程在进程中派生出来，也可再派生线程。用户可以通过相关的系统调用来派生自己的线程。Linux系统中，库函数clonc()和create_thread()分别用来派生不同执行模式的线程。</p>
+<p>一个新派生出的线程具有相应的数据结构指针和变量，这些指针和变量作为<strong>寄存器上下文</strong>放在本线程的寄存器和堆栈中。新派生出来的线程被放入就绪队列。</p>
+</li>
+<li><p>调度(Schedule)</p>
+<p>选择一条就绪线程进入执行状态。</p>
+</li>
+<li><p>阻塞(Block)</p>
+<p>如果一个线程在执行过程中需要等待某个事件发生，则被阻塞。阻塞时，寄存器上下文，程序计数器，及堆栈指针都会得到保证。</p>
+</li>
+<li><p>激活(Unblock)</p>
+<p>如果阻塞线程所等待的事件发生，则该线程被激活进入就绪队列。</p>
+</li>
+<li><p>结束(Finish)</p>
+<p>一个线程执行结束，它的寄存器上下文以及堆栈内容等将被释放。</p>
+</li>
+</ul>
+</li>
+<li><p>引入线程的好处</p>
+<ul>
+<li>易于调度。由于线程只作为独立调度的基本单位，同一进程的多个线程共享进程的资源，所以进程易于切换。</li>
+<li>提高了系统的效率。通过线程可以有效地实现并发性，进程可创建多个线程执行同一个程序的不同部分。</li>
+<li>创建一个线程比创建一个进程的开销少，创建速度快。</li>
+</ul>
+</li>
+<li><p>多线程的实现</p>
+<p>线程分为用户级线程和内核级线程(也称核心级线程)。</p>
+<ul>
+<li><p><strong>用户级线程ULT(User Level Thread)</strong>。是由用户应用程序建立的，并由用户应用程序进行调度和管理。操作系统内核并不知道这些线程的存在，只对进程进行管理。因此这种线程与内核无关。</p>
+<p>ULT的优点如下：</p>
+<p>(1)应用程序中线程开关的时空开销远小于内核级线程的开销。</p>
+<p>(2)线程的调度算法与操作系统的调度算法无关。</p>
+<p>(3)因为与操作系统内核无关，所以适用于任何操作系统。</p>
+<p>缺点为:</p>
+<p>(1)在一个典型的操作系统中，有许多的系统请求正在被阻塞着，因此当一个线程执行一个系统请求时，不禁本线程被阻塞，该进程所有线程都被阻塞。</p>
+<p>(2)在该方法的系统中，因为<strong>每个进程每次只能由一个线程在CPU运行</strong>，因此无法利用多处理器的优点。</p>
+</li>
+<li><p><strong>内核级线程KLT(Kernel Level Thread)</strong>。内核级线程中所有线程的创建、管理与调度都由操作系统内核完成。一个应用程序可以按多线程的方式编写程序，当它提交给一个多线程的操作系统执行时，内核会为它创建一个进程和一个线程，线程可以创建新的线程。操作系统内核会为应用程序提供相应的系统调用和应用程序接口，以便用户程序可以创建、执行和撤销线程。Windows NT便是此类。</p>
+<p>内核级线程优点：</p>
+<p>(1) 内核可调度一个进程中的多个线程，使其在多个处理机上并行运行，从而提高系统的效率。</p>
+<p>(2) 一个线程被阻塞时，其它线程仍可运行。</p>
+<p>(3) <strong>内核本身可以以线程方式运行</strong>。</p>
+<p>缺点:</p>
+<p>由于线程调度程序运行在内核态，而用户程序运行在内核态，因此同一进程中的线程切换要经过从用户态到内核态，再从内核态到用户态的两次模式的切换。于是催生了<strong>用户级线程与内核级线程相结合的模式</strong>。</p>
+</li>
+</ul>
+</li>
+<li><p>Linux系统的线程</p>
+<p>Linux的内核级线程也称为系统级线程。Linux可以同时支持内核级线程和用户级线程。大多数操作系统对于线程单独定义数据结构，采用单独的线程管理方式。而Linux将线程定义为<strong>“执行上下文”</strong>，它实际上只是进程的另外一个执行上下文而已，和进程享有相同的表示、管理和调度方式。执行上下文的定义可参考下面这个</p>
+<blockquote>
+<p>用户空间的应用程序，通过系统调用，进入内核空间。这个时候用户空间的进程要传递 很多变量、参数的值给内核，内核态运行的时候也要保存用户进程的一些寄存器值、变量等。<strong>所谓的“进程上下文”，</strong>可以看作是用户进程传递给内核的这些参数以及内核要保存的那一整套的变量和寄存器值和当时的环境等。</p>
+</blockquote>
+<p>那么什么是<strong>内核空间</strong>和<strong>用户空间</strong>呢？它们的一个主要的区别就是两者所能访问到的资源不同。</p>
+<blockquote>
+<p><strong>内核空间具有最高的权限，可以访问到所有资源。而用户空间只能访问受限权限，不能直接访问内存等硬件设备，必须通过系统调入到内核中才能访问这些特权资源。</strong>进程既可以在用户空间运行，又可以在内核空间中运行。进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。</p>
+</blockquote>
+<p>要想从用户态转到内核态，需要通过<strong>系统调用</strong>来完成。</p>
+<blockquote>
+<p>比如，当我们查看文件内容时，就需要多次系统调用来完成：首先调用 open() 打开文件，然后调用 read() 读取文件内容，并调用 write() 将内容写到标准输出，最后再调用 close() 关闭文件。</p>
+<p>在这个过程中就发生了 CPU 上下文切换，整个过程是这样的：<br>1、保存 CPU 寄存器里原来用户态的指令位<br>2、为了执行内核态代码，CPU 寄存器需要更新为内核态指令的新位置。<br>3、跳转到内核态运行内核任务。<br>4、当系统调用结束后，CPU 寄存器需要恢复原来保存的用户态，然后再切换到用户空间，继续运行进程。</p>
+<p>所以，<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换</strong>。（用户态-内核态-用户态）</p>
+</blockquote>
+<hr>
+<p>本文引用部分的文字来自知乎文章:[一文让你明白CPU上下文切换][<a href="https://zhuanlan.zhihu.com/p/52845869]" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/52845869]</a></p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(进程通信)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1)/</url>
+    <content><![CDATA[<h4 id="操作系统-进程管理3-进程通信"><a href="#操作系统-进程管理3-进程通信" class="headerlink" title="操作系统-进程管理3(进程通信)"></a>操作系统-进程管理3(进程通信)</h4><ol start="8">
+<li><p>进程通信</p>
+<p>进程间的通信分为控制信息的传送和大量信息的传送两种，控制信息的传送称为<strong>低级通信</strong>，大批量数据的传送称为<strong>高级通信</strong>。</p>
+<p>高级通信分为<strong>共享存储系统、消息传递系统和管道通信系统</strong>。</p>
+</li>
+</ol>
+<ul>
+<li><p>共享存储系器系统</p>
+<ol>
+<li>共享存储器系统类型：在共享存储系统中，相互通信的进程共享某些<strong>数据结构</strong>或<strong>共享存储区</strong>，进程之间能通过这些空间进行通信。</li>
+</ol>
+<ul>
+<li>共享数据结构的通信：在这种方式中，要使各进程间共享某些数据结构以实现进程间的信息交换。如生产者-消费者问题中，生产进程和消费进程共享了empty和full的信号量，使得彼此知道能否放置或拿走产品。这种方式只适用于传递少量的数据。</li>
+<li>共享存储区的通信：为了实现高级通信，在存储区划出一块共享存储区，各进程可通过对共享存储区的读或写来实现通信。进程在通信前，先向系统申请获得共享存储区的一块分区，并指定该分区的一个关键字；若系统已经给其他进程分配了这样的分区(如本进程是读进程，但是已经有同类的读进程在读这块数据)，则将该分区的描述符返回给申请者，由申请者去连接共享存储区。</li>
+</ul>
+<ol start="2">
+<li><p>Linux共享存储区通信的实现</p>
+<p>1).共享存储区的建立：当进程要利用共享存储区与另一个进程进行通信时，必须先让系统调用shmget()建立一块共享存储区。</p>
+<p>2).共享存储区的操纵：系统可以调用shmctl()对共享存储区的状态信息进行查询，如长度、所连接的进程数、创建者标识符等；也可设置或修改其属性，如共享存储区的许可权、当前连接的进程计数等；还可以对共享存储区进程加锁和解锁，以及修改共享存储区的标识符等。</p>
+<p>3).共享存储区的附接与断开：当进程已经建立了共享存储区或已获得了去描述符后，还要利用系统调用shmat()将该共享存储区附接到用户给定的某个进程的虚地址shmaddr上，并指定该存储区的访问属性。此后，该共享存储区便成为该进程虚地址空间的一部分。当进程不再需要该共享存储区时，就利用shmdt()将该区与本进程断开。</p>
+</li>
+</ol>
+</li>
+<li><p>消息传递系统</p>
+<p>消息传递系统中，进程间的数据交换是以<strong>格式化的消息</strong>(Message)为单位的，程序员可直接利用系统提供的一组通信命令直接进行通信，操作系统隐藏了实现通信的细节。因实现方式的不同分为直接通信和间接通信。</p>
+<ol>
+<li><p>直接通信方式</p>
+<p>这种通信固定在一组进程间进行。如A只发生给B，B只接收A的信息。系统提供了两条原语send和receive用来发送和接收消息。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">send(B,message);</span><br><span class="line">receive(A,message);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>间接通信方式</p>
+<p>间接通信又称为信箱通信，信箱是一种数据结构，分为信箱头和信箱体，信箱头包含了信箱体的结构信息，例如多进程共享信箱体时的同步互斥信息。信箱体由多个格子组成，它实际上就是一个有界缓冲池，它的同步-互斥方式与生产者-消费者模式类似。信箱模式一般是进程间的双向通信。信箱的创建者即拥有者。信箱分为三类：</p>
+<p>(1)<strong>私有信箱</strong>：又用户进程创建，并且作为进程的一部分。用户有权从信箱读取信息，其他进程只能向该信箱发送消息。进程结束后，信箱也随之撤销。</p>
+<p>(2)<strong>公有信箱</strong>：由操作系统创建，所有受到核准的进程均可向信箱中发送和读取信息。信箱在系统运行期间一直存在，通常采用双向通信链路的信箱实现。</p>
+<p>(3)<strong>共享信箱</strong>：由某进程创建，创建时必须指出可以共享信箱的进程的用户名或进程标识符。信箱的创建者和共享者都有权从信箱中取信息。</p>
+</li>
+<li><p><strong>消息缓冲队列通信机制</strong></p>
+<p>消息缓冲队列是为了接收进程同时接收多个发送进程发送的消息而设立的。</p>
+<p>(1)消息缓冲队列通信机制所用的数据结构主要是<strong>消息缓冲区</strong>，描述如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">message</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> sender[];   <span class="comment">//发送进程标识符id</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>;		<span class="comment">//消息长度</span></span><br><span class="line">    <span class="keyword">char</span> <span class="built_in">text</span>[];	<span class="comment">//消息正文</span></span><br><span class="line">    <span class="built_in">queue</span> *next;	<span class="comment">//消息队列的指针</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在设置消息缓冲队列时，还应添加用于对消息队列进行操作和实现同步的信号量到进程的PCB中：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">PCB</span> &#123;</span></span><br><span class="line">	<span class="built_in">queue</span> *mq;	<span class="comment">//消息队列首指针</span></span><br><span class="line">    semaphore mutex;	<span class="comment">//互斥信号量</span></span><br><span class="line">    semaphore sm;	<span class="comment">//消息队列资源信号量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在一个发送进程发送信息时，并形成了一个Message，并发送给指定的接收进程。接收进程将所有的消息缓冲区链接成一个队列，队首由PCB中的队首指针mq指出。</p>
+<p>(2)<strong>发送原语</strong>。发送进程在发送消息之前，会先在自己的内存设置一个发送区，把待发送的消息正文，发送进程标识符，消息长度等信息填入其中，再调用发送原语发送消息。发送原语会首先根据发送取设置的消息长度来申请一个缓冲区i，再把发送区的消息复制到缓冲区中。为了能够将缓冲区的消息挂在接收进程的消息队列中，应先获得接收进程的<strong>内部标识符j</strong>，再将缓冲区i挂在j.mq上。因为该队列属于临界资源，所以在执行挂接操作时，需要执行wait和signal操作。发送原语描述如下:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">send</span><span class="params">(receiver,m)</span> </span>&#123; <span class="comment">//m表示消息缓冲区，即message</span></span><br><span class="line">    getbuf(m.<span class="built_in">size</span>,i); <span class="comment">//申请缓冲区,标为i</span></span><br><span class="line">    i.sender = m.sender;</span><br><span class="line">    i.<span class="built_in">size</span> = m.<span class="built_in">size</span>;</span><br><span class="line">    i.<span class="built_in">text</span> = m.<span class="built_in">text</span>;</span><br><span class="line">    i.next = <span class="number">0</span>;</span><br><span class="line">    getid(PCB of receiver,j); <span class="comment">//获得接收者进程id</span></span><br><span class="line">    <span class="comment">//消息队列是临界资源，需要进行申请</span></span><br><span class="line">    wait(j.mutex);</span><br><span class="line">    insert(j.mq,i); <span class="comment">//将缓冲区i插入j.mq中</span></span><br><span class="line">    signal(j.mutex);</span><br><span class="line">    signal(j.sm);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>(3)接收原语。接收进程调用接收原语，从消息队列中选取第一个消息缓冲区，并将消息复制到指定的消息接收区内。描述如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">receive</span><span class="params">(m)</span> </span>&#123;</span><br><span class="line">	j = internal name; <span class="comment">//获得本进程的内部标识符id</span></span><br><span class="line">	wait(j.sm);</span><br><span class="line">	wait(j.mutex); <span class="comment">//这两个wait的顺序同样不能更换</span></span><br><span class="line">	<span class="built_in">remove</span>(j.mq,i);</span><br><span class="line">	signal(j.mutex);</span><br><span class="line">	<span class="comment">//将i中的数据复制到m中</span></span><br><span class="line">	m.sender = i.sender;</span><br><span class="line">	m.<span class="built_in">size</span> = i.<span class="built_in">size</span>;</span><br><span class="line">	m.<span class="built_in">text</span> = i.<span class="built_in">text</span>;</span><br><span class="line">	releasebuf(i); <span class="comment">//释放i</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>(4)Linux系统关于消息传递的相关系统调用。使用msgget(key,flag)系统调用申请消息，获得一个消息的描述符，该描述符指定一个消息队列以便用于其他系统调用。使用msgsnd(id,msgp,size,flag)系统调用发送一条消息。使用msgrcv(id,msgp,size,type,flag)接收一条消息。使用msgctl(id,cmd,buf)查询一条消息描述符状态，设置状态及删除一个消息描述符。</p>
+</li>
+</ol>
+</li>
+<li><p>管道通信系统</p>
+<p>管道是指用于连接一个读进程和一个写进程，以实现它们之间的通信的一个<strong>共享文件</strong>，又称为<strong>pipe文件</strong>。向管道提供输入的发送进程(写进程)，以<strong>字符流</strong>的形式将大量的数据通过管道传输给另一端的接收进程(读进程)。这种方式首创于UNIX系统，在Linux系统及其他系统中得到了广泛应用。管道机制必须提供以下三方面的协调能力：</p>
+<p>(1)互斥：当一个进程在对pipe执行读/写操作时，其它进程必须等待。</p>
+<p>(2)同步：当写进程把一定数量的数据输入到pipe后便去睡眠等待，直到读进程将数据读出才将它唤醒。当读进程读到一个空的pipe时，也进入睡眠等待，直到写进程写入新的数据才将它唤醒。这样能够确保数据的同步，不会发生错乱。</p>
+<p>(3)读进程和写进程互相确定对方是否存在，只要两个都存在才能进行数据的传输。</p>
+</li>
+</ul>
+<ol start="9">
+<li>信号通信机制</li>
+</ol>
+<ul>
+<li><p>信号的概念</p>
+<p>每个信号对应一个正整数常量，称为signal number，即信号编号。它定义在系统头文件&lt;signal.h&gt;中，代表同一用户的各进程之间传送事先约定的信息类型，用于统治某进程发生了异常事件。每个进程运行时都会根据信号机制检查是否有信号到达，若有，则会中断当前程序的运行，转到与该信号对应的处理程序，以完成对该事件的处理，处理完后再返回先前的断点继续执行。进程对于信号可以屏蔽，所有的信号都是平等的，且进程对于信号的响应通常有比较长的延迟。</p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(進程介紹)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E9%80%B2%E7%A8%8B%E4%BB%8B%E7%B4%B9)/</url>
+    <content><![CDATA[<h4 id="操作系统-进程管理1"><a href="#操作系统-进程管理1" class="headerlink" title="操作系统-进程管理1"></a><strong>操作系统-进程管理1</strong></h4><ol>
+<li>进程的基本状态和转换</li>
+</ol>
+<ul>
+<li><p>基本状态：</p>
+<ul>
+<li>就绪状态：外部条件已经满足，但因为得不到CPU资源，暂时无法运行</li>
+<li>执行状态：就绪状态得到CPU资源后进入执行状态</li>
+<li>阻塞状态：进程因为等待某件事情的发生而暂时不能执行，也就是不具备外部执行条件。</li>
+</ul>
+</li>
+<li><p>进程转换：</p>
+<p>进程在被挂起(suspend)之后进入静止状态，静止状态也分为就绪和阻塞。因此进程共有5种状态。通过Active激活原语可将静止进程转换到活动进程，同样通过suspend原语可以将活动进程变为静止进程，即为挂起。</p>
+</li>
+</ul>
+<ol start="2">
+<li><p>Linux进程的状态</p>
+<p>Linux在内核中通过task_struct结构来表示，进程状态通过该结构的state成员来描述。</p>
+</li>
+</ol>
+<ul>
+<li>TASK_RUNNING状态：该状态包括上述状态中运行和就绪状态，靠是否正在占用CPU资源进行区分，Linux中有current变量进行区分。</li>
+<li>TASK_INTERRUPTIBLE状态：可中断的等待状态，Linux把等待状态分为可中断的等待状态和不可中断的等待状态。可中断的意思是该进程的等待状态可以通过信号唤醒进入就绪状态。</li>
+<li>TASK_UNINTERRUPTIBLE状态：不可中断的等待状态。</li>
+<li>TASK_STOPPED状态：一般由运行状态转换而来，等待某种特殊的处理。</li>
+</ul>
+<ol start="3">
+<li>进程组成</li>
+</ol>
+<ul>
+<li>程序：表示进程需要完成的功能</li>
+<li>数据集合：表示进程需要处理的数据</li>
+<li>PCB(Process Control Block):PCB是用来描述进程当前的状态和本身的特性的数据结构。包含了一个进程的描述信息、控制信息和资源信息。PCB最早被创建，在进程完成其功能才被释放。PCB大致有四个部分：进程标识符、处理机状态、进程调度信息和进程控制信息。<ul>
+<li><strong>进程标识符</strong>：唯一地标识一个进程<ul>
+<li>进程内部标识符：操作系统为每个进程赋予的唯一的数字表示符</li>
+<li>外部标识符：由创建者提供，由字母、数字组成。</li>
+</ul>
+</li>
+<li><strong>处理机状态</strong>：由处理机的各种寄存器的内容组成。当处理机被中断时，PCB要保留寄存器中的这些信息，以便在进程重新执行时能够从断点处继续执行。寄存器包括：通用寄存器、指令计数器、程序状态字PSW和用户栈指针。</li>
+<li><strong>进程调度信息</strong>：与进程调度和进程对换有关的信息。包括<strong>进程状态、进程优先级、进程调度有关的信息和事件或阻塞原因</strong>(指进程由执行状态转变为阻塞状态所需要等待的发生的事件)。</li>
+<li><strong>进程控制信息</strong>：<ul>
+<li>程序和数据的地址：进程的程序和所需的数据所在的地址。程序在运行时可以从PCB中获得所需的数据的地址。</li>
+<li>进程同步和通信机制</li>
+<li>资源清单：一张除了CPU资源外，包含了进程所需的全部资源以及进程已经获取到的资源的清单。进程可以根据该清单确定是否已经满足外部条件进入就绪状态。</li>
+<li>链接指针：本进程PCB所在队列的下一个进程PCB的首地址。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>PCB的组织方式</li>
+</ol>
+<ul>
+<li>线性方式：系统预先确定整个系统同时存在的最大线程数目和静态分配空间。限定了同时存在的进程的最大数目，同时在进行进程调度时需要扫描整张表，效率比较低。</li>
+<li>链接方式：按照进程的不同状态将其放在不同的队列中。<strong>在单CPU的情况下，运行状态的队列只有一个</strong>。其他的状态的队列可以有多个，按照不同的划分。对于就绪状态的队列，<strong>CPU调度程序总是把第一个PCB从该队列拿下投入运行队列。而新加入就绪队列的PCB按照某种调度算法进行插入</strong>。阻塞队列有多个，对应不同的阻塞原因。正在运行的进程由于某种原因进入阻塞状态时就会进入阻塞队列。<strong>Linux就是应用这种PCB的组织模式</strong>。</li>
+<li>索引方式：建立几张索引表，如就绪索引表、阻塞索引表，表中记录了某个PCB在PCB表中的地址。</li>
+</ul>
+<ol start="5">
+<li><p>进程控制</p>
+<p>进程控制即系统使用一个具有特定功能的程序段来创建、撤销进程以及完成进程各状态间的转换。</p>
+</li>
+</ol>
+<ul>
+<li><p>进程的家族关系：</p>
+<p>进程可利用<strong>系统调用功能</strong>来创建新进程，创建者称为父进程，被创建者称为子进程。子进程也可创建进程，从而形成一棵进程树。</p>
+<p>子进程的许多功能都是从父进程继承而来，包括：<strong>用户标识符、环境变量、打开文件、文件系统的当前目录、已经连接的共享存储区和信号处理例程入口表等</strong>。</p>
+<p>还有一种进程在系统启动时被创立，在系统停止时终止，有及其重要的地位。如UNIX系统的0^#进程和1^#进程。0^#进程是系统的调度和对换进程，1^#进程是创建进程，是所有进程的祖先进程。</p>
+<p>Linux系统由init()函数创建系统的第一个进程init，标识符为1，其完成一些初始化任务如<strong>打开系统控制台、安装根文件系统、启动系统的守护进程、执行系统的初始化程序等。init进程使用ect/inittab作为脚本文件创建新进程。</strong> </p>
+</li>
+<li><p>进程的创建与终止</p>
+<p>要运行程序必须要创建一个进程，导致进程创建的事件有用户登录、作业调度和为用户提供服务等。</p>
+<ul>
+<li><p>创建进程的步骤：</p>
+<ul>
+<li><strong>申请空白PCB</strong>。为新进程获得一个唯一的进程标识符，并在PCB集合中申请一块空白的PCB。</li>
+<li><strong>为进程分配资源</strong>。包括新进程的程序、数据及用户栈所需的内存空间。此时，<strong>系统必须知道新进程所需的内存大小</strong>。</li>
+<li>初始化进程控制块。</li>
+<li>将新进程的PCB插入就绪状态队列。</li>
+</ul>
+</li>
+<li><p>终止进程：</p>
+<p>当系统发生了要求进程终止的事件，操作系统就调用终止进程的原语，终止进程。</p>
+<ul>
+<li>根据进程标识符从PCB队列中检索出该进程的PCB，读取其状态。</li>
+<li>若处于执行状态，则立即停止执行，停止后重新进行进程调度。</li>
+<li>检查该进程是否有子进程，若有，子进程全部终止。</li>
+<li>释放终止进程的资源，归还给父进程或系统。</li>
+<li>将该进程从PCB队列中移除。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>进程的阻塞与唤醒。(比较简单，省略)</p>
+</li>
+<li><p>Linux系统调用</p>
+<ul>
+<li><p>fork()系统调用：Linux利用fork()系统调用创建一个新进程。调用格式通常为:<code>int pid = fork();</code></p>
+<p>pid=0:创建子进程成功,表示从子进程返回，CPU正在运行该子进程。</p>
+<p>pid&gt;0:创建子进程成功，表示从父进程返回，pid为新创建子进程的标识符。</p>
+<p>pid=-1：创建子进程失败</p>
+</li>
+<li><p>exec()系统调用：</p>
+<p>fork()系统调用创建的子进程和父进程执行的是同一段代码，但是完成的是不同的工作。Linux中fork()创建子进程后，可以由exec()系统调用执行另一个程序。</p>
+<p>调用格式为:</p>
+<figure class="highlight plain"><figcaption><span>execl(path,arg0[,arg1,..],0)```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;char *path,*arg0,*arg1..</span><br></pre></td></tr></table></figure>
+
+<p>exec函数族的作用是根据文件名找到相应的可执行文件，也就是在调用进程的内部执行一个可执行文件。执行成功不会返回，失败返回-1</p>
+</li>
+<li><p>exit()系统调用：</p>
+<p>Linux利用exit来实现进程的自我终止。进程在调用exit()并非马上消失，而是进入了僵尸状态，它已经释放了除PCB外的几乎所有内存。</p>
+</li>
+<li><p>wait()系统调用：</p>
+<p>该调用将进程挂起，直到接收到终止信号。</p>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(存儲器管理概述)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%AD%98%E5%84%B2%E5%99%A8%E7%AE%A1%E7%90%86%E6%A6%82%E8%BF%B0)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-存儲器管理概述"><a href="#操作系統3-內存管理-存儲器管理概述" class="headerlink" title="操作系統3-內存管理(存儲器管理概述)"></a><strong>操作系統3-內存管理(存儲器管理概述)</strong></h3><h4 id="1-存儲器管理概述"><a href="#1-存儲器管理概述" class="headerlink" title="1. 存儲器管理概述"></a>1. 存儲器管理概述</h4><p>1.1 <strong>存儲器的層次</strong></p>
+<p>寄存器 -&gt; 內存：包括內存、高速緩存、硬盤緩存 -&gt; 外部存儲器</p>
+<p>從左至右存儲速度遞減，存儲容量遞增。</p>
+<p>高速緩存雖然與內存同為內存，但是其採取了靜態RAM(SRAM)，而內存採用了動態RAM(DRAM)。SRAM的存儲速度接近於CPU的運行速度，但是成本遠高於內存，因此容量比內存小。</p>
+<p>寄存器則是CPU內部用來存儲數據的一塊區域。</p>
+<p>1.2 <strong>用戶程序的處理過程</strong></p>
+<p>系統對用戶程序的處理分為以下幾個階段：</p>
+<p>(1) 編譯。由編譯程序將用戶程序編譯成若干個目標模塊。</p>
+<p>(2) 鏈接。由鏈接程序將編譯後的目標代碼及它們需要的庫函數鏈接成一個裝入模塊。</p>
+<p>(3) 裝入。由裝入程序將裝入模塊裝入內存。</p>
+<p>1.3 <strong>存儲管理的幾個基本概念</strong></p>
+<ol>
+<li><p>邏輯空間和物理空間</p>
+<p><strong>邏輯空間</strong>是用戶的編程空間，也是程序空間。若是用機器語言編程，邏輯空間可以自己確定，若是用高級語言，則邏輯空間由編譯程序確定。編程空間通常從0開始編址。邏輯地址也叫虛地址、編程地址、CPU地址、相對地址等。</p>
+<p><strong>物理空間</strong>是由物理存儲單元確定的，即內存空間。是<strong>由存儲器總線掃描出來的空間。一個操作數加載內存的地址稱為物理地址。</strong></p>
+</li>
+<li><p><strong>重定位和地址變換</strong></p>
+<p>為確定程序在內存中的物理位置而進行地址變換叫做重定位。地址變換即將程序中的邏輯地址，包括指令本身的地址和指令中的操作數地址逐個變換成物理地址。</p>
+<p>重定位有以下兩種情況：其一，當程序裝入內存運行時，必須根據所分得空間的位置將程序的邏輯地址變換為響應的物理地址，以便將該程序定位在所分得的物理空間內；其二，程序在執行過程中，由於種種原因，在內存中挪動了位置，需要將程序的邏輯地址進行變換，以便該程序重新定位在新的位置上。</p>
+<p>如果地址變換在程序執行之前由編譯裝配程序完成，稱為<strong>靜態重定位</strong>。如果地址變換在程序執行過程中發生，稱為<strong>動態重定位</strong>。</p>
+</li>
+<li><p><strong>目標程序裝入內存的方式</strong></p>
+<p>程序只有裝入內存才能運行。裝入方式有<strong>絕對裝入方式、可重定位裝入方式和動態運行時裝入方式</strong>。</p>
+<ol>
+<li><p>絕對裝入方式。在編譯時，如果知道程序將駐留在內存中什麼地址，那麼編譯程序將產生絕對地址的目標代碼。裝入程序根據裝入模塊中的地址，將數據和地址裝入內存，無須對程序和數據的地址進行修改。</p>
+</li>
+<li><p>可重定位裝入方式。<strong>在程序執行之前，由操作系統的重定位裝入程序完成。</strong>一般是編譯程序不能預知所編譯的模塊在內存中的什麼位置。重定位程序根據內存起始地址，直接修改所涉及的邏輯地址，將內存的起始地址加上邏輯地址得到正確的內存地址。</p>
+<p>如程序中的某一條指令要取邏輯地址為3500的一個數，若程序裝入的起始地址為10000，則裝入程序將該地址修改為13500，這樣程序才能取到正確的數字。</p>
+</li>
+<li><p>動態運行時裝入方式。在程序運行時完成。這種轉換通常採用一個<strong>重定位寄存器</strong>完成。每次進行存儲訪問時，將取出的邏輯地址加上重定位寄存器的內容，形成正確的內存地址。這種方法通常用於多道程序環境中，因為有多道程序運行時，進程經常需要換進換出內存，每次進入內存其在內存的物理地址都是不一樣的。因此需要根據重定位寄存器來得到正確的內存地址。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>目標程序鏈接</strong></p>
+<p>實現鏈接的方法有靜態鏈接、裝入時動態鏈接和運行時動態鏈接等。</p>
+<ol>
+<li><strong>靜態鏈接</strong>。即將若干個模塊鏈接在一起，形成一個完整的裝入模塊。需要完成的工作是對相對地址進行修改，同時變換外部調用符號。</li>
+<li><strong>裝入時動態鏈接</strong>。這種方式中裝入程序邊將程序裝入內存邊鏈接，當在程序中發現外部調用模塊時，就去尋找相應的外部目標模塊，再裝入內存。</li>
+<li><strong>運行時動態鏈接</strong>。在這種鏈接方式中，可將某些目標模塊的鏈接推遲到執行時才進行。在執行過程中，若發現某一個調用模塊沒有裝入內存，由操作系統去找該模塊，由它裝入內存，並鏈接到調用模塊上。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(Linux系統的內存管理方法)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(Linux%E7%B3%BB%E7%B5%B1%E7%9A%84%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86%E6%96%B9%E6%B3%95)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-Linux系統的內存管理方法"><a href="#操作系統3-內存管理-Linux系統的內存管理方法" class="headerlink" title="操作系統3-內存管理(Linux系統的內存管理方法)"></a><strong>操作系統3-內存管理(Linux系統的內存管理方法)</strong></h3><h4 id="9-Linux系統的內存管理方法"><a href="#9-Linux系統的內存管理方法" class="headerlink" title="9.Linux系統的內存管理方法"></a>9.<strong>Linux系統的內存管理方法</strong></h4><p>Linux採用“按需調頁”算法，支持三層管理策略。由於Intel CPU在硬件級提供了段式存儲管理和二層頁式存儲管理，Linux作為軟件，必須與之兼容。所以Linux實際上放棄了段式存儲管理，將第二層的頁式管理與第一層的頁式管理合併，因此整整發揮作用的是以<strong>頁目錄和頁表為中心的數據結構和函數。</strong></p>
+<p>9.1 <strong>Linux的分頁管理機制</strong></p>
+<p>在Linux中，每個進程都可以訪問4GB的線性虛擬內存空間，注意可以訪問的空間和實際享有的空間並不是一回事。其中0<del>3GB的虛擬內存地址空間為用戶空間，用戶進程可以直接訪問；3</del>4GB的空間為內核態空間，存放僅供內核態訪問的代碼和數據，當用戶進程通過中斷或系統調用訪問內核態空間時，就會觸發處理特權級轉換，從用戶態轉到內核態。</p>
+<p><strong>所有進程從3GB到4GB的虛擬空間是一樣的，有相同的頁目錄項和頁表，對應同樣的物理內存段，Linux以此方式讓內核態進程共享代碼段和數據段。</strong></p>
+<p>Linux採用“按需調頁”管理內存，標準Linux的虛存頁表為3級頁表，依次為頁目錄(Page Directory, PGD)、中間頁目錄(Page Middle Directory, PMD)和頁表(Page Table, PTE)。</p>
+<p>而在Intel微型計算機上，Linux的頁表結構實際只有兩級，PGD和PMD合二為一，在用戶進程通過mm_struct結構來管理進程中與存儲相關的信息。</p>
+<p>9.2 <strong>虛存段的組織與管理</strong></p>
+<p>為了能夠自然地管理進程虛存空間，Linux定義了虛存段(virtual memory are, vma)，一個vma段時某個進程的一段連續的虛擬空間，在這段虛擬空間的所有單元擁有相同的特征。例如屬於同一進程，有相同的訪問權限等。</p>
+<p>9.3 <strong>內存的共享</strong></p>
+<p>Linux內存的共享並不設置一個共享頁表，而是讓共享該頁的各進程的頁表項直接指向共享頁。這種方式節約內存，但是效率較低。</p>
+<p>9.4 <strong>內存空間管理</strong></p>
+<p>Linux物理空間以頁幀為單位，就相當於前面講的物理塊，大小等於頁長，對於Intel CPU默認是4KB。</p>
+<p>Linux對物理內存的管理通過mem_map來描述，mem_map在系統初始化時，由free_area_init()來創建。用bitmap記錄所有物理內存的空閒情況，也有這個函數創建。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統1-進程管理/操作系统1-进程管理(進程的互斥與同步)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B11-%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86(%E9%80%B2%E7%A8%8B%E7%9A%84%E4%BA%92%E6%96%A5%E8%88%87%E5%90%8C%E6%AD%A5)/</url>
+    <content><![CDATA[<h4 id="操作系统-进程管理2-进程的同步与互斥"><a href="#操作系统-进程管理2-进程的同步与互斥" class="headerlink" title="操作系统-进程管理2(进程的同步与互斥)"></a>操作系统-进程管理2(进程的同步与互斥)</h4><ol start="6">
+<li>进程的同步与互斥</li>
+</ol>
+<ul>
+<li><p>两个或两个以上的进程不能同时使用的资源称为<strong>临界资源</strong>。临界资源的存在带来了进程之间的互斥访问的问题。</p>
+</li>
+<li><p><strong>进程互斥</strong>：逻辑上完全独立、毫无关系的两个进程因为竞争同一块资源而相互制约，称为进程互斥。</p>
+</li>
+<li><p><strong>进程同步</strong>：有协作关系的进程不断调整它们之间的相对速度或执行过程，以保证临界资源的合理利用和进程的顺利执行。一般借由中间媒体实现：如<strong>信号量操作</strong>、<strong>加锁操作</strong>等。同步机制应遵循的规则：</p>
+<ul>
+<li>空闲让进</li>
+<li>忙则等待</li>
+<li>有限等待：进程等待进入临界区的时间必须是有限的，避免进入忙等状态</li>
+<li>让权等待：进程不能进入自己的临界区时，应立即释放处理机。</li>
+</ul>
+</li>
+<li><p>锁机制</p>
+<ul>
+<li><p>上锁与开锁</p>
+<p>锁机制采用锁变量<code>w</code>表示临界区是否上锁。<code>w=1</code>表示已上锁</p>
+<p>高效率的上锁与开锁原语为:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//加锁原语</span></span><br><span class="line"><span class="function">Lock <span class="title">w</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (w == <span class="number">1</span>) &#123; <span class="comment">//表示当前进程进入不了临界区</span></span><br><span class="line">        保护当前进程的CPU现场;</span><br><span class="line">        将当前进程放入w的等待队列，将该进程置于<span class="string">"等待"</span>状态;</span><br><span class="line">        转进程调度;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//开锁原语</span></span><br><span class="line">Unlock() &#123;</span><br><span class="line">    <span class="keyword">if</span> (w等待队列不空) &#123;</span><br><span class="line">        移出等待队列首元素;</span><br><span class="line">        将该进程置于就绪状态，并放入就绪队列;</span><br><span class="line">    &#125;</span><br><span class="line">    w = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所有要访问临界区的进程必须先执行上锁原语，上锁原语顺利通过，则进程可进入临界区；在完成对临界区的访问后，则执行开锁原语，释放该临界资源。</p>
+</li>
+</ul>
+</li>
+<li><p>信号量机制</p>
+<p>信号量机制中申请和释放临界资源的原语为操作为wait操作和signal操作，也被称为P操作和V操作。信号量：在信号量同步机制中用于实现进程的同步与互斥的有效数据结构。常见的有<strong>整型信号量、记录型信号量、AND型信号量及信号量集</strong>。</p>
+<ul>
+<li><p>整型信号量</p>
+<p>整型信号量s表示当前可用的该类临界资源的数量:</p>
+<p>s &gt; 0:系统中空闲的该类临界资源的数量</p>
+<p>s = 0:系统中临界资源数量为0，且没有进程在等待</p>
+<p>s &lt; 0:s的绝对值表示系统中等待的进程的数量</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">wait(s):</span><br><span class="line">	<span class="keyword">while</span> (s &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        该进程等待;</span><br><span class="line">        s--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">signal(s): s++;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>记录型信号量</p>
+<p>记录型信号量数据结构为:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">semaphore</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">PCB</span> *<span class="title">queue</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>value的值表示系统可用的临界资源的数量，而queue为进程链表指针，指向等待该类资源的PCB队列。</p>
+<p>记录型信号量的原语操作为:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">semaphore S;</span><br><span class="line"></span><br><span class="line"><span class="comment">//wait操作</span></span><br><span class="line">wait(S) &#123;</span><br><span class="line">    S.value--;</span><br><span class="line">    <span class="keyword">if</span> (S.value &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        本进程申请到资源，继续执行;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        调用block原语，将本进程加入阻塞队列，保护CPU现场，释放处理机资源;</span><br><span class="line">        转进程调度;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//signal操作</span></span><br><span class="line">signal(S) &#123;</span><br><span class="line">    S.value++;</span><br><span class="line">    <span class="keyword">if</span> (S.value &lt;= <span class="number">0</span>) &#123;<span class="comment">//说明PCB队列还有其它进程在等待</span></span><br><span class="line">        在<span class="built_in">queue</span>唤醒一个阻塞态进程;</span><br><span class="line">    &#125;</span><br><span class="line">    释放本进程占用的该临界资源，继续执行;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="7">
+<li>进程同步问题举例</li>
+</ol>
+<ul>
+<li><p>例7.1 同步使用打印机</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">semaphore s;</span><br><span class="line">s.value = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    parbegin(p1,p2,p3,..,pn);</span><br><span class="line">&#125;</span><br><span class="line">pi()&#123; <span class="comment">//i = 1,2,3,...,n</span></span><br><span class="line">    wait(s);</span><br><span class="line">    打印;</span><br><span class="line">    signal(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>例7.2 有一个缓存区，供多个进程共享，这些进程中有读进程和写进程。写一个多个进程使用同一个缓存区实现进程同步的程序。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">semaphore empty,full;</span><br><span class="line">empty.value = <span class="number">1</span>; <span class="comment">//empty用来表示缓存区是否是已被写入的状态</span></span><br><span class="line">full.value = <span class="number">0</span>; <span class="comment">//full表示缓存区是否是已被读出的状态。</span></span><br><span class="line"></span><br><span class="line">reader() &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        wait(full); <span class="comment">//读之前先使full置于value为0的状态，避免其它进程也进入读取</span></span><br><span class="line">        读缓存区;</span><br><span class="line">        signal(empty); <span class="comment">//读完后置empty的value为0，表示缓存区的数据已经读完了，可以继续写入了。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">writer() &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        wait(empty);</span><br><span class="line">        写缓存区;</span><br><span class="line">        signal(full);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//通过设置两个信号量实现了writer和reader的交替执行</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    prebegin(writer,reader);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>例7.3 <strong>生产者-消费者问题</strong>：生产者进程生产产品，放入容量为n的缓存区供消费者拿走。消费者不能上空缓存区拿东西，生产者不能上满的缓存区放东西。这个与上个文件读写的例子有些类似。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">用一个数组表示具有n个缓存区的缓存池。设有输入指针in指向一个可存放产品的缓存区，输出指针out指向可取得产品的缓存区。由于数组可以循环放置，所以当输入或输出加一时，可表示为: in = (in + 1) % n, out = (out + 1) % n。当(in + 1) % n = out时，表示缓存池已满，当in = out时，表示缓存池已空。整型counter表示缓存池中满缓存区的数量。</span></span><br><span class="line"><span class="comment">还有以下变量:</span></span><br><span class="line"><span class="comment">mutex:互斥使用缓存池信号量，初值mutex = 1</span></span><br><span class="line"><span class="comment">empty:空缓存区的信号量</span></span><br><span class="line"><span class="comment">full:满缓存区的信号量</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">semaphore mutex, empty, full;</span><br><span class="line">mutex.value = <span class="number">1</span>;</span><br><span class="line">empty.value = n;</span><br><span class="line">full.value = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">product <span class="built_in">buffer</span>[n];</span><br><span class="line"><span class="keyword">int</span> in = <span class="number">0</span>,out = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    prebegin(producer, consumer);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">producer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        生产一件产品;</span><br><span class="line">        wait(empty);</span><br><span class="line">        wait(mutex);</span><br><span class="line">        将产品放入缓存区;</span><br><span class="line">        counter++;</span><br><span class="line">      	in = (in + <span class="number">1</span>) % n;</span><br><span class="line">        signal(mutex);</span><br><span class="line">        signal(full);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        wait(full);</span><br><span class="line">        wait(mutex);</span><br><span class="line">        拿走一件产品;</span><br><span class="line">        counter--;</span><br><span class="line">        out = (out + <span class="number">1</span>) % n;</span><br><span class="line">        signal(mutex);</span><br><span class="line">        signal(empty);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//注意：在这两个进程中两个wait()信号量的顺序不能改变，必须先要申请到full资源或empty资源才能继续申请mutex的资源，否则可能会造成申请到mutex的资源但却申请不到full或empty的资源的情况，然后进程就会进入等待状态，使得signal(mutex)不能执行，造成缓存池的锁死。</span></span><br></pre></td></tr></table></figure>
+
+<p>这个问题比较有代表性，<strong>一般把系统中使用同一类资源的进程称为该资源的消费者，释放该类资源的进程称为生产者。</strong></p>
+</li>
+<li><p>例7.4 <strong>读者-写者问题</strong>：文件F可以被多个进程共享，向F中写的称为写进程，读取F的称为读进程。用wait和signal解决进程间的同步问题。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//F可以同时被多个进程读，但不能被多个进程同时写，否则会造成数据的混乱.或者说一个写进程会对其他所有进程造成排斥。</span></span><br><span class="line">semaphore wmutex,rmutex;</span><br><span class="line">wmutex.value = <span class="number">1</span>;</span><br><span class="line">rmutex.value = <span class="number">1</span>; </span><br><span class="line"><span class="keyword">int</span> readcount = <span class="number">0</span>; <span class="comment">//正在进行读操作的进程数量，因为readcount是一个会被多个读进程访问的资源，所以上文设置了rmutex来控制访问。</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    prebegin(writer,reader);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">writer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        wait(wmutex);</span><br><span class="line">        写操作;</span><br><span class="line">        signal(wmutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        wait(rmutex); <span class="comment">//要想访问readcount必须先申请资源。</span></span><br><span class="line">        <span class="keyword">if</span> (readcount == <span class="number">0</span>) &#123; <span class="comment">//如果没有同类型进程在访问该资源,则需要进行申请</span></span><br><span class="line">            wait(wmutex);</span><br><span class="line">        &#125;</span><br><span class="line">        readcount++;</span><br><span class="line">        signal(rmutex);</span><br><span class="line">        读操作;</span><br><span class="line">        wait(rmutex);</span><br><span class="line">        readcount--;</span><br><span class="line">        <span class="keyword">if</span> (readcount == <span class="number">0</span>) signal(wmutex);</span><br><span class="line">        signal(rmutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个问题也是一类问题的典型代表，不同于生产者-消费者问题，这种模式允许任意多个有特定行为的进程进入，但不允许其他类型进入。即同类型进程之间不存在互斥现象。解决这一问题的<strong>关键就是当有至少一个同类型的进程正在访问该资源时，本进程便可以不必进行资源申请，直接访问该资源。</strong></p>
+</li>
+<li><p>例7.5 <strong>哲学家进餐问题</strong>：五个哲学家围着一张餐桌吃饭，桌上有5支筷子，在每个人之间放一支。哲学家只有拿到了左右两支筷子才能进餐，没有拿到则只有等到别人吃完才能拿到。每个哲学家在吃到东西之前不会放下手里的筷子。试描述哲学家吃饭的过程。</p>
+<p>假设每一位哲学家拿筷子的方法都是先拿左边的，再拿右边的。则第i位哲学家的拿筷子过程可描述为:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//每一根筷子都是临界资源，为此设立一个筷子信号量数组</span></span><br><span class="line">semaphore chopstick[<span class="number">5</span>];</span><br><span class="line"><span class="comment">//每根筷子的初始值为1,筷子i相邻筷子的索引为(n+i-1)%n 和(i+1)%n。设哲学家i位于筷子i的右边</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    prebegin(p1(),p2(),p3(),p4(),p5());</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pi</span><span class="params">()</span> </span>&#123;	<span class="comment">//p表示哲学家的吃饭过程</span></span><br><span class="line">	<span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        wait(chopstick[i]);</span><br><span class="line">        wait(chopstick[(i + <span class="number">1</span>) % n]);</span><br><span class="line">        吃饭;</span><br><span class="line">        signal(chopstick[(i + <span class="number">1</span>) % n]);</span><br><span class="line">        signal(chopstick[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是这种做法会造成一个问题，即所有哲学家同时拿起了左边的筷子，导致没有哲学家能拿到右手的筷子。造成了<strong>死锁</strong>。</p>
+<p>解决死锁的方法有多种，如：</p>
+<p>1).仅当哲学家的左右手的筷子均可用时才允许拿起筷子</p>
+<p>2).最多允许n - 1个哲学家同时去拿左边的筷子，保证总有一个哲学家能够拿到一双筷子。</p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(分區存儲和頁式存儲)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E5%88%86%E5%8D%80%E5%AD%98%E5%84%B2%E5%92%8C%E9%A0%81%E5%BC%8F%E5%AD%98%E5%84%B2)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-分區存儲和頁式存儲"><a href="#操作系統3-內存管理-分區存儲和頁式存儲" class="headerlink" title="操作系統3-內存管理(分區存儲和頁式存儲)"></a><strong>操作系統3-內存管理(分區存儲和頁式存儲)</strong></h3><h4 id="2-分區存儲管理方式"><a href="#2-分區存儲管理方式" class="headerlink" title="2. 分區存儲管理方式"></a>2. 分區存儲管理方式</h4><p>分區管理的基本思想是：<strong>將內存空間氛圍一個或若干個連續的區域，稱為分區。每個分區可以存放一個獨立的用戶程序。分區的特點是一個程序可以連續地加載內存。</strong></p>
+<p>分區可以分為：單一分區、固定分區、可變分區和重定位分區。</p>
+<p>2.1 <strong>單道程序的連續分配</strong></p>
+<p>單道程序的連續分配方式將內存分為系統區和用戶區，只能用於單用戶、單任務的操作系統。</p>
+<ol>
+<li><p>系統區</p>
+<p>系統區僅供操作系統使用，一般駐留在內存的低地址區，其中包括中斷向量。中斷向量是操作系統的<strong>核心功能模塊加載內存的起始地址</strong>。</p>
+</li>
+<li><p>用戶區</p>
+<p>操作系統所佔區域以外的全部內存空間，用戶區和系統區之間設立了嚴格的內存保護機制，防止用戶區的地址越界。</p>
+</li>
+</ol>
+<p>2.2 <strong>固定分區分配方式</strong></p>
+<p>系統在啟動時就劃分好多個分區，明確了分區的數量、大小和起始地址。這樣允許多道作業並發執行。但這樣也會使得部分分區的程序無法完全利用所有分區空間，也會導致部分程序因為佔用內存過大而無法裝入程序。因此會造成內存的浪費。</p>
+<p>2.3 <strong>動態分區分配</strong></p>
+<p>動態分區根據進程的實際需要動態地分割內存。當進程運行完畢並釋放了其所佔用的空間時，如果這塊空間有相鄰的空閒的內存空間，則它們被合併為更大的空閒的內存空間。</p>
+<p>動態分區需要解決的問題有：分區分配的數據結構、分區的分配算法、分區的分配與回收操作。</p>
+<ol>
+<li><p>數據結構</p>
+<p>常用的數據結構有空閒分區表和空閒分區鏈。</p>
+<ol>
+<li><p>空閒分區表結構為:</p>
+<ol>
+<li><ol>
+<li>空閒分區說明表</li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>序號</th>
+<th>分區大小(KB)</th>
+<th>分區地址(K)</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>64</td>
+<td>44</td>
+<td>可用</td>
+</tr>
+<tr>
+<td>2</td>
+<td>24</td>
+<td>132</td>
+<td>可用</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30</td>
+<td>210</td>
+<td>可用</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>空閒分區鏈</p>
+<p>每個分區的起始部分設置一個用於控制分區分配的信息，以及用於鏈接各分區的前向指針，形成一個鏈錶。</p>
+</li>
+</ol>
+</li>
+<li><p>分區分配算法</p>
+<p>新作業進入內存時，按照分配算法將空閒分區分配給作業。主要有以下四種分配算法。</p>
+<ol>
+<li>首次符合法(First Fit)。每次分配空閒區時，總是從鏈首開始查詢，直到找到一個符合要求的空閒塊。</li>
+<li>循環首次符合法(Next Fit)。在查詢內存空間時，不再從鏈首開始查，而是從上次分配內存的下一個空閒內存空間開始查詢。如果查到最後一個空間都不能滿足要求，指針應該又返回鏈首開始查詢，因為可能已經有其他作業釋放了足夠的內存空間。</li>
+<li>最佳符合法(Best Fit)。要求所有空閒空間按照大小排序，請求內存的指針從最小的內存塊開始查，直到找到第一個符合請求空間大小的內存塊。</li>
+</ol>
+</li>
+<li><p>分區分配和回收</p>
+<ol>
+<li><p>分配內存。設所請求分區的大小為u.size，分區表中內存的大小為m.size，若$m.size - u.size \leq size$，size是事先規定好的不再分割內存大小，如果空閒分區在被內存請求切割的大小小於這個size，則分區不再切割，將整個分區都分配給請求。否則從分區分割出一個和請求內存大小一致的內存，其餘內存仍留在空閒分區表或空閒分區鏈中。</p>
+</li>
+<li><p>回收內存。</p>
+<p>回收內存的主要工作是首先檢查是否有相鄰分區，有則合併使之成為一個連續的空閒區，避免形成許多離散的小分區。然後還要修改分區的有關控制信息。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>2.4 <strong>可重定位分區</strong></p>
+<ol>
+<li><p>緊湊</p>
+<p>在連續分配方式中，必須把一個程序裝入連續的內存空間中，如果系統中存在若干個離散的小分區，每個分區都不能使程序裝入其中。但是這些分區的大小之和大於程序的請求內存。這時可以通過重定位的方式將分隔這些分區的作業移動到一起，使得原來離散的小分區可以拼接成一個大分區。這種方式稱為“<strong>緊湊</strong>”。</p>
+</li>
+<li><p>動態重定位</p>
+<p>要想在動態重定位中將程序中的相對地址轉換為物理地址的工作推遲到程序指令進行時進行，需要得到硬件地址變換機構的支持。即在系統中加入一個重定位寄存器，用來裝入程序在內存中的起始地址。<strong>程序執行時，訪問的地址是由重定位寄存器的物理起始地址加上程序中的邏輯地址得到的</strong>。因此當需要移動程序佔用的內存地址時，只需要修改重定位寄存器中的地址就可以做到了，而不需要修改程序。</p>
+</li>
+<li><p>可重定位分區的分配與動態重定位分區的分配方式基本相同，只不過加入了“緊湊”的功能，使得離散的小分區內存空間得到了利用。</p>
+</li>
+</ol>
+<h4 id="3-頁式存儲管理"><a href="#3-頁式存儲管理" class="headerlink" title="3. 頁式存儲管理"></a>3. 頁式存儲管理</h4><p>3.1 <strong>分頁存儲的思想</strong></p>
+<p>不同於前面的連續分配的思想，分頁存儲允許程序被分配在不連續的內存空間中。為了實現這種想法，在分頁存儲管理中，主存被分為一個個大小相等的<strong>物理塊</strong>，而程序的地址空間被分為一些<strong>邏輯頁面</strong>。邏輯頁與物理塊的內存大小相等，程序和數據以頁為單位分配內存塊，將一個邏輯頁分配到一個物理塊中。為了便於實現地址變換，往往將物理塊的大小定為$2^n$個扇區，如1KB、2KB。</p>
+<p>3.2 <strong>頁式存儲管理的數據結構</strong></p>
+<ol>
+<li><p>頁面和物理塊</p>
+<p>頁面和物理塊的概念在上文已經有所介紹。在為進程分配內存時，以塊為單位將進程中的若干頁分配到不相接的塊中。每個邏輯頁和物理塊都有編號，邏輯頁號與物理塊號的對應關係，都已經記錄在了<strong>頁表</strong>中。頁表是每個進程都有一張的。</p>
+<p>頁面大小應適中，如果頁面過大，會造成頁內碎片過大。若是太小，則會造成頁表太大，佔用大量內存。</p>
+</li>
+<li><p>虛地址結構</p>
+<p>頁式存儲的虛地址結構包含<strong>頁號P</strong>和<strong>頁內偏移量W</strong>。若給定一個邏輯空間的地址A，頁面的大小為L。則P和W的計算方式為：</p>
+<p>$$ P = (int) [A/L] $$</p>
+<p>$$ W = A \mod L $$</p>
+</li>
+</ol>
+<p>3.3 <strong>頁式存儲管理的重定位方式</strong></p>
+<p>為了將用戶地址空間的邏輯地址變換為物理地址，需要設置地址變換機構。由於邏輯頁與物理塊的大小相等，所以邏輯頁內地址與物理頁內地址是一一對應的。所以重定位的主要任務是<strong>將邏輯頁的頁號轉換為內存中的物理塊號</strong>。這個工作是藉助頁表來實現的。</p>
+<p>頁表的功能由寄存器來實現，由於寄存器的空間有限，頁表的數量又很多，因此將整個頁表放入寄存器不太現實。現在通常是將頁表放置在內存中，只將設置一個頁表寄存器用來存放頁表的起始地址和長度。且這兩個數據並不是一直待在頁表寄存器中。進程並未執行時，這兩個數據存放在進程的PCB中，只有當調度到這個進程時，才將這兩個數據放入頁表寄存器中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[邏輯地址A] --&gt; |計算| B[頁內地址W]</span><br><span class="line">A --&gt; |計算| C[邏輯頁號P]</span><br><span class="line">C --&gt; |頁表寄存器| D[頁表地址 頁表長度n]</span><br><span class="line">D --&gt; E&#123;P&gt;&#x3D;n?&#125;</span><br><span class="line">E --&gt; |No|F[查頁表]</span><br><span class="line">E --&gt; |Yes|G[越界中斷]</span><br><span class="line">F --&gt; H[物理塊號]</span><br><span class="line">H --&gt; |乘以塊大小|I[物理塊基地址]</span><br><span class="line">I --&gt; J(+)</span><br><span class="line">B --&gt; J</span><br><span class="line">J --&gt; K[物理地址]</span><br></pre></td></tr></table></figure>
+
+<p>3.4 <strong>快表</strong></p>
+<p>在上述變換過程中可知，要想取出一個數據或指令，至少需要兩次訪問內存，為了提高效率，減少內存的訪問次數，可以將頁表放在一個高速緩存存儲器中。</p>
+<p>現在一般將正在運行進程的當前最常用的頁表放入快速存儲器中，存放這部分頁表內容的存儲器稱為<strong>相聯存儲器</strong>，也稱為聯想存儲器。這種存儲器還具有查找能力，如CPU給出的虛結構為(P,W)，分頁機構將虛結構送入相聯存儲器，存儲器立即和所有的頁號進行比較，找到符合的塊號B。然後根據(B,W)訪問內存。</p>
+<p>實際上在相聯存儲器查詢頁表的同時，系統也在主存的頁表中進程查詢，如果哪一邊查找到了，則立即停止另一邊的查詢。如果是在主存的頁表中查詢到的，則應把查得的頁號和塊號一並放入相聯存儲器的空閒單元中。若無空閒單元，則把最先裝入寄存器的那個頁號淘汰掉。</p>
+<p>3.5 <strong>兩級和多級頁表</strong></p>
+<ol>
+<li><p>兩級頁表</p>
+<p>隨著頁表越來越大，越來越難以找到足夠的內存來存放頁表。因此產生了多級頁表的想法。可以將頁表分成多個<strong>頁面</strong>，每個頁面與內存物理塊的大小相等，並未它們編號。離散地分佈在不同的物理塊中。同時為這些離散的頁面建立一張<strong>外層頁表</strong>。根據外層頁表找到頁面的方式與根據頁表找到物理塊的方式相似。同樣需要在地址機構中設置一個外層頁表寄存器用於存放外層頁表的起始地址。</p>
+</li>
+<li><p>多級頁表</p>
+<p>隨著計算機位數的增加，頁表的大小會越來越大，導致需要的儲存空間越來越大。因此需要建立更多級的頁表。</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(段式存儲管理)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-段式存儲管理"><a href="#操作系統3-內存管理-段式存儲管理" class="headerlink" title="操作系統3-內存管理(段式存儲管理)"></a><strong>操作系統3-內存管理(段式存儲管理)</strong></h3><h4 id="4-段式存儲管理"><a href="#4-段式存儲管理" class="headerlink" title="4 段式存儲管理"></a>4 段式存儲管理</h4><p>4.1 <strong>段式存儲的思想</strong></p>
+<p>頁式存儲僅僅考慮了程序的長度，可以使一個程序可以不連續地加載內存，但是沒有考慮程序的邏輯結構。<strong>一個程序在加載內存時，其不同部分的訪問權限是不一樣的</strong>。比如程序部分可以多個進程共享，無法修改。而數據部分可以修改，只能由一個進程獨佔。</p>
+<ol>
+<li><p>分段</p>
+<p>在分段存儲管理方式中，<strong>段是一組邏輯信息組合</strong>。例如把作業按邏輯關係加以組織，劃分成若干段，並按這些段來劃分內存，這些段可以是主程序段MAIN，子程序段X、數據段D和堆棧段S等。加載內存時，段與段之間可以是不連續的。一個操作數的邏輯地址由段號s和段內偏移量w組成。</p>
+</li>
+<li><p>段表</p>
+<p>系統為每個進程建立了一張表，每個段都有一個表項。其中記錄了<strong>段號、段長、內存始址和存取控制</strong>。內存始址即該段在內存中的起始地址。</p>
+</li>
+<li><p>地址變換機構</p>
+<p>為了實現重定位，在系統中設置了段表寄存器，用於存放段表的起始地址和段表長度TL。段表存放在內存中。段表的地址變換與頁表的地址變換類似，在此略過。</p>
+</li>
+</ol>
+<p>4.2 <strong>段頁式存儲管理</strong></p>
+<p>段頁式存儲管理吸取了分頁式和分段式的優點，是現在應用比較廣泛的一種存儲方式。</p>
+<p>段頁式存儲的基本思想：</p>
+<ol>
+<li>採用分頁式存儲管理的方式將內存劃分為一些大小相等的物理塊。</li>
+<li>邏輯空間採用分段式的方式按程序的邏輯關係把進程的地址空間分成若干邏輯段。</li>
+<li><strong>段內分頁</strong>。將每個邏輯段按頁式存儲管理的方式分為一些大小相等的邏輯頁，其大小等於內存塊大小。在每個段內，從0開始連續地編號。</li>
+<li>邏輯結構地址。一個邏輯地址由段號s、段內頁號p和頁內地址d構成。</li>
+<li>內存分配。內存以物理塊為單位分配給每個進程。</li>
+<li>段表、頁表和段表地址寄存器。系統為每個進程或作業建立一個段表，在每一段內建立一個頁表。</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分段存儲管理)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E6%AE%B5%E5%AD%98%E5%84%B2%E7%AE%A1%E7%90%86)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-請求分段存儲管理"><a href="#操作系統3-內存管理-請求分段存儲管理" class="headerlink" title="操作系統3-內存管理(請求分段存儲管理)"></a><strong>操作系統3-內存管理(請求分段存儲管理)</strong></h3><h4 id="8-請求分段存儲管理"><a href="#8-請求分段存儲管理" class="headerlink" title="8.請求分段存儲管理"></a>8.請求分段存儲管理</h4><p>8.1 <strong>請求分段的原理與硬件支持</strong></p>
+<p>在段式存儲管理實現的虛擬存儲器上，以段為單位進行換入，換出。相比於請求分頁存儲系統，分段存儲因為段的大小不固定，所以置換算法更加難以實現。請求分段管理的實現需要<strong>段表機制、缺段中斷機制和地址變換機構的支持</strong>。</p>
+<ol>
+<li><p>段表機制</p>
+<p>段表結構除了段名、段長和段在內存中的起始地址外，還增加了一下幾項：</p>
+<ol>
+<li>存取方式，用於標識本分段的存取屬性是執行、只讀還是可讀可寫。</li>
+<li>訪問字段A，含義與請求分段的響應字段相同，用於記錄被訪問段的頻率。</li>
+<li>修改位M，表示該頁進入內存後是否被修改過。</li>
+<li>存在位P。表示該段是否已被調入內存。</li>
+<li>增補位，表示該段在運行過程中是否動態增長。</li>
+<li>外存起始地址。表示本段在外存的起始磁盤塊號。</li>
+</ol>
+</li>
+<li><p>缺頁中斷機制</p>
+<p>與請求分頁系統類似。</p>
+</li>
+<li><p>地址表換機構</p>
+<p>與請求分頁系統類似</p>
+</li>
+</ol>
+<p>8.2 <strong>段的共享與保護</strong></p>
+<p>段是按邏輯意義劃分的，可以按名存取，所以可以方便地實現內存的共享，並進行有效的內存保護。</p>
+<ol>
+<li><p>段的共享</p>
+<p>所謂共享，即兩個或以上的作業共用一個子程序段或數據段，該部分在內存中只有一個副本。如多個c程序都調用了Math.h庫，共用一個程序。具體的操作是在每個進程的段表中，在響應的表項加上共享段在內存的起始地址。</p>
+<p>當用戶進程或作業要共享內存的某一段時，只要<strong>用戶使用相同的名字</strong>，就可以在新的段表中填入已存在段的內存起始地址。</p>
+<p>為了實現共享段，可以在系統中設置一個共享段表，所以共享段都在表中佔一個表項。表中除了記錄段的一些基本信息之外，還記錄了訪問該段的進程數量count。當新增進程訪問時，就在段表中填上進程名、存取控制權限，然後count加一，標明增加一個進程訪問該共享字段。當每個進程在訪問結束後，便會將count 減一，當沒有進程共享此段時，系統便會釋放其內存。</p>
+</li>
+<li><p>段的保護</p>
+<p>主要包括地址越界保護和存取方式控制保護。</p>
+<p><strong>地址越界保護</strong>是為了保持段之間的相對獨立。但是有的段是運行動態增長的，這樣的段當段內地址大於段長時是允許的，這一點可以通過段的增補位來控制。</p>
+<p><strong>存取控制檢查</strong>，段表的每個表項都有設置存取控制字段來設置存取權限。</p>
+<p><strong>環保護結構</strong>。規定低標號的環具有較高的優先權，操作系統居于0環，重要軟件居於中間環，一般的居於外環。程序的訪問和調用遵循以下原則：</p>
+<ol>
+<li>一個程序可以訪問駐留在相同環或較低環的數據。</li>
+<li>一個程序可以調用駐留在相同環或高特權環的服務。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(虛擬內存)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%99%9B%E6%93%AC%E5%85%A7%E5%AD%98)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-虛擬內存"><a href="#操作系統3-內存管理-虛擬內存" class="headerlink" title="操作系統3-內存管理(虛擬內存)"></a><center><strong>操作系統3-內存管理(虛擬內存)</strong></center></h3><h4 id="5-虛擬存儲器"><a href="#5-虛擬存儲器" class="headerlink" title="5.虛擬存儲器"></a>5.虛擬存儲器</h4><p>5.1 <strong>局部性原理</strong></p>
+<p>早在1968年P.Dening就指出：程序在執行過程中呈現出局部性規律。即在很短的時間內，程序的執行儘限於某個部分，其訪問的內存也僅限於某個區域。</p>
+<p>局限性體現在時間和空間上，時間上程序中某條指令一旦執行，不就又可能再被執行。空間上某個存儲單元被訪問，不就又可能再被訪問。</p>
+<p>5.2 <strong>對換</strong></p>
+<ol>
+<li><p><strong>對換的引入</strong></p>
+<p>在多道程序環境下，可能出現內存中的某些進程由於等待某時間而進入阻塞狀態，其佔用了大量內存。同時外存中等待的許多作業由於得不到足夠的內存而無法進入運行狀態。為了解決這一問題，引入了“對換”技術。</p>
+<p>而“對換”，即是把內存中不能運行的進程或暫時不用的程序或數據，調出內存，以騰出足夠的內存空間，再調入以具備運行條件的進程或進程所需要的程序或數據。</p>
+<p>如果對換是以進程為整個單位，則稱為“整體對換”或“進程對換”。通常應用與分時系統中以解決內存緊張的問題。如果對換是以“頁”或“段”為單位，則稱為“頁面對換”或“分段對換”，統稱為“部分對換”。</p>
+<p><strong>“部分對換”是實現請求分頁的和請求分段式存儲管理的基礎，其目的是為了支持虛擬存儲系統。</strong></p>
+<p>為了實現進程對換，必須實現三方面的功能：對換空間的管理，進程的換入和換入。</p>
+</li>
+<li><p><strong>對換空間的管理</strong></p>
+<p>在具有對換功能的OS中，通常把外存分為<strong>文件區</strong>和<strong>對換區</strong>。</p>
+<p>對於文件的存儲，主要目標是提高存儲空間的利用率，因此採用離散式存儲的方式。而進程在對換區駐留的時間比較短暫，對換的操作很頻繁，因此主要目標是提高訪問的速度，因此採用連續存儲的方式。</p>
+<p><strong>對於對換區的管理可以參考前面的內存管理的動態分區模式</strong>。</p>
+</li>
+<li><p><strong>進程的換出換入</strong></p>
+<ol>
+<li>進程的換出。每當一個進程由於創建子進程而需要更多的內存空間，<strong>但又無足夠的內存空間時</strong>，系統應將某進程換出。其過程是：<strong>系統先選擇優先級最低的進程作為換出進程，然後啟動磁盤，將進程的程序和數據寫入對換區。若傳送過程未出現錯誤，則可回收該進程的內存空間，並修改該進程PCB的相關信息。</strong></li>
+<li>進程的換入。系統定時查看所有進程的狀態。找出已處於“就緒”狀態但被換出的進程，將其中換出時間最久的進程作為換入進程。直到無可換入的進程或無可換出的進程為止。</li>
+</ol>
+</li>
+</ol>
+<p>5.3 <strong>覆蓋</strong></p>
+<p>在單用戶系統中，為了能夠在小內存中運行大作業，一些計算機採用了“覆蓋”技術，即將一個大程序按照程序的邏輯結構劃分成若干個程序段或數據段，將不會同時執行從而不必同時裝入內存的程序段分在一組內，該組稱為<strong>覆蓋段</strong>。這段話可能比較難以理解，舉例說明一下。</p>
+<p>​    例4-2 ：有一個程序的程序結構如下圖，整個程序裝入需要160KB內存，但是圖中沒有箭頭相連的程序段都不會同時調用。如A和B不會同時在main內調用，所以當B程序段被調用時，A程序要麼已經運行完了，要麼要等待B先運行。所以A和B便可同時被分配到一段內存中，空間大小取兩段程序中較大的那個，即30KB。同理，C,D,E都可被分入一組。這樣下來，整段程序只需要10KB(main) + 30KB(A,B) + 40KB(C,D,E) = 80KB。從而節省了內存空間。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[main 10KB] --&gt; B[A 30KB]</span><br><span class="line">A --&gt; C[B 20KB]</span><br><span class="line">B --&gt; D[C 30KB]</span><br><span class="line">C --&gt; E[D 30KB]</span><br><span class="line">C --&gt; F[E 40KB]</span><br></pre></td></tr></table></figure>
+
+<p>這種覆蓋管理技術採用的是靜態存儲分配和靜態重定位方式。如果在採用動態重定位的系統中運行，就不需要實現指定覆蓋區，在執行中調用模塊自然會決定裝入哪塊內存。</p>
+<p><strong>覆蓋對於程序員並不透明</strong>。為了實現好的覆蓋效果，程序員需要在編寫程序時精心安排好程序的覆蓋結構，並用覆蓋描述語言描述覆蓋和覆蓋段。</p>
+<p>5.4 <strong>虛擬存儲器</strong></p>
+<p>前面講的都是將作業一次性裝入內存，但實際上一次性裝入內存是沒有必要的，會佔用大量的內存資源。由於程序運行的局限性，可以考慮一次只裝入部分的作業。</p>
+<ol>
+<li><p><strong>虛擬存儲器的概念</strong></p>
+<p>裝入作業時，僅將當前要運行的部分裝入內存，當要執行的部分沒有裝入內存時，就從磁盤調入內存。當內存已滿時，則將內存中暫時不用的頁調出內存，釋放空間，再加載所需要的頁。這樣就顯得系統具有內存容量遠大於實際的內存容量，這樣的存儲器稱為虛擬存儲器。</p>
+<p><strong>虛擬存儲器即在作業運行時，僅將部分的程序和數據裝入內存就可以運行的虛擬存儲系統。具體來講，即指具有置換和請求調入功能，可以從邏輯上對內存進行擴充的一種存儲器系統。</strong></p>
+<p>虛擬存儲器除了要求有一定容量的主存和輔存之外，還要求有能夠進行快速地址變換的地址變換機構。</p>
+</li>
+<li><p><strong>虛擬存儲器的實現方法</strong></p>
+<p>虛擬存儲器的實現包括請求分頁系統和請求分段系統。</p>
+<ol>
+<li>請求分頁系統。在分頁存儲的基礎上加入了請求分頁的功能和頁面置換的功能所形成的頁式虛擬存儲系統。請求調頁和頁面置換需要有頁表機構、缺頁中斷機制和地址變換機構的支持。</li>
+<li>請求分段系統。與請求分頁系統極為類似。但是固定帶下頁面變成了按照邏輯結構分的段。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(頁面置換算法)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E9%A0%81%E9%9D%A2%E7%BD%AE%E6%8F%9B%E7%AE%97%E6%B3%95)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-頁面置換算法"><a href="#操作系統3-內存管理-頁面置換算法" class="headerlink" title="操作系統3-內存管理(頁面置換算法)"></a><strong>操作系統3-內存管理(頁面置換算法)</strong></h3><h4 id="7-頁面置換算法"><a href="#7-頁面置換算法" class="headerlink" title="7. 頁面置換算法"></a>7. 頁面置換算法</h4><p>在上一節講過, 換入換出頁面要根據特定的算法來執行, 這種算法就是頁面置換算法. 不合適的算法可能會使系統發生抖動，所謂抖動即指剛剛換出的頁面又要換回來，換回來不久又要換出去，這樣就導致系統的大部分工作時間都花在了頁面調度上，導致效率不高。</p>
+<p>下面是幾種常見的頁面置換算法：</p>
+<p>7.1 先入先出頁面置換算法</p>
+<p>顧名思義，根據隊列的數據結構的思想，總是將內存存在最久的頁面先換出。</p>
+<p>7.2 <strong>最近最久未使用頁面置換算法(Least Recently Used)</strong></p>
+<p>這種算法是一種比較好的算法，但是主要問題在於如何找到哪一頁是最近最久未被使用的頁面。為此需要兩類硬件的支持：</p>
+<ol>
+<li><p>寄存器。用於記錄某進程在內存中各頁的使用情況。系統為內存中每個進程都設置一個移位寄存器，可表示為$ R = R_{n-1} R_{n-2} …R_1 $。</p>
+<p>當進程訪問某物理塊時，要將相應寄存器的$R_{n-1}$位置變成1。此時，定時信號每隔一段時間將寄存器右移一位。如果把這個n位的寄存器看成是一個n位的二進制數，則最小數值的寄存器所對應的頁面就是最近最久未使用的頁面。</p>
+</li>
+<li><p>棧。利用一個特殊的棧來保存當前使用的各個頁面的頁號。每當進程訪問某頁面時，便將該頁面從棧中移出，壓入棧中。這樣，位於棧底的總是最近最久未被使用的頁面。(這個比較易於理解)</p>
+</li>
+</ol>
+<p>7.3 <strong>最佳置換算法(Optimal Page Replacement)</strong></p>
+<p>是Belady於1966年提出的一種理論上的理想算法，它所選擇的淘汰的頁面是最長時間不被使用的，可以保證最低的缺頁率。之所以說是理論算法是因為該算法需要知道該進程整體的頁面走向，即知道在哪一步需要用到哪一頁，但這是很難實現的。但是可以用來做算法題以及評價其他算法。</p>
+<p>7.4 <strong>時鐘置換算法</strong></p>
+<p>這是一種LRU的近似算法，但不像LRU那樣需要很多的硬件支持。</p>
+<p>時鐘置換算法為每一頁都設置一位訪問位，再將內存中所有頁面都通過鏈接指針連成一個隊列。當某頁被訪問時，則將該位置為1。由於將修改過的頁面換出時，頁面需要重新寫入外存，話費一定的時間。所以在選擇淘汰頁面時，要同時考慮到頁面的修改位和訪問位。根據訪問位和修改位可以組合成下列四種類型的頁面：</p>
+<ol>
+<li>(A = 0,M = 0)。最佳淘汰頁，既未被修改，又最近未被訪問。</li>
+<li>最近未被訪問，但已修改，不是很好的淘汰頁。</li>
+<li>最近訪問了，但未被修改。可能會再次訪問。</li>
+<li>最近既被訪問了，又有修改。最後淘汰的頁面。</li>
+</ol>
+<p>尋找過程：</p>
+<ol>
+<li>第一輪：指針從當前位置開始掃描循環隊列，尋找A=0，M=0的頁面。第一次掃描期間不改變訪問位A。</li>
+<li>第二輪：若第二輪未找到可以淘汰的頁面，則第二輪掃描A=0,M=1的頁面。第二輪掃描期間將掃描過的頁面的訪問位置為0。</li>
+<li>如果第二輪扔失敗。則再回到開始位置重複第一輪，如果再失敗，則再重複第二輪，這是一定能找到目標淘汰頁。因為所有的訪問位都已置為0。</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統2-處理機調度與死鎖/操作系統2-處理機調度與死鎖(調度算法)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96(%E8%AA%BF%E5%BA%A6%E7%AE%97%E6%B3%95)/</url>
+    <content><![CDATA[<h3 id="操作系統-處理機調度和死鎖"><a href="#操作系統-處理機調度和死鎖" class="headerlink" title="操作系統-處理機調度和死鎖"></a>操作系統-處理機調度和死鎖</h3><h4 id="5-調度算法"><a href="#5-調度算法" class="headerlink" title="5.調度算法"></a>5.調度算法</h4><p>5.1 FCFS調度算法</p>
+<p>FCFS(First Come First Served)調度算法是一種簡單的調度算法。該算法按照作業/進程進入隊列的先後順序進行調度。</p>
+<p>5.2 短作業(短進程)優先算法</p>
+<p>短作業優先調度算法(Shortest Job First,SJF)是指對短作業或短進程優先的算法，這裡短指的是運行時間的長短。但其缺點也很明顯：</p>
+<ul>
+<li>當不斷有短進程進入時，將使得長進程無限期延長，在批處理系統中可能比較適用。但對於實時系統，這種算法會導致部分進程不及時響應的問題。</li>
+<li>為考慮緊迫作業，不能保證緊迫作業優先處理。</li>
+</ul>
+<p>5.3 高響應比優先調度算法(Highest Response-Ratio Next,HRN)</p>
+<p><strong>該算法通常用於作業調度</strong>。該算法同時考慮了作業的等待時間和所需的執行時間。響應比R定義為:</p>
+<p>$$R = \frac{以等待時間 + 要求服務時間}{要求服務時間}$$</p>
+<p>在每次挑選後備作業進行運行時，都要計算所有後備作業的響應比R值，選出R最高的作業進行執行。</p>
+<p>5.4 優先級調度算法(Highest Priority First, HPF)</p>
+<p>系統或用戶根據某種原則對作業\進程分配優先級，調度程序根據優先級調度。</p>
+<ol>
+<li><p>優先級的類型</p>
+<p>優先級有兩類：<strong>靜態優先級</strong>和<strong>動態優先級</strong>。靜態優先級在作業或進程開始執行之前就已經確定。通常優先級由某一範圍內的整數確定。確定優先級的依據如下：</p>
+<ul>
+<li><p>進程類型。通常系統進程優先級高於用戶進程優先級。系統進程也分為很多類型，同一類型也分有不同的優先級。</p>
+</li>
+<li><p>進程對資源的要求。</p>
+</li>
+<li><p>用戶要求。用戶根據進程的緊急程度確定一個優先級。</p>
+<p>通常將作業的優先級作為其所屬進程的優先級。</p>
+</li>
+</ul>
+<p>動態優先級則把作業或進程的靜態特性和動態特性結合起來來確定其優先級，作業或進程的優先級在執行過程中是不斷變化的。例如可以規定，就緒隊列的進程隨著其等待時間的加長，其優先級逐漸增加，正在運行的進程其優先級逐漸降低。若所有進程有相同的優先級， 則最先進入隊列的進程優先獲得處理機，這也就是FCFS算法。高響應比算法實際就是動態優先級調度算法。</p>
+</li>
+<li><p>優先級調度算法的類型</p>
+<ul>
+<li>非搶佔式。非搶佔式中進程得到處理機後就一直執行下去，知道完成或遇到其它事件進入阻塞狀態。</li>
+<li>搶佔式。搶佔式中調度算法會從隊列中選取優先級最高的進程運行，<strong>如果隊列中出現了優先級更高的進程，則立即停止當前進程的運行，切換到優先級更高的進程運行。</strong></li>
+</ul>
+</li>
+</ol>
+<p>5.5 時間片輪轉法</p>
+<p><strong>時間片輪轉法(Round-Robin)主要用於分時系統中的進程調度</strong>。系統按照先入先出的原則排成一個隊列，每個進程都可以運行一個時間片的時間，新來的進程加入到隊列的末尾。每當進程執行完其分配的時間片，就被加入到隊列的末尾。時間片是一個執行單位，量級是10~100ms。</p>
+<p>5.6 多級隊列調度算法</p>
+<p>該調度算法的核心思想是將系統中的<strong>就緒進程按照優先級分為兩級或多級隊列。進程調度時，首先從高優先級隊列中挑選進程，只有當高優先級隊列為空時，才從低優先級隊列挑選進程。</strong></p>
+<p>這種算法的性能很好，且容易實現，被目前流行的操作系統所採用，如UNIX、Linux和Windows NT等。</p>
+<p>5.7 多級反饋隊列優先算法</p>
+<p><strong>該算法適用於進程調度。</strong></p>
+<p>該算法的實現思想是在多級隊列算法的基礎上加進“反饋措施”。具體描述如下：</p>
+<ul>
+<li>系統中設置多個就緒隊列，不同隊列設置不同的優先級</li>
+<li><strong>各就緒隊列的時間片不同，高優先級時間片小，低優先級隊列時間片大。</strong></li>
+<li>一個進程進入就緒隊列時，被放在第一級隊列(優先級最高)的末尾，各隊列按FCFS方式排列，每個進程運行一個時間片；<strong>如果一個進程沒有運行完成，則把它轉到下一級隊列的末尾。</strong></li>
+<li>系統先運行第一隊列的進程，第一隊列為空後再運行第二隊列。以此類推。<strong>最後一個隊列採用時間片輪轉的方式進行運行。</strong></li>
+<li><strong>當比運行進程優先級更高的隊列中有一個新進程時，它將強制處理機，被搶佔的進程進入本隊列的末尾。</strong></li>
+</ul>
+<p>在單道批處理系統中，通常採用先來先服務調度算法，短作業優先算法和高響應比優先算法；分時系統通常採用時間片輪轉法，多級隊列輪轉及多級反饋隊列輪轉等調度算法；實時系統則採用搶佔式優先級、多級隊列輪轉及多級反饋隊列輪轉等策略。</p>
+<h4 id="6-Linux系統的調度算法"><a href="#6-Linux系統的調度算法" class="headerlink" title="6.Linux系統的調度算法"></a>6.Linux系統的調度算法</h4><p>Linux系統的作業調度非常簡單，或者說根本沒有作業調度，作業一旦提交就直接進入內存，建立相應的進程，進入下一級調度。</p>
+<p>6.1 <strong>Linux系統的進程調度策略</strong></p>
+<p>Linux系統的調度程序就是內核中schedule()函數，其主要任務就是在就緒隊列run_queue中選出一個進程並投入運行。schedule()函數的參數如下:</p>
+<p>進程調度算法policy；</p>
+<p>進程過程中剩餘的時間片counter；</p>
+<p>進程靜態優先級priority。Linux2.4版本之後取消了這個變量，但是其默認值20還在作為常量繼續使用。</p>
+<p>實時進程優先級Rt_priority；</p>
+<p>用戶可控制的nice因子。</p>
+<p>Linux系統提供了三種調度算法policy，這三種算法用戶可以通過宏定義來選擇。</p>
+<table>
+<thead>
+<tr>
+<th>調度策略標誌</th>
+<th>所代表的的調度策略</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>#define SCHED_OTHER</td>
+<td>普通的分時進程</td>
+</tr>
+<tr>
+<td>#define SCHED_FIFO</td>
+<td>先進先出的實時進程</td>
+</tr>
+<tr>
+<td>#define SCHED_RR</td>
+<td>基於優先級的輪轉算法</td>
+</tr>
+<tr>
+<td>#define SCHED_YIELD</td>
+<td>不是調度策略，表示進程讓出CPU</td>
+</tr>
+</tbody></table>
+<p>內核把進程分為<strong>實時進程</strong>和<strong>普通進程</strong>。實時進程比普通進程優先，用戶可以通過sched_setschedule()函數改變調度策略。通過系統調用sys_setpriority()和sys_nice()改變其靜態優先級。一旦進程變為實時進程，其子進程也變為實時進程。</p>
+<p>6.2 <strong>Linux系統的優先級調度策略</strong></p>
+<p>Linux系統優先級是一些短整數，Linux內核將優先級細分為靜態優先級、動態優先級和實時優先級。</p>
+<ol>
+<li><p>靜態優先級</p>
+<p>靜態優先級是task_struct結構中的一個變量priority。其是在進程建立時繼承了父進程的優先級。可以通過系統調用nice()和setpriority()來改變優先級。且優先級在進程的整個運行過程中保持不變。</p>
+</li>
+<li><p>普通進程的調度策略</p>
+<p>對於普通進程即非實時進程，Linux採用搶佔式動態優先級調度算法。</p>
+<p>這種算法不設置進程就緒隊列，進程調度子程序schedule()總是給動態優先級最高的進程分配CPU。</p>
+<p>動態優先級是通過task_struct中的Counter變量來定義的，<strong>Counter表示搶佔式中斷調度前進程還能運行的時間</strong>。這個時間的單位是tick，即時鐘中斷的週期，在Linux中通常是10ms。如果一個進程的優先級55，那麼該進程至少還能再運行550ms的時間，<strong>在此期間不能發生搶佔式中斷調度。即在此期間只能進程快中斷處理，除非該進程因為等待I/O的原因主動退出運行態。</strong></p>
+<p>從時間片的角度看，Linux系統中的時間片是動態時間片，不同進程的時間片不同，同一進程在不同時刻的時間片也不同。<strong>調度程序總是選取當前時間片最大的進程來運行。</strong></p>
+<p>而Counter的值的變化規律遵循以下原則:</p>
+<p>在進程建立時，進程動態優先級的值是從父進程繼承的。之後，每當時鐘中斷發生時，當前運行進程的counter值就減一，而這種遞減情況遇到下面兩種情況會終止：</p>
+<ul>
+<li><p>當counter遞減到0時，進程就會在時鐘中斷處理過程中被迫從運行態進入就緒態。而處於就緒態的所有進程不一定動態優先級全為0，系統就每次都選取不為0的進程進入運行態。這樣直到處於就緒態的進程的動態優先級全為0，再根據所有進程(包括就緒態和等待態)靜態優先級來計算動態優先級。計算方法為:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">p-&gt;counter = (p-&gt;counter&gt;&gt;<span class="number">1</span>) + p-&gt;priority; <span class="comment">//p為每個進程的task_struct指針。</span></span><br></pre></td></tr></table></figure>
+
+<p>再根據這些動態優先級重新調度進程。</p>
+</li>
+<li><p>對於運行態的進程，可能counter還沒有遞減到0就因為要等待某個事件而進入了等待態。處於等待態的進程，其動態優先級可能增加，也可能不變，但是不可能減小。</p>
+<p>Tip:不管是運行態還是就緒態，Linux系統中都是用TASK_RUNNING來表示，只通過current變量即當前是否佔有CPU來區分。這在Linux的進程狀態中有詳細講到。</p>
+</li>
+</ul>
+<p>counter帶來了效果為:</p>
+<p>(1) 等待態進程有更高的優先級，而且處於等待態時間越長的進程，其優先級越高。這就意味著I/O較多(意味著經常需要從運行態退出進入等待態)的進程優先級較高。</p>
+<p>(2) 計算較多的進程(通常從運行態退出後進入就緒態)優先級較低，因為通常其退出原因都是其時間片已經用完。</p>
+</li>
+<li><p>實時進程的調度策略</p>
+<p>因為實施進程對時間的要求比較高，因此Linux給實施進程增加了第三種優先級，稱為實時優先級。對於實時進程，Linux使用兩種調度策略：FIFS算法和RR算法。</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統2-處理機調度與死鎖/操作系統2-處理機調度與死鎖3(死鎖)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%963(%E6%AD%BB%E9%8E%96)/</url>
+    <content><![CDATA[<h3 id="操作系統-處理機調度與死鎖3-死鎖"><a href="#操作系統-處理機調度與死鎖3-死鎖" class="headerlink" title="操作系統-處理機調度與死鎖3(死鎖)"></a><strong>操作系統-處理機調度與死鎖3(死鎖)</strong></h3><h4 id="7-死鎖問題"><a href="#7-死鎖問題" class="headerlink" title="7.死鎖問題"></a>7.死鎖問題</h4><p>死鎖是指多個進程等待其它進程佔有的資源，因而無限期等待下去的局面。 </p>
+<p>系統發生死鎖時，一定具備以下四個條件：</p>
+<ul>
+<li>互斥條件。對於一個排他性資源，某一時刻最多允許一個進程佔有。</li>
+<li>佔有且申請條件。進程至少已佔有一個資源，又要申請新的資源。此時該進程阻塞，且在等待過程中不釋放已經佔有的資源。</li>
+<li>不可搶佔條件。進程獲得的資源在未使用之前，其他進程不得搶佔該資源。</li>
+<li>環路條件。若干個進程相互要佔有彼此的資源，形成一個環路。</li>
+</ul>
+<h4 id="8-死鎖的避免"><a href="#8-死鎖的避免" class="headerlink" title="8.死鎖的避免"></a>8.<strong>死鎖的避免</strong></h4><p>要避免死鎖，分為靜態策略和動態策略。靜態策略主要是實現避免形成四個必要條件。而動態策略則是為進程安排一個安全的推進順序，而不限制限制進程使用資源的命令。在進程申請資源時，系統需要計算資源分配的安全性，若此次分配不會導致死鎖，則將資源分配給進程。</p>
+<h4 id="9-用銀行家算法避免死鎖"><a href="#9-用銀行家算法避免死鎖" class="headerlink" title="9.用銀行家算法避免死鎖"></a><strong>9.用銀行家算法避免死鎖</strong></h4><p>9.1 <strong>銀行家算法的數據結構</strong></p>
+<ol>
+<li><p>可利用的資源向量Available</p>
+<p>可利用資源向量是一個含有m個元素的數組，若Available[j] = K，表示系統中第$R_j$類資源還有K個。</p>
+</li>
+<li><p>最大需求矩陣Max</p>
+<p>最大需求矩陣Max是一個$n\times m$的矩陣，它定義了系統的n個進程對於m類資源的最大需求。</p>
+</li>
+<li><p>分配矩陣Allocation</p>
+<p>分配矩陣也是一個$n\times m$的矩陣，它定義了系統中每一進程<strong>已佔有</strong>的每一類資源數。</p>
+</li>
+<li><p>需求矩陣Need</p>
+<p>Need矩陣表示系統中n類進程對於m類資源需要的數量。</p>
+</li>
+</ol>
+<p>9.2 <strong>銀行家算法的實現</strong></p>
+<ol>
+<li><p>進程申請資源的情況</p>
+<p>設$Requests_i$是進程$P_i$的請求向量，根據$Requests_i[i]與Need[i]$的關係，可以分為以下三種情況：進程資源需求超過系統最大值出錯、進程一次性對其所需的資源全部申請完成、進程申請部分資源。</p>
+</li>
+<li><p>銀行家算法的描述</p>
+<p>進程$P_i$發出資源請求，系統請求的步驟為：</p>
+<ol>
+<li><p>如果$Requests_i[i] \leq Need[i]$，便轉向步驟b，否則顯示出錯。</p>
+</li>
+<li><p>如果$Requests_i[i] \leq Available$，便轉向步驟c，否則表示暫無足夠資源，進程需等待。</p>
+</li>
+<li><p>假設系統將資源分配給P，則需修改數據結構的值如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">Available = Available - Requests_i;</span><br><span class="line">Allocation[i] = Allocation[i] + Requests_i;</span><br><span class="line">Need[i] = Need[i] - Requests_i;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>系統執行安全性算法，如果顯示安全，則正式將資源分配給該進程，否則之前的試探分配作廢，數據解放恢復到原有的值。</p>
+</li>
+</ol>
+</li>
+<li><p>安全性算法</p>
+<p>從上面的銀行家算法的描述可知，安全性算法是整個銀行家算法的關鍵所在。</p>
+<p>工作向量work表示在算法執行過程中，系統可以提供給進程繼續運行所需的各類資源數目，含有m個元素，安全算法開始時，work = Available。</p>
+<p>完成向量finish表示系統能否運行完成，若finish[i] = true，表示第i個進程可以運行完成。初始時，finish的各個值均為false，當有足夠的資源分配給進程i時，finish[i] = true。</p>
+<p>安全算法的步驟如下:</p>
+<ol>
+<li><p>設置兩個工作向量。設置工作向量work，完成向量finish，並賦初值。</p>
+</li>
+<li><p>進行安全性檢查。在進程集合中尋找這樣的一個進程：</p>
+<p>$finish[i] = false; Need[i] \leq work;$</p>
+<p>若找得到則執行步驟c，否則執行步驟d。</p>
+</li>
+<li><p>work = work + Allocation[i]; //這裡之所以是用“+”是因為當該進程滿足安全性時，系統直接默認該進程已經執行完成，釋放該進程的所有資源，再模擬接下來要進行的情況。同樣，在真正的分配資源，進程也要按照這個順序來執行以避免死鎖。</p>
+<p>finish[i] = true;</p>
+<p>返回步驟b。</p>
+</li>
+<li><p>若所有進程的finish[i] = true都滿足，則表示系統處於安全狀態，正式分配資源。否則不會進行資源分配。</p>
+</li>
+</ol>
+<p>例：某系統有同類資源m個，有n個並發進程可共享該資源。則每個進程最多可申請多少個該類臨界資源才能保證不發送死鎖？</p>
+<p>​    答：要保證不發生死鎖，則要求在最壞的情況下也不能發生死鎖，即n個進程同時請求最大數量的臨街資源時至少有一個進程能夠得到滿足，這樣才不會發生死鎖。</p>
+<p>設最大請求資源數量為x。則在最壞的情況下有：</p>
+<p>$$ n(x - 1) + 1 \leq m $$</p>
+</li>
+</ol>
+<h4 id="10-死鎖的檢測與解除"><a href="#10-死鎖的檢測與解除" class="headerlink" title="10.死鎖的檢測與解除"></a>10.死鎖的檢測與解除</h4><p>10.1 死鎖檢測的時機</p>
+<ol>
+<li><p>在發生資源請求時進行檢測，但是在沒有死鎖時會造成非常大的CPU開銷。</p>
+</li>
+<li><p>每隔一段時間，週期性的進程檢測。檢測CPU的使用率，當死鎖出現時，各進程均進入阻塞狀態，無法進入CPU執行，所以CPU的使用率下降。檢測CPU的使用率可以有效檢測到死鎖。</p>
+<p>10.2 死鎖的檢測</p>
+</li>
+<li><p>資源分配圖</p>
+<p>系統對資源的分配可以用有向圖來表示，該圖由結對組成G = (V,E)。其中V是頂點的集合，E是有向邊的集合。頂點集合可分為進程集合P={p1,p2,p3…}和資源集合R = {r1,r2,r3….}。</p>
+<p>在邊集合E中，由<strong>有序</strong>結對($p_i,r_j$)和$(r_j,p_i)$組成。</p>
+<p>$(p_i,r_j)$叫申請邊，是進程$p_i$指向$r_j$的有向邊，表示進程$p_i$申請一個$r_j$資源單位，<strong>當前$p_i$正在等待</strong>。</p>
+<p>$(r_j,p_i)$叫賦給邊，表示有一個資源$r_j$已經賦給了進程$p_i$。</p>
+</li>
+<li><p>死鎖定理</p>
+<p>通過資源分配圖易知，當圖中出現環路時，就表示出現了死鎖。不存在則沒有死鎖。</p>
+</li>
+<li><p>死鎖檢測的算法</p>
+<ol>
+<li><p>置初值，work = Available</p>
+<p>將不需要也不佔用資源的進程放入表L中。</p>
+</li>
+<li><p>從進程集合中尋找這樣的進程：</p>
+<p>$requests_i \leq work$，且該進程不在表L中。</p>
+<p>若能找到，則將其放入L中，增加工作量：</p>
+<p>work = work + Allocation[i];</p>
+<p>返回步驟b。</p>
+</li>
+<li><p>若不能將所有的進程都放入L中，則發生了死鎖。需要執行死鎖的恢復策略。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>10.3 死鎖的解除</p>
+<p>一般採用兩種方式來解除死鎖：終止一個或多個進程的執行來破壞循環；搶佔參與死鎖的進程的資源。</p>
+<p>如果經常從一個進程搶佔資源，則該進程就會經常因為資源不足而無法運行。因此一般情況下總是從執行時間短的進程搶佔資源。</p>
+<p>在學習完死鎖後，會發現死鎖中的搶佔資源和安全的執行序列等會影響到前面講過的調度算法。在實際進程的執行過程中，需要同時考慮到這些方面。因此如果想要寫一個實際的操作系統內核的話，這一方面的內容還要繼續深入學習。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/物理地址擴展</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%93%B4%E5%B1%95/</url>
+    <content><![CDATA[<h3 id="物理地址擴展-Physical-Address-Extension-PAE"><a href="#物理地址擴展-Physical-Address-Extension-PAE" class="headerlink" title="物理地址擴展(Physical Address Extension, PAE)"></a><strong>物理地址擴展(Physical Address Extension, PAE)</strong></h3><p>今早在知乎上看到一個新概念——物理地址擴展，查閱了許多資料，發現都只是將維基百科上的敘述再講了一遍，依舊十分晦澀難懂，於是打算自己用更加易懂的語言將自己的感悟寫下。</p>
+<p>早期的CPU和操作系統都是32位的，可以訪問的物理內存只有4G。後來4G不夠用了，於是人們想辦法去擴展物理內存。</p>
+<p>Intel Pentium pro以上的CPU增加了PAE的功能。那什麼是PAE呢？CPU是怎麼做到支持PAE的呢？</p>
+<p>首先Intel做的是將CPU原來的32根地址線增加到了36根地址線。都知道CPU可以訪問的內存大小根本是有地址線的位數決定的，CPU增加了4根地址線後，可以訪問的內存就變成了原來的$2^4$倍，也就是64G內存。</p>
+<p>但是只是從硬件層面實現內存的擴展是不行的，為了與32位的CPU相適應，所有的軟件都是設計成32位的，只能訪問4GB的內存。難道現在有64GB的內存可以訪問還是只能給軟件訪問4GB嗎？當然不行。</p>
+<p>於是就誕生了PAE。</p>
+<p>對於每個軟件或者說每個進程來說，其可以訪問的虛擬地址或者說邏輯地址空間還是4GB不變的，但是操作系統可以通過地址映射將虛擬地址映射到不同物理地址，這就允許多個進程的使用內存加起來超過了4GB。原來是所有的進程共享4GB內存，現在是所有的進程都可以訪問4GB內存，但是加起來共享64GB內存。</p>
+<p>題外話：地址映射同時需要操作系統和CPU的支持。在CPU的內部，有一個叫MMU的部件，這個MMU不是Manchester Metropolitan University, 而是Memory Management Unit，在CPU內部負責CPU的內存訪問需求，功能包括<strong>虛擬地址到物理地址的轉換</strong>、內存保護、中央處理器告訴緩存的控制等。</p>
+<p>如果CPU沒有MMU，CPU要訪問內存時傳出的地址就直接送到了內存的針腳上，等於直接訪問了物理內存，由於內存碎片化線性的存在，內存的使用率將大大降低。如果操作系統不知道CPU不支持邏輯地址的話就更加恐怖，CPU將直接將邏輯地址當做物理地址傳給內存，將訪問到錯誤的內存地址。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2310756-67a4ff2b53385008.png" alt=""></p>
+<p>而啟用了MMU的CPU，CPU執行單元發出的地址將被MMU截獲，進行一次地址轉換後才傳給內存。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2310756-3b1e7fc263f0642a.png" alt=""></p>
+<p>而在執行過程中，操作系統和MMU是這樣的配合的：</p>
+<ul>
+<li>操作系統在初始化或分配、释放内存时会执行一些指令在物理内存中填写页表，然后用指令设置MMU，告诉MMU页表在物理内存中的什么位置。</li>
+<li>设置好之后，CPU每次执行访问内存的指令都会自动引发MMU做查表和地址转换操作，地址转换操作由硬件自动完成，不需要用指令控制MMU去做。</li>
+</ul>
+<p>註：題外話中大部分內容引用自<a href="https://www.cnblogs.com/alantu2018/p/9002309.html" target="_blank" rel="noopener">這篇文章</a>。</p>
+<p>但是隨著大型軟件的推出，又出現了一個問題——如果進程需要訪問超過4GB的內存怎麼辦呢？</p>
+<p>對於需要超過4GB內存的軟件來說，需要操作系統提供另外的支持技術，這種技術在Windows上叫Address Windowing Extension(AWE)，在類Unix上則有多種不統一的技術在使用。</p>
+<p>為了實現這種技術，需要對頁表的結構進行改進。</p>
+<p>在傳統的分頁結構中，32位的線性地址通常是如下分配的。由於圖是本地的，所以請對照</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/42a98226cffc1e1786864ca94a90f603738de969?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
+<p>32位的地址線中，從高往低，10位用於頁表的尋址，10位用於頁的尋址，最後12位用於頁內偏移量的尋址，頁的大小為4KiB(懷有疑惑)。</p>
+<p>現在還沒有談論到PAE，我們先弄清楚頁表的結構。在頁表的表項的第7位叫做PS(Page Size)，如果這個位設為1，則頁目錄的表項不再指向頁表，而是指向一個4MiB的頁。</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/37d12f2eb9389b50c0ce20ca8535e5dde7116e71?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
+<p>在啟用PAE後，為了可以使用附加的地址位，頁表和頁目錄中的表項都從32位增加到了64位。可以查找的範圍更大了，但是頁目錄和頁表的總大小要保持不變，所以只有9位可以用來查找頁目錄和頁表，為了能夠依舊有那麼多頁目錄和頁表可以用，於是就引入了一級頁目錄指針，共佔兩位，可以尋址到4個頁目錄。</p>
+<p><img src="https://bkimg.cdn.bcebos.com/pic/6c224f4a20a446234ff965fa9822720e0cf3d773?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5" alt=""></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統3-內存管理/操作系統3-內存管理(請求分頁內存管理)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B13-%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86(%E8%AB%8B%E6%B1%82%E5%88%86%E9%A0%81%E5%85%A7%E5%AD%98%E7%AE%A1%E7%90%86)/</url>
+    <content><![CDATA[<h3 id="操作系統3-內存管理-請求分頁內存管理"><a href="#操作系統3-內存管理-請求分頁內存管理" class="headerlink" title="操作系統3-內存管理(請求分頁內存管理)"></a><center><strong>操作系統3-內存管理(請求分頁內存管理)</strong></center></h3><h4 id="6-請求分頁內存管理方式"><a href="#6-請求分頁內存管理方式" class="headerlink" title="6. 請求分頁內存管理方式"></a>6. 請求分頁內存管理方式</h4><p>6.1 <strong>請求分頁的實現</strong></p>
+<p>請求分頁是常用的實現虛擬存儲器的方式，其實現需要頁表機制、缺頁中斷機制和地址變換機構的支持。</p>
+<ol>
+<li><p>頁表機制</p>
+<p>分頁系統中地址映像是用過頁表實現的。在請求分頁的系統中，頁表項包括：邏輯頁號、物理塊號、狀態位P、訪問字段A、修改位M和外存地址。</p>
+<ol>
+<li>狀態位P用於指示該頁是否已經調入內存。</li>
+<li>訪問字段A，用於記錄本頁在一段時間內被訪問的次數，或最近多長時間沒被訪問，供置換算法換出頁面時參考。</li>
+<li>修改位M，表示該頁在調出內存後是否被修改過。由於<strong>內存的每一頁在外存中都有備份</strong>，所以在該頁被換出時，系統會查詢該頁的修改位，若被修改過，則將該頁再寫入內存；若調入內存後未被修改過，則直接進行覆蓋。</li>
+<li>外存地址，表示該頁在外存中的地址，若外存採用磁盤，則是磁盤塊號。</li>
+</ol>
+</li>
+<li><p>缺頁中斷機構</p>
+<p>在請求分頁中，若訪問的頁不在主存，便產生一個缺頁中斷。(這個缺頁中斷與前面的缺頁中斷並不是一回事。前面的缺頁中斷找不到頁面說明頁面已經丟失了，這個找不到頁面說明頁面還在外存中，沒有換入主存。)缺頁中斷與一般的中斷相比有明顯的區別：</p>
+<ol>
+<li>在指令執行期間產生和處理中斷信號。</li>
+<li>一條指令在執行期間可能產生多次中斷。系統中的硬件應能保存多次中斷時的狀態，保證能夠返回到中斷前的狀態。</li>
+</ol>
+</li>
+<li><p>地址變換機構</p>
+<p>地址變換過程如圖所示</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[程序請求訪問一頁] --&gt; B&#123;頁號&gt;頁表中頁號&#125;</span><br><span class="line">B --&gt; |Yes|C[越界中斷]</span><br><span class="line">B --&gt; |No|D[CPU檢索快表]</span><br><span class="line">D --&gt; E&#123;頁表項在快表中&#125;</span><br><span class="line">E --&gt; |No|F[訪問頁表]</span><br><span class="line">E --&gt; |Yes|G[修改訪問位和修改位]</span><br><span class="line">F --&gt; I&#123;頁在內存&#125;</span><br><span class="line">I --&gt; |No|J[缺頁中斷]</span><br><span class="line">I --&gt; |Yes|K[修改快表]</span><br><span class="line">K --&gt; G</span><br><span class="line">G --&gt; L[形成物理地址]</span><br><span class="line">L --&gt; M(地址變換結束)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>6.2 <strong>內存分配策略</strong></p>
+<p>在為進程分配內存時，主要涉及三個問題：最小物理塊數的確定；物理塊的分配策略；物理塊的分配算法。</p>
+<ol>
+<li><p>最小物理塊數的確定</p>
+<p>最小物理塊數，即能保證程序能正常運行的最小物理塊數。</p>
+</li>
+<li><p><strong>物理塊的分配策略</strong></p>
+<p>在請求分頁系統中，可採用兩種內存分配策略：固定分配策略和可變分配策略。在進行置換時，也可採取兩種策略：全局置換和局部置換。</p>
+<ol>
+<li><p>固定分配局部置換</p>
+<p>基於進程的類型或程序管理員的建議，為每個進程分配一定數目的物理塊，整個運行期間都不再改變。如果程序在運行時發現缺頁，必須先從內存中換出一個頁面才能換入新的頁面，這樣才能整體內存不變。</p>
+<p>這種方式的缺點在難以確定物理塊的數目，分配過多或過少都會造成系統整體效率的下降。</p>
+</li>
+<li><p>可變分配全局置換</p>
+<p>採用這種策略時，系統會先為每個進程都分配一定數目的物理塊，而OS自身也會保持一定數目的空閒物理塊。當進程發生缺頁中斷時，系統會分配一個空閒的物理塊給該進程以調入新的頁面。這樣每個進程都能獲得新的物理塊，直到系統的空閒物理塊用完。這時候再發送缺頁中斷時，OS就從內存中調出一頁，該頁可能是任一進程的頁。具體的調換算法在後面會講到。</p>
+</li>
+<li><p>可變分配局部變換</p>
+<p>同樣是系統在一開始為每個進程分配一定數目的物理塊，但是進程在發生缺頁中斷時，只能從自己進程中調出一頁。這樣就不會影響其他進程。但是系統會時刻觀察所有進程的缺頁中斷發生的頻率，缺頁中斷發生非常頻繁的進程會分配若干物理塊，直到中斷頻率降低到一定程度。同樣，缺頁中斷發生頻率過低的進程就會抽走若干物理塊，使得整體的缺頁中斷發生的頻率都控制在一定範圍。</p>
+</li>
+</ol>
+</li>
+<li><p>物理塊的分配算法</p>
+<p>物理塊的分配應該綜合考慮到進程的優先級和進程的大小，在重要的實時控制系統中，優先級高的進程就能分配到更多的物理塊。</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統2-處理機調度與死鎖/操作系統2-處理機調度與死鎖(作業與進程管理介紹)</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B12-%E8%99%95%E7%90%86%E6%A9%9F%E8%AA%BF%E5%BA%A6%E8%88%87%E6%AD%BB%E9%8E%96(%E4%BD%9C%E6%A5%AD%E8%88%87%E9%80%B2%E7%A8%8B%E7%AE%A1%E7%90%86%E4%BB%8B%E7%B4%B9)/</url>
+    <content><![CDATA[<h3 id="操作系統-處理機調度與死鎖"><a href="#操作系統-處理機調度與死鎖" class="headerlink" title="操作系統-處理機調度與死鎖"></a>操作系統-處理機調度與死鎖</h3><h4 id="1-作業管理"><a href="#1-作業管理" class="headerlink" title="1.作業管理"></a>1.作業管理</h4><p>1.1 <strong>作業的概念</strong></p>
+<p>作業是用戶在一次解題或一個事務處理過程中要求計算機所做工作的集合。它由程序、數據和作業說明書組成，系統通過作業說明書來控制程序和數據，並且在批處理系統中，作業是加載內存的基本單位。</p>
+<p>作業分為<strong>脫機作業</strong>和<strong>聯機作業</strong>。脫機作業是指用戶不能直接與計算機系統交互，中間必須通過操作員干預的作業。通常在批處理系統中運行，又稱為批處理作業。聯機作業是指用戶可以通過鍵盤或控制台上的操作命令或圖形界面等方式控制作業的運行。在分時和批處理兼容的系統中，一般前端作業為聯機作業，批處理作業則為後端作業。</p>
+<p>1.2 <strong>作業的狀態</strong></p>
+<p>作業有四個狀態：</p>
+<p>(1) 提交狀態。一個作業處於從輸入設備進入外部存儲設備的過程稱為提交狀態。</p>
+<p>(2) 後備狀態。一個作業已經全部輸入到外存中，在它被調度程序選中之間，稱為處於後備狀態。</p>
+<p>(3) 執行狀態。作業調度程序從後備作業選取若干個作業進入內存，並為其建立進程和分配響應的資源。</p>
+<p>(4) 完成狀態。作業已經執行完成，但是它佔用的資源還未被收回。這個狀態稱為完成狀態。這個狀態下，系統需要做一些打印結果，回收資源類似的工作。</p>
+<p>1.3 <strong>作業管理</strong></p>
+<p>作業管理包括<strong>作業調度</strong>和<strong>作業控制</strong>。作業調度就是根據調度算法從後備作業中選取若干作業加載內存並運行。作業控制則是按照作業控制語言的解釋程序讀取用戶作業說明書。</p>
+<ul>
+<li><p>作業控制塊JCB(Job Control Block)</p>
+<p>作業控制塊類似於進程中的PCB，內含作業控制的有關信息。當作業進入後備狀態時，系統就會為其建立JCB。作業完成後，JCB又會被撤銷。</p>
+<p>JCB的主要內容如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">作業類型</th>
+<th>計算型<br>理型<br>圖形設計型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">資源要求</td>
+<td>內存量 <br> 外存量<br> 外設類型及數量<br> 軟件支持工具庫函數</td>
+</tr>
+<tr>
+<td align="left">當前狀態</td>
+<td>四個狀態</td>
+</tr>
+<tr>
+<td align="left">資源使用情況</td>
+<td>進入系統的時間<br>開始執行時間<br>已運行時間<br> 內存地址</td>
+</tr>
+<tr>
+<td align="left">作業的優先級</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>作業進入系統的時間是指作業的全部信息進入了輸入井，當前狀態為後備狀態時候的時間。</p>
+</li>
+<li><p>作業表</p>
+<p>所有的JCB都放在作業表內，作業表放在<strong>外存固定區域</strong>，通常長度是固定的。</p>
+</li>
+</ul>
+<h4 id="2-分級調度"><a href="#2-分級調度" class="headerlink" title="2.分級調度"></a>2.分級調度</h4><p>一個批處理作業，從進入系統並駐留在外存的後備隊列開始，直至作業運行完畢要經歷一下三級調度：即作業調度、對換和進程調度。</p>
+<ol>
+<li><p>作業調度</p>
+<p>又稱高級調度或長調度。用於選擇把外存上處於後備隊列的哪些作業調入內存，並未它們創建進程、分配必要的資源。再將新進程插入就緒隊列，準備執行。這個過程通常是存在于批處理系統中，因為批處理系統的作業是先駐留在外存上的，需要有作業調度的過程分批地調入內存。而分時系統為了做到及時響應用戶，用戶通過鍵盤輸入的數據和命令等通常都是直接送入內存的。實時系統通常也不需要這個過程。</p>
+</li>
+<li><p>對換</p>
+<p>又稱交換調度或中調度。主要是按照給定的原則，將處於外存交換區中的就緒狀態或等待狀態的進程調入內存，或者反過來。交換調度主要涉及內存管理與擴充，如虛擬內存，往後會在內存管理中講到。</p>
+</li>
+<li><p>進程調度</p>
+<p>又稱低級調度或微觀調度。按照某種算法，將處理機分配給某個處於就緒狀態的進程，在確定了佔用處理機的進程後，還要進程進程上下文的切換以建立和該進程相適應的執行環境。進程調度可分為兩種模式：</p>
+<ul>
+<li><p>非搶佔方式</p>
+<p>非搶佔方式不允許進程搶佔已經分配出去的處理機，引起進程調度的原因可能是出現了執行完成的進程；因發生了某件事而不能繼續執行的進程；執行的進程因發出了I/O請求而暫停執行；進程通信時發送了某種原語操作(如wait操作)。</p>
+</li>
+<li><p>搶佔方式</p>
+<p>搶佔方式允許調度程序根據某些原則暫停正在執行的進程，將處理機分配給其他進程。搶佔的原則有<strong>優先權原則</strong>、<strong>短作業優先權原則</strong>和<strong>時間片原則</strong>。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-作業調度"><a href="#3-作業調度" class="headerlink" title="3.作業調度"></a>3.作業調度</h4><p>作業調度即根據審查處於後備狀態的作業JCB，根據某種作業調度程序，調取一些作業進入內存並執行。主要流程有確定數據結構、確定調度算法、分配資源和善後處理(作業執行結束時，收回該作業的所有資源，撤銷所有進程)。</p>
+<p>Linux系統的作業一旦輸入，就直接進入內存，進入下一級的調度。因此Linux系統沒有作業調度的概念。</p>
+<p>3.1 調度算法的評價準則</p>
+<ul>
+<li>面向用戶的評價準則<ul>
+<li>周轉時間短：周轉時間即作業提交系統到作業執行完成之間的時間間隔。周轉時間越短，系統效率越高。</li>
+<li>響應時間短：響應時間即用戶提交作業到系統首次產生響應的時間間隔。</li>
+<li>截止時間的保證：截止時間即某個作業必須開始執行的最晚時間。</li>
+<li>優先權準則</li>
+</ul>
+</li>
+<li>面向系統的評價準則<ul>
+<li>系統吞吐量</li>
+<li>處理機利用率</li>
+<li>各類資源利用率</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-進程調度"><a href="#4-進程調度" class="headerlink" title="4.進程調度"></a>4.進程調度</h4><p>在多進程系統中，處理機需要靈活地分配給各個進程。</p>
+<p>4.1 進程調度的時機</p>
+<p>在並行環境下，引起進程調度的事件有:</p>
+<ul>
+<li>完成任務</li>
+<li>等待資源</li>
+<li>運行時間已到</li>
+<li>進入睡眠狀態</li>
+<li>發現標誌：執行完系統調用，即核心處理完陷入事件以後，從系統程序返回用戶進程時，可認為系統進程執行完畢，從而調度新的用戶進程執行。</li>
+<li>有更優先的進程進入</li>
+</ul>
+<p>4.2 進程上下文的切換</p>
+<p>進程的上下文由正文段、數據段、硬件寄存器的內容和有關的數據結構組成。硬件主要存放CPU將要執行的下條指令虛地址的程序計數器、指出機器和進程相關的硬件狀態的處理機狀態寄存器PS、存放過程調用時所傳遞的參數的通用寄存器R和堆棧指針寄存器S等。</p>
+<p>4.3 Linux系統中調度進程發生的時機</p>
+<p>Linux系統沒有設置專門的調度進程，需要進程調度時，調用一個特定的調度函數來完成該功能。Linux系統發生進程調度的時機有以下幾種：</p>
+<ul>
+<li><p>用戶創建一個新的進程，系統將其添加到就緒隊列，返回該進程的進程標識符。<strong>這時候調度函數就已經開始執行了</strong>。</p>
+</li>
+<li><p>正在執行的進程因得不到某種硬件資源而進入等待狀態或者進程已經執行完成而進入<strong>僵死狀態</strong>。這種進程狀態轉換完成後，系統開始調用調度函數，分配新的進程給CPU。</p>
+</li>
+<li><p>進程沒有執行完成，但是分配的時間片已經用完，需要調用調度函數釋放CPU資源。</p>
+</li>
+<li><p>Linux系統提供了兩級保護，用戶進程可以在用戶態和核心態下運行。具有不同的特權級別，可以訪問不同的地址空間。用戶進程可以通過<strong>中斷和進程調度</strong>在轉換到核心進程。其中中斷是應進程外部發來的消息要求進入核心態，函數調用則是應進程內部要求進入核心態；而從核心態進入到用戶態，則需要一定的硬件支持。</p>
+<p><strong>總的來說，以上情況可以總結為兩類：一是進程本身自動放棄處理機，包括進程轉換到等待和僵死狀態。二是由核心態轉入用戶態時發生調度。系統調用完成和內核處理完中斷後，系統由核心態轉入用戶態。進程時間片用完發生的時間中斷也屬於中斷的一種，也發生在內核態之中。</strong></p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統4-文件系統/LVM</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/LVM/</url>
+    <content><![CDATA[<h3 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a><strong>LVM</strong></h3><p>LVM for Logical Volume Manager(邏輯捲管理)。</p>
+<p>用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。</p>
+<p>LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。</p>
+<p>LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。LVM再從卷組中劃分不同的<strong>邏輯卷</strong>作為新的邏輯設備，邏輯卷在物理層面上不必是磁盤上連續的一片，其可以跨越多個物理卷。對於上層設備來說，相當於底層所有的存儲設備都連成了一片，這就形成了一個類似內存中的邏輯空間的東西。</p>
+<p>對於LVM來說，跨卷存儲和調整分區大小只需要從邏輯層面修改響應文件信息，而物理層面的存儲信息不需要變化。當用戶增加物理卷時，只需要將新分區加入卷組並擴充邏輯卷即可。</p>
+<h4 id="Linux下製作LVM"><a href="#Linux下製作LVM" class="headerlink" title="Linux下製作LVM"></a><strong>Linux下製作LVM</strong></h4><p>安裝Linux時LVM並不會自動的安裝，需要用戶手動製作，製作時為了體現LVM跨分區跨磁盤的效果，最好將LVM製作在多個磁盤下。</p>
+<p>假設有兩塊磁盤/dev/sda1, /dev/sda2</p>
+<ol>
+<li><p>首先創建物理卷</p>
+<figure class="highlight plain"><figcaption><span>/dev/sda1```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;pvcreate &#x2F;dev&#x2F;sda2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>創建卷組</p>
+<figure class="highlight plain"><figcaption><span>vg_name</span><a href="/dev/sda1">/dev/sda2```</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">   vg_name是卷組的名字</span><br><span class="line"></span><br><span class="line">3. 創建好後可以通過&#96;&#96;&#96;vgdisplay&#96;&#96;&#96;查看VG的情況。</span><br><span class="line"></span><br><span class="line">4. 創建LVM邏輯卷</span><br><span class="line"></span><br><span class="line">   &#96;&#96;&#96;lvcreate  -L size -n lvm_name vg_name</span><br></pre></td></tr></table></figure>
+
+<p>-L參數後面接需要創建的邏輯卷的大小，單位是kKmMgGtT</p>
+<p>-n參數後面則接需要創建的邏輯卷的名字。</p>
+<p>最後需要在哪個卷組中創建邏輯卷就加上哪個卷組的名字。</p>
+<p>更多的參數可以通過<code>man lvcreate</code>命令查看。</p>
+</li>
+<li><p>創建好的邏輯卷文件可以通過<code>/dev/vg_name/lvm_name</code>路徑查看。</p>
+</li>
+<li><p>邏輯卷創建好後就可以進行文件系統的創建了，創建方式和正常創建在磁盤裡面基本沒有差別。</p>
+</li>
+<li><p>邏輯卷的擴容。</p>
+<figure class="highlight plain"><figcaption><span>-L size</span><a href="/dev/vg_name/lvm_name```">link</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">-L參數與前面同義。</span><br><span class="line"></span><br><span class="line">邏輯卷擴容後還需要命令文件系統識別新的文件系統大小。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;resize2fs &#x2F;dev&#x2F;vg_name&#x2F;lvm_name</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LVM的掛載。和正常操作基本一樣。</p>
+</li>
+<li><p>設置開機自動掛載</p>
+<p>打開fstab</p>
+<figure class="highlight vim"><figcaption><span>/etc/fstab```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">在最下面增加一行：</span><br><span class="line"></span><br><span class="line">```/dev/vg_name/lvm_name /mnt/path ext4 defaults <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>/mnt/path寫為你的LVM的掛載路徑。</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統4-文件系統/操作系統4-文件系統1</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B11/</url>
+    <content><![CDATA[<h3 id="操作系統4-文件系統"><a href="#操作系統4-文件系統" class="headerlink" title="操作系統4-文件系統"></a><strong>操作系統4-文件系統</strong></h3><h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a><strong>文件</strong></h4><ol>
+<li><p>文件是計算機系統中信息存放的一種組織形式</p>
+</li>
+<li><p>文件的分類</p>
+<ul>
+<li>普通文件：如保存在磁盤上的c文件，可執行文件，以及目錄等。這種文件的特性是數據在存儲設備上存放，內核提供了對數據的抽象訪問。</li>
+<li>字符設備文件：一種能夠像文件一樣被訪問的設備，如控制台，串口等。</li>
+<li>塊設備文件：磁盤是此類文件的經典代表，操作系統對這種數據的訪問進行重新的格式設計。</li>
+<li>socket文件：Linux通過網絡進行通信的方式，對網絡的訪問可以通過文件描述符的抽象實現，訪問網絡和訪問普通文件類似，進程通過對socket文件讀寫來實現消息的傳遞。</li>
+</ul>
+<p>Linux對於這些文件的訪問時類似的，因為Linux強大的虛擬文件系統(VFS)為這些文件提供了一套統一的API。</p>
+</li>
+<li><p>文件的性質</p>
+<ul>
+<li>普通文件</li>
+<li>目錄文件：記錄目錄裡面的文件列表信息</li>
+<li>設備文件：把設備作為文件管理和使用(typical Linux)</li>
+</ul>
+</li>
+<li><p>文件屬性：指定文件的類型、操作特性和存取保護等信息，<strong>存放在文件所在目錄的目錄文件中</strong>。</p>
+<p>MS-DOS系統中：文件屬性佔目錄的一個字節</p>
+</li>
+<li><p>文件結構</p>
+<ul>
+<li>邏輯結構：強調文件信息項的構成方式和用戶的存取方式<ul>
+<li>記錄式文件：文件頭要包含文件的各種控制信息和說明信息</li>
+<li>流式文件：只有文件的內容，沒有額外的內容。<strong>現在操作系統都是流式文件，由應用程序解釋和處理文件。</strong></li>
+</ul>
+</li>
+<li>物理結構：文件在存儲設備上的存儲結構</li>
+</ul>
+</li>
+<li><p>文件存取</p>
+<ul>
+<li>順序存取：文件讀取時，讀寫指針指向第一個信息項</li>
+<li>隨機存取：存取操作時指定存取的位置。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="文件物理結構"><a href="#文件物理結構" class="headerlink" title="文件物理結構"></a><strong>文件物理結構</strong></h4><ol>
+<li><p>連續文件：文件按邏輯塊的順序存放在硬盤<strong>連續的</strong>物理存儲塊中。</p>
+<p>文件目錄記錄文件的長度和第一個存儲塊的塊號。</p>
+<p>缺點：不利於文件的動態增長，不利於文件的插入和刪除。</p>
+</li>
+<li><p>索引文件</p>
+<p>不連續地存儲在物理塊中，文件目錄記錄文件的邏輯塊和物理塊之間的對應關係。</p>
+<p>顯然索引文件結構比連續文件結構更加適合更加頻繁更改的文件。</p>
+</li>
+<li><p>串聯文件(索引順序文件)</p>
+<p>不連續地存儲在物理塊中，每個存儲塊有一個指針指向下一個存儲塊。</p>
+<p>不利於文件的隨機存取。</p>
+<p>串聯文件的應用：FAT文件系統</p>
+</li>
+<li><p>直接文件</p>
+<p>根據給出文件的鍵值直接給出文件的物理地址。</p>
+</li>
+<li><p>哈希文件</p>
+<p>使用最為廣泛的直接文件。通過Hash函數將鍵值轉換為一個目錄表目的相應指針，表目的內容則是指向相應記錄的物理塊。</p>
+</li>
+</ol>
+<hr>
+<h4 id="FAT文件系統-File-Allocation-Table"><a href="#FAT文件系統-File-Allocation-Table" class="headerlink" title="FAT文件系統(File Allocation Table)"></a><strong>FAT文件系統(File Allocation Table)</strong></h4><ol>
+<li><p>文件分配表(FAT表)</p>
+<p>FAT系統應用了串聯文件的結構，但是將每個文件的next指針統一地有序地存儲在了一個表中，稱為FAT表。</p>
+<p>訪問方式：如果當前的存儲塊號是i，那麼下一個存儲塊的地址就是FAT(i)。</p>
+<p>所以可以說FAT系統巧妙地結合索引和串聯系統的特點。</p>
+</li>
+<li><p>扇區</p>
+<p>磁盤上最小的可尋址的存儲單元(512字節)</p>
+</li>
+<li><p>簇(cluster) = 存儲塊</p>
+<p>設備的最小存取單元，固定數量的扇區</p>
+<p>示例：</p>
+<ul>
+<li>369KB硬盤：簇 = 2個扇區(1024字節)</li>
+<li>2GB硬盤：簇 = 64個扇區(32KB)</li>
+</ul>
+<p>一般硬盤容量越大，簇包含的扇區數量越大。</p>
+<p>FAT元素數目和簇的數目一致，FAT元素的寬度與可以標識的簇的數量的關係為$2^n$。</p>
+<p>磁盤容量 = FAT長度 * 簇扇區數 * 扇區大小</p>
+<p>常說的FAT16文件系統就是說FAT表支持的最大的元素寬度為16位，能標識的簇容量為$2^{16}$位。通過FAT長度計算出來磁盤容量就是FAT支持的最大磁盤分區容量。</p>
+</li>
+<li><p>FAT16格式化的磁盤</p>
+<table>
+<thead>
+<tr>
+<th>啟動扇區</th>
+<th>FAT1</th>
+<th>FAT2</th>
+<th>根目錄</th>
+<th>其他目錄和文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>FAT1和FAT2的內容一致，為了防止被破壞而有一個備份。</p>
+</li>
+</ol>
+<hr>
+<h4 id="存儲空間管理"><a href="#存儲空間管理" class="headerlink" title="存儲空間管理"></a><strong>存儲空間管理</strong></h4><p>記錄磁盤使用情況，管理和分配、回收存儲空間</p>
+<ol>
+<li><p>空閒空間表</p>
+<ul>
+<li>空閒文件：把連續空閒區看成一個特殊文件</li>
+<li>空閒文件目錄：每個表項對應一個空閒文件，記錄有第一個空閒塊號，空閒塊個數和響應的物理塊號。</li>
+</ul>
+</li>
+<li><p>空閒塊鏈</p>
+<p>把所有的空閒塊鏈接在一起，當申請者需要空閒塊時，從鏈頭開始搜索空閒塊直到遇到合適的空閒塊。回收空間時，把釋放的空閒塊逐個加在鏈尾。這個和內存管理的機制是一樣的。</p>
+</li>
+<li><p>空闲塊成组链接法</p>
+<p>Linux采用这个方法克服了空閒空間表和空閒塊鏈均有的表太長的缺點</p>
+<ul>
+<li><p>空閒盤塊的組織</p>
+<ul>
+<li>將文件區的所有空閒盤塊依次進行分組。如將100個空閒塊劃分成一組，将組中的第1塊設為組長塊，第1組為99塊，以後的都是100塊，最後剩下的為1組。</li>
+<li>將每一組的盤塊總數和該組所有的盤塊號放入後一組的“組長塊”中，每一組的第一個盤塊構成一條鏈。</li>
+<li>第一組只有99個盤塊，但是仍然記為100，第2組的組長塊記其為0號，作為空閒盤塊結束的標誌。</li>
+<li>將最後一組的盤塊總數和空閒盤塊和空閒盤塊好存入空閒盤塊專用棧中，空閒盤塊的分配和回收都在這個棧中進行。</li>
+</ul>
+</li>
+<li><p>空閒盤塊的分配</p>
+<p>分配空閒盤塊時，專用棧的棧深減一，並作為索引取出分配的盤塊。如果索引減到了0，則需要先將盤塊中的信息存入另外的棧中才能分配。如果這還是第2組的盤塊，說明接下來只有99個盤塊用了。所有盤塊用完後，接下來的進程只能等待。</p>
+</li>
+<li><p>空閒盤塊的回收</p>
+<p>若空閒盤塊專用棧沒有滿，那麼將要回收的空閒盤塊的盤塊號壓入棧，棧深+1。如果棧滿了，那麼需要本棧的信息(棧深值和個空閒塊號)放入回收塊中，將其作為一個新的分組的組長塊。再將專用棧的棧深和盤塊號清零。</p>
+</li>
+</ul>
+</li>
+<li><p>位示圖</p>
+<p>從內存中劃出若干個字節，每個bit表示一個存儲塊空閒或佔用。1表示空閒。</p>
+</li>
+</ol>
+<hr>
+<h4 id="文件目錄管理"><a href="#文件目錄管理" class="headerlink" title="文件目錄管理"></a><strong>文件目錄管理</strong></h4><ol>
+<li><p>文件控制塊</p>
+<p>文件控制塊(FCB):通常由基本信息、存取控制信息和使用信息組成。</p>
+<ul>
+<li>基本信息：<ul>
+<li>文件名</li>
+<li>文件類型</li>
+<li>文件物理地址：文件在外存的物理位置和範圍，包括文件的設備名、在外存的起始地址和文件長度</li>
+<li>文件的邏輯結構：指明文件是記錄式文件或者流式文件等。</li>
+<li>文件的物理結構</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>索引節點</p>
+<ul>
+<li><p>索引節點的引入</p>
+<p>在之前的文件系統中，檢索文件的時候需要將文件的全部信息都調入內存，但是進行比對的只有文件名，所以Linux為了避免系統在檢索文件的時候將整個文件都調入內存。將文件名和文件信息實現了分離，文件的描述信息單獨構成一個節點，稱為<strong>索引節點</strong>，簡稱I節點。</p>
+<p>於是文件目錄中的每個目錄項僅由文件名和指向該文件名所對應文件的索引節點的指針構成。在Linux中，一個目錄項佔16B，文件名佔14B。</p>
+</li>
+<li><p>磁盤索引節點</p>
+<p>存放在磁盤上的索引節點，每個文件有唯一的磁盤索引節點。</p>
+<p>包含了文件的一些基本信息</p>
+</li>
+<li><p>內存索引節點</p>
+<p>每次文件打開時，要將磁盤索引節點複製到內存索引節點中，便於以後使用。內存索引節點包含：</p>
+<ul>
+<li>編號</li>
+<li>狀態：指示該節點是夠已被修改或上鎖</li>
+<li>訪問計數：計數訪問的進程數量</li>
+<li>鏈接指針：指向空閒鏈錶和散列隊列的指針</li>
+<li>邏輯設備名：含有該文件的文件系統的邏輯設備名。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>文件目錄</p>
+<p>記錄文件名和存放地址的目錄表</p>
+<p>具有將文件名轉換為物理地址的功能</p>
+<p>還記錄有文件屬性</p>
+</li>
+<li><p>目錄文件：文件目錄以文件形式存與外存，這個文件叫做目錄文件。</p>
+</li>
+<li><p>目錄結構</p>
+<p>不同系統的結構不一樣</p>
+<ul>
+<li>DOS系統(32字節)：文件名 擴展名 屬性 保留 時間日期 首塊號 大小</li>
+<li>Unix<ul>
+<li>索引節點</li>
+<li>文件名</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="文件共享和安全性"><a href="#文件共享和安全性" class="headerlink" title="文件共享和安全性"></a><strong>文件共享和安全性</strong></h4><ol>
+<li><p>文件的共享</p>
+<ul>
+<li><p>連接法</p>
+<p>在樹形結構目錄中，當有多個用戶要共享目錄或文件時，必須將共享文件或子目錄鏈接到兩個用戶的目錄中，此時文件系統的目錄結構是非循環樹形目錄結構</p>
+<p><strong>建立連接的思想就是用一個文件目錄項直接指向要共享文件的目錄項，目錄項中包含的就是索引節點的指針</strong>，如同C語言中新建一個指針指向同一個地址。</p>
+<p>在Linux系統中，對文件的連接命令就是ln，格式為：</p>
+<figure class="highlight plain"><figcaption><span><帶路徑指引的文件名稱> <帶路徑指引的目錄名稱>```</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">如果要刪除有鏈接的文件，則必須將其鏈接的所有目錄下的該文件都刪除才能徹底刪除。這個方法可以用來防止誤刪一些文件。</span><br><span class="line"></span><br><span class="line">但是無法對目錄創建應鏈接，因為如果要對一個目錄創建硬鏈接，意味著目錄下面所有的文件都要創建響應的鏈接，這將是一個相當大的工作量。</span><br><span class="line"></span><br><span class="line">&gt;順便說一下Linux下的軟鏈接(Symbolic link):Symbolic link就是創建一個獨立的文件，而這個文件會讓數據的讀取指向它link的那個文件的文件名。其link的文件再鏈接到正確的iNode。</span><br><span class="line">&gt;</span><br><span class="line">&gt;Linux中創建軟鏈接的格式為：</span><br><span class="line">&gt;</span><br><span class="line">&gt;&#96;&#96;&#96;ln -s &lt;帶路徑指引的文件名稱&gt; &lt;帶路徑指引的目錄名稱&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="Linux文件系統"><a href="#Linux文件系統" class="headerlink" title="Linux文件系統"></a><strong>Linux文件系統</strong></h4><ol>
+<li><p>虛擬文件系統VFS</p>
+<p>Virtual File System是Linux內核的一個軟件層，用於給用戶空間的程序提供文件系統接口，它允許不同的文件系統共存。</p>
+</li>
+<li><p>EXT2</p>
+<p>Linux最常用的文件系統。</p>
+<ul>
+<li><p>EXT2磁盤佈局</p>
+<p>由邏輯塊組成，分為引導塊、超級塊、inode區及數據區。</p>
+</li>
+</ul>
+</li>
+<li><p>文件描述符</p>
+<p>Linux下用文件描述符來表示設備和普通文件。文件描述符是一個整型數據。</p>
+<p>當打開或者創建一個文件時，內核空間創建響應的結構，並生成一個整型的變量傳遞給用戶空間的對應進程。進程用這個文件描述符來對文件進行操作。例如用戶空間讀或寫一個文件，將文件描述符作為參數傳送給read或write。讀寫函數的系統調用到達內核時，內核解析作為文件描述符的整型變量，找出響應的設備文件運行響應的函數，並返回給用戶空間結果。<strong>描述符通常只在一個進程中有效，對於同一個文件描述符，不同的進程的同一個值可能指向不同的文件。</strong>在一個進程中，只有調用close函數或者退出才能取消文件描述符和文件的綁定。如果一個進程沒有設置close函數，又頻繁地打開文件，而文件描述符的範圍是有限的，餘數就可能會因為沒有文件描述符可以分配而打開文件失敗。</p>
+<p>在Linux系統中有3個已經分配的文件描述符，即標準輸入、標準輸出和標準錯誤。</p>
+</li>
+<li><p>文件空間映射mmap()函數</p>
+<p>mmap()函數可以用來將文件或者設備空間映射到內存中，但這個映射並不是真實地將文件的內容拷貝到內存中，而是在內存中建立一段邏輯地址。地址的長度就對應需要映射的長度。當進程需要讀取這段內存時，由於文件並沒有實際地拷貝到內存中，所以系統在內存的物理地址中找不到這段內容，於是會產生一個缺頁中斷。由於Linux的虛擬內存機制，系統會認為這段內容只是沒有被調入內存，於是從硬盤中讀取內容並調入內存。這就完成了read()和write()函數的工作。</p>
+<p>但是這個函數卻比read()和write()函數的效率要高，因為這兩個函數在讀取文件的時候實際上是先將內容從硬盤拷貝到緩存區，再從緩存區拷貝到內存。而文件空間映射是直接產生缺頁中斷直接調入內存。所以一次拷貝肯定要被兩次拷貝用的時間要少。</p>
+<p>munmap()函數可以取消文件空間的映射關係。</p>
+</li>
+</ol>
+<hr>
+<h4 id="socket文件類型"><a href="#socket文件類型" class="headerlink" title="socket文件類型"></a><strong>socket文件類型</strong></h4><p>115頁</p>
+<hr>
+<p>對於Linux中的文件系統，這篇文章講解得非常清楚，感興趣的可以了解一下：<a href="https://www.cnblogs.com/f-ck-need-u/p/7016077.html" target="_blank" rel="noopener">https://www.cnblogs.com/f-ck-need-u/p/7016077.html</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>OperatingSystem/操作系統4-文件系統/掛載文件系統的高級方式</title>
+    <url>/2020/04/11/OperatingSystem/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%B5%B14-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1/%E6%8E%9B%E8%BC%89%E6%96%87%E4%BB%B6%E7%B3%BB%E7%B5%B1%E7%9A%84%E9%AB%98%E7%B4%9A%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<h4 id="掛載文件系統的高級方式"><a href="#掛載文件系統的高級方式" class="headerlink" title="掛載文件系統的高級方式"></a><strong>掛載文件系統的高級方式</strong></h4><p>相比大家在安裝一些比較複雜的Linux系統(如ArchLinux)時都有過掛載文件系統的經歷，常規操作都是</p>
+<figure class="highlight plain"><figcaption><span>/dev/sda1</span><a href="/mnt```">link</a></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">但是這個逼格不夠高。</span><br><span class="line"></span><br><span class="line">mount這個命令是通過系統調用mount來實現的，通過&#96;&#96;&#96;man mount&#96;&#96;&#96;可以查看到mount的系統調用定義在&#96;&#96;&#96;&lt;sys&#x2F;mount.h&gt;&#96;&#96;&#96;中。</span><br><span class="line"></span><br><span class="line">於是可以查到mount的定義為</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;c</span><br><span class="line">#include &lt;sys&#x2F;mount.h&gt;</span><br><span class="line">int mount(const char *source, const char *target,const char *filesystemtype, unsigned long mountflags,const void *data);</span><br></pre></td></tr></table></figure>
+
+<p>所以我們可以通過C語言調用系統函數，來完成系統調用。</p>
+<p>首先準備好已經創建了文件系統的磁盤分區和掛載點，然後寫一個C文件mymount.c</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mount.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;  </span></span></span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (mount(<span class="string">"/dev/sdb1"</span>, <span class="string">"/mnt/scratch"</span>, <span class="string">"xfs"</span>, <span class="number">0</span>, <span class="literal">NULL</span>)) &#123;  </span><br><span class="line">                perror(<span class="string">"mount failed"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>編譯運行就可以完成掛載了。</p>
+]]></content>
+  </entry>
+</search>
