@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="XiaoQixian">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="XiaoQixian">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="A man can be destoryed but not defeated">
+    <meta name="description" content="基本放大電路 放大電路的性能指標 輸入電阻 輸入電阻$R_i$是從放大電路輸入端看進去的等效電阻。  R_i &#x3D; \frac{U_i}{I_i}由於輸入電阻的存在，使得輸入電壓和信號源電壓存在一定的偏差。為了更加不失真，在輸入電阻上的壓降應該越小越好。  輸出電阻 輸出電阻$R_o$是從輸出端看進去的等效電阻。 若$U_o^{‘}$為空載時的有效輸出電壓，$U_o$為負載為$R_L$時的有效輸出電">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基本放大電路">
+<meta property="og:url" content="http://yoursite.com/2020/04/12/%E5%9F%BA%E6%9C%AC%E6%94%BE%E5%A4%A7%E9%9B%BB%E8%B7%AF/index.html">
+<meta property="og:site_name" content="Lunar">
+<meta property="og:description" content="基本放大電路 放大電路的性能指標 輸入電阻 輸入電阻$R_i$是從放大電路輸入端看進去的等效電阻。  R_i &#x3D; \frac{U_i}{I_i}由於輸入電阻的存在，使得輸入電壓和信號源電壓存在一定的偏差。為了更加不失真，在輸入電阻上的壓降應該越小越好。  輸出電阻 輸出電阻$R_o$是從輸出端看進去的等效電阻。 若$U_o^{‘}$為空載時的有效輸出電壓，$U_o$為負載為$R_L$時的有效輸出電">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tse2-mm.cn.bing.net/th/id/OIP.5R18JZFQewMuitHZNfT8vAAAAA?w=241&amp;h=169&amp;c=7&amp;o=5&amp;dpr=1.25&amp;pid=1.7">
+<meta property="og:image" content="https://tse4-mm.cn.bing.net/th/id/OIP.PYmYw37F4sn_0a7LxK1DPAAAAA?w=218&amp;h=193&amp;c=7&amp;o=5&amp;dpr=1.25&amp;pid=1.7">
+<meta property="og:image" content="https://tse3-mm.cn.bing.net/th/id/OIP.D9TAuv5VQRlQhAip4tNg7gHaEi?w=270&amp;h=165&amp;c=7&amp;o=5&amp;dpr=1.25&amp;pid=1.7">
+<meta property="og:image" content="data:image/jpeg;base64,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">
+<meta property="og:image" content="data:image/jpeg;base64,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">
+<meta property="og:image" content="https://img-blog.csdn.net/20180502111145873?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI5NTQ1MjMx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://tse3-mm.cn.bing.net/th?id=OIP.LOOGoiMJeqCA3M_VzKPULAHaGO&amp;pid=Api&amp;rs=1">
+<meta property="article:published_time" content="2020-04-12T15:59:59.000Z">
+<meta property="article:modified_time" content="2020-04-12T16:20:28.811Z">
+<meta property="article:author" content="XiaoQixian">
+<meta property="article:tag" content="AnalogElectronic">
+<meta property="article:tag" content="CircuitAnalysis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tse2-mm.cn.bing.net/th/id/OIP.5R18JZFQewMuitHZNfT8vAAAAA?w=241&amp;h=169&amp;c=7&amp;o=5&amp;dpr=1.25&amp;pid=1.7">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>基本放大電路 · LunarRoom</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/bird.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LunarRoom</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">基本放大電路</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>LunarRoom</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/fengling.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            基本放大電路
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "AnalogElectronic">AnalogElectronic</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CircuitAnalysis">CircuitAnalysis</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.8k</span>阅读时长: <span class="post-count reading-time">14 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/04/12</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="基本放大電路"><a href="#基本放大電路" class="headerlink" title="基本放大電路"></a><strong>基本放大電路</strong></h3><hr>
+<h4 id="放大電路的性能指標"><a href="#放大電路的性能指標" class="headerlink" title="放大電路的性能指標"></a><strong>放大電路的性能指標</strong></h4><ol>
+<li><p>輸入電阻</p>
+<p>輸入電阻$R_i$是從放大電路輸入端看進去的等效電阻。</p>
+<script type="math/tex; mode=display">
+R_i = \frac{U_i}{I_i}</script><p>由於輸入電阻的存在，使得輸入電壓和信號源電壓存在一定的偏差。為了更加不失真，在輸入電阻上的壓降應該越小越好。</p>
+</li>
+<li><p>輸出電阻</p>
+<p>輸出電阻$R_o$是從輸出端看進去的等效電阻。</p>
+<p>若$U_o^{‘}$為空載時的有效輸出電壓，$U_o$為負載為$R_L$時的有效輸出電壓。則有：</p>
+<script type="math/tex; mode=display">
+U_o = \frac{R_L}{R_L + R_o}U_o^{'}</script><p>所以輸出電阻</p>
+<script type="math/tex; mode=display">
+R_o = (\frac{U_o^{'}}{U_o} - 1)R_L</script><p>$R_o$越小，負載電阻變化時$U_o$的變化越小，放大電路的帶負載能力越強。</p>
+</li>
+<li><p>通頻帶</p>
+<p>通頻帶用於衡量放大電路對不同頻率信號的放大能力。由於放大電路的電容、電感及半導體器件的電容等因素，放大電路只對於某一個頻率的輸入信號有放大作用，當輸入信號過高或過低時，放大倍數會下降並產生位移。對於正常範圍內的信號的放大倍數稱為<strong>中頻放大倍數</strong>。</p>
+<p>使放大倍數為0.707倍中頻放大倍數的兩個頻率分別稱為<strong>下限截止頻率$f_L$</strong>和<strong>上限截止頻率$f_H$</strong>。這個頻率之間的頻率帶便稱為<strong>中頻帶</strong>或者<strong>通頻帶$f_{bw}$</strong>。</p>
+</li>
+<li><p>非線性失真係數</p>
+<p>當輸入信號的幅度超過一定值後，輸出電壓將產生非線性失真。</p>
+<p>設基波幅值為$A_1$，諧波幅值為$A_2,A_3,…$，則非線性失真係數定義為：</p>
+<script type="math/tex; mode=display">
+D = \sqrt{(\frac{A_2}{A_1})^2 + (\frac{A_3}{A_1})^2 + \cdots}</script><p>定義非線性失真係數的額定值，就可以算出最大不失真輸出電壓。</p>
+</li>
+</ol>
+<hr>
+<h4 id="基本共射放大電路"><a href="#基本共射放大電路" class="headerlink" title="基本共射放大電路"></a><strong>基本共射放大電路</strong></h4><p>先弄張圖鎮樓</p>
+<p><img src="https://tse2-mm.cn.bing.net/th/id/OIP.5R18JZFQewMuitHZNfT8vAAAAA?w=241&amp;h=169&amp;c=7&amp;o=5&amp;dpr=1.25&amp;pid=1.7" alt=""></p>
+<ol>
+<li><p>設置靜態工作點的必要性</p>
+<p>先約定四個物理量。在輸出信號為零時，直流電源單獨作用時的基極電流$I_B$記為$I_{BQ}$，集電極電流記為$I_{CQ}$，b-e間電壓記為$U_{BEQ}$，管壓降$U_{CE}$記為$U_{CEQ}$。</p>
+<p>則有：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+I_{BQ} = \frac{V_{BB} - U_{BEQ}}{R_b}\\
+I_{CQ} = \frac{V_{CC} - U_{CEQ}}{R_c} = \beta I_{BQ}\\
+\end{cases}</script><p><strong>設置靜態工作的必要性</strong>：設置靜態工作點相當於使得原輸入電流在y軸方向平行移動，通過移動輸入電流，可以使得輸入電壓盡可能地工作在放大區，使信號盡可能不失真。</p>
+</li>
+<li><p>基本共射放大電路的工作原理</p>
+<p>當輸入端在$I_{BQ}$的基礎上疊加一個正弦電流，由於放大作用，$I_{CQ}$也會疊加一個放大了的正弦電流，而變化的$i_C$也導致了$R_C$兩段的電壓的變化，由於管壓降與$R_C$兩段的電壓之和一定，所以管壓降要在$U_{CEQ}$的基礎上疊加一個反向變化的電壓。</p>
+</li>
+<li><p>直接耦合共射放大電路</p>
+<p><img src="https://tse4-mm.cn.bing.net/th/id/OIP.PYmYw37F4sn_0a7LxK1DPAAAAA?w=218&amp;h=193&amp;c=7&amp;o=5&amp;dpr=1.25&amp;pid=1.7" alt=""></p>
+<p>在這種放大電路中，為了避免干擾，要求輸入信號、直流電源和輸出信號都有公共的接地端。因此讓基極和集電極共用一個電源。</p>
+<p>則有：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+I_{BQ} = \frac{V_{CC} - U_{BEQ}}{R_{b2}} - \frac{U_{BEQ}}{R_{b1}}\\
+I_{CQ} = \frac{V_{CC} - U_{CEQ}}{R_c} - \frac{U_{CEQ}}{R_L} = \beta I_{BQ}
+\end{cases}</script></li>
+<li><p>阻容耦合共射放大電路</p>
+<p><img src="https://tse3-mm.cn.bing.net/th/id/OIP.D9TAuv5VQRlQhAip4tNg7gHaEi?w=270&amp;h=165&amp;c=7&amp;o=5&amp;dpr=1.25&amp;pid=1.7" alt=""></p>
+<p>在這種電路中，應該使得$C_1$盡可能的大，使其在輸入信號的頻率範圍內容抗很小，這樣輸入信號才能盡可能無損地得到放大。</p>
+<p>當輸入端短路時，可得靜態工作點為：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+I_{BQ} = \frac{V_{CC} - U_{BEQ}}{R_b}\\
+I_{CQ} = \frac{V_{CC} - U_{CEQ}}{R_c} = \beta I_{BQ}
+\end{cases}</script><p>這種電路的輸出電壓就是放大後的交流電壓，而沒有任何直流電壓。</p>
+</li>
+</ol>
+<hr>
+<h4 id="放大電路的分析方法"><a href="#放大電路的分析方法" class="headerlink" title="放大電路的分析方法"></a><strong>放大電路的分析方法</strong></h4><font size = 4>**圖解法**</font>
+
+<ol>
+<li><p>波形非線性失真的影響</p>
+<ul>
+<li><p>截止失真</p>
+<p>由於交流輸入信號的電壓是馱載在靜態工作點進行工作的，當輸入電流變化幅度很大，而靜態工作點的電壓不高的話，輸入電壓在進入負電壓的時候，可能會導致晶體管b-e間電壓小於開啟電壓$U_{on}$，於是在輸入端就產生了一段失真。從而導致輸出端也會失真，輸出電壓由於變化方向相反，所以會產生一段<strong>頂部失真</strong>，因為晶體管進入截止區產生的失真稱為<strong>截止失真</strong>。</p>
+<p><strong>這時只有提高基極電源電壓$V_{BB}$使得電壓最低時也不會截止才能防止失真。</strong></p>
+</li>
+<li><p>飽和失真</p>
+<p>截止失真是由於基極電壓設置過低產生的，然而，如果基極電壓設置過高的話也會產生問題。當基極電壓過高時，輸入電壓在正半週期接近峰值時可能會導致<strong>基極電壓大於集電極電壓</strong>，即晶體管進入了飽和區。這樣輸入電壓在輸入端沒有失真，但是在輸出端失真了。因為晶體管進入飽和區產生的失真稱為<strong>飽和失真</strong>。</p>
+<p>要消除飽和失真。可以選擇降低輸入端的靜態工作電流$I_{BQ}$，或者減小集電極電阻$R_c$以增大集電極電壓防止晶體管飽和。又或者換一個$\beta$更小的晶體管。</p>
+</li>
+<li><p>最大不失真輸出電壓的確定</p>
+<p>總的來說，限制輸出電壓峰值的因素有兩個：$V_{CC} - U_{CEQ}、U_{CEQ} - U_{CES}(U_{CES}表示管子正常工作時在輸入端的壓降)$，超過前者引起截止失真，超過後者引起飽和失真。</p>
+<p>所以$U_{omax}$的峰值應小於兩者的較小值，除以$\sqrt2$可得有效值。</p>
+<p>為了使$U_{omax}$盡可能的大，$U_{CEQ}$應該盡量的設置在$U_{CES}$和$V_{CC}$的中點位置。</p>
+</li>
+</ul>
+</li>
+<li><p>直流負載線和交流負載線</p>
+<p>當放大電路帶有負載$R_L$時，容易知道，輸出電壓是由集電極電流$i_c$與負載電阻$R_L$和$R_C$並聯的電阻相乘所得到的。</p>
+<p>由直流通路$u_{CE} = V_{CC} - i_CR_c$所確定的負載線稱為<strong>直流負載線</strong>。</p>
+<p>加上動態輸入信號的所確定的負載線稱為<strong>交流負載線</strong>。$u_{ce} = V_{CC} - i_c(R_c//R_L)$</p>
+<p>交流負載線的確定方法：易知交流負載線在輸入電壓為0時，$i_c = I_{CQ},u_{ce} = U_{CEQ}$，然後確定斜率為$-(R_c//R_L)$，於是確定了交流負載線。</p>
+<p>電路在帶負載$R_L$後，輸出電壓變小，其最大的峰值是$(U_{CEQ} - U_{CES})與I_{CQ}(R_c//R_L)$中的較小值。</p>
+</li>
+</ol>
+<font size = 4>**等效電路法**</font>
+
+<ol>
+<li><p>晶體管共射h參數等效模型</p>
+<p>該模型致力於用h參數來表示輸入、輸出端口的電壓、電流的關係。</p>
+<p>首先，由放大電路有</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+u_{BE} = f(i_B,i_{CE})\\
+i_C = f(i_B,u_{CE})
+\end{cases}</script><p>式中各量均為瞬時量，為了求出變化關係，對兩式求全微分得</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+du_{BE} = \left.\frac{\partial u_{BE}}{\partial i_B}\right|_{U_{CE}}di_B + \left.\frac{\partial u_{BE}}{\partial u_{CE}}\right|_{I_B}du_{CE}\\
+di_C = \left.\frac{\partial i_C}{\partial i_B}\right|_{U_{CE}}di_B + \left.\frac{\partial i_C}{\partial u_{CE}}\right|_{I_B}du_{CE}
+\end{cases}</script><p>分別用$h_{11e},h_{12e},h_{21e},h_{22e}$來表示四個偏導數。e表示是共射放大電路。</p>
+<p>$h_{11e}$表示$u_{CE} = U_{CEQ}$時，b-e間的動態電阻$r_{be}$。</p>
+<p>$h_{12e}$表示輸出端電壓的變化對於輸入端電壓的影響，稱為<strong>內反饋係數</strong>。</p>
+<p>$h_{21e}$表示$i_C$對$i_B$的導數，當小信號作用時，$h_{21e}$就近似表示電流的放大係數$\beta$。</p>
+<p>$h_{22e}$表示$i_B = I_{BQ}$時c-e間的動態電阻$r_{ce}$的倒數，由於此時晶體管工作在放大區，$i_C$基本只由$i_B$決定，所以$r_{ce}$通常很大。</p>
+<p><strong>$r_{be}$的近似表達式</strong></p>
+<p>b-e間電阻由基區電阻$r_{bb^{‘}}$、發射結電阻$r_{b^{‘}e^{‘}}$和發射區電阻$r_e$組成。由於基區載流子濃度很小，所以基區電阻$r_{bb^{‘}}$特別大。</p>
+<p>由此得$r_{be}$的近似表達式</p>
+<script type="math/tex; mode=display">
+r_{be}\approx r_{bb^{'}} + (1+\beta)\frac{U_T}{I_{EQ}}</script></li>
+<li><p>共射放大電路動態參數的分析</p>
+<ul>
+<li><p>電壓放大倍數$\dot{A_u}$</p>
+<p>$\dot{A_u} = \frac{\dot{U_o}}{\dot{U_i}} = -\frac{\beta R_c}{R_b + r_{be}}$</p>
+</li>
+<li><p>輸入電阻$R_i = R_b + r_{be}$</p>
+</li>
+<li><p>輸出電阻$R_o = R_c$</p>
+</li>
+<li><p><strong>放大的輸入電阻與信號源內阻無關，輸出電阻與負載無關</strong>。</p>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="放大電路靜態工作點的穩定"><a href="#放大電路靜態工作點的穩定" class="headerlink" title="放大電路靜態工作點的穩定"></a><strong>放大電路靜態工作點的穩定</strong></h4><ol>
+<li><p>靜態工作點穩定的必要性</p>
+<p>靜態工作點不但決定了電路是否會產生失真，還影響著放大倍數。在對Q點諸多的影響因素中，溫度是最主要的影響因素。</p>
+<p>當溫度升高時，穿透電流$I_{CEO}$增大，表現為集電極電流$I_{CQ}$增大，晶體管的電流放大係數$\beta$增大。</p>
+<p>集電極電流帶來的後果是晶體管壓降$U_{CEQ}$降低，晶體管更易進入飽和區，所以要想抵消溫度升高帶來的後果，需要較小基極電流$I_{BQ}$。</p>
+<p>常用引入直流負反饋或溫度補償的方法使$I_{BQ}$在溫度變化時產生預$I_{CQ}$相反的變化。</p>
+</li>
+<li><p>典型的靜態工作點穩定電路</p>
+<p><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUSEhIVFRUWGBoWFRUXGBYXFRUVGRcXFxgXFRcYHSghGBolHRcVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGxAQGi8mICYwMS8tKzItLS8vNTAtLi0vNS0tLTcvLS0vLS0uListMDAvLy0tLS0tLS0uLS0tLS0tLf/AABEIAMIBAwMBIgACEQEDEQH/xAAbAAACAwEBAQAAAAAAAAAAAAAABQEDBAIGB//EAEQQAAIBAwIEAwUEBggFBQEAAAECAwAREgQhBRMxQSJRYQYUMnGRFVKB4SNCU6GxwTNUcpKT0dLTJGJzs/A0Y6Kywgf/xAAYAQEBAQEBAAAAAAAAAAAAAAAAAQIDBP/EACsRAAICAAYBAwQBBQAAAAAAAAABAhEDEhMhMVFBBBTwYXGh0YEikbHB4f/aAAwDAQACEQMRAD8A+3k1N6V+0HFH08RkSB5sQWYKyriii7G7dTboouTWrR65JIUnBsjosgy2IUqG3HbY0s1keXN4NN6CaV8B4yuqjeUIyBZJI7Hdjy2xJsBte3TrVPCuOtLqJNNJp3hdEWRcmRw8bEqGuhIU3BFrnpUtGnhSV7ccju9Reprx/tF7X8mTlRrcq0asSAvi5sQdBzCoa8clwQbA2ubdDdDDwpYkssT2F6i9J5faGJdIurPhV4xIiSEIzXXMLtfe2+16T6D2wklVf0IR2cDcSFOWNRBA9mZUyb9MTsCAVsfKlo1H0+JJXXmj2ANF6Q+0PHTppdMmN1mkKOxtiF5bnYg3DXC/qkWv0qn2X9pfeXkjfBWVmMeJuXjvcbdMkV41YgkZE0tXRNCeTPW3xHpb1xKuSkeYI+orzXFPavlapIVildQpEgEZQiRmVYQrylExbGbe9iVABvXpJJMVLEHYEkAXbzsAu5PoKJ9GZYcopNrkW/ZR++Pp+dH2Sfvj6fnRwvjY1DsqQzBVJVpHVEUOLXTEtnfcfq29ap4x7QpBMkOxIR5pfvJGoxXEDdnd2VVXvZvSu3uJ9hYMnLLW5d9kn74+n50fZJ++Pp+dVey/GG1ESM6OGK5M3LZI73+FS9ixHS9rGxNc8Q4y8WqWEIro6Br5IjK2ZU3LuMgRawUE3Hrs9xPsujLM4+UX/ZJ++Pp+dH2Sfvj6fnXHtHx1dKgPhZ2ICq0iJ8TBQzZHLG53xDHY7Vg0PtSX1nu5RRG3hSS7f0qgll3WzZWcr0OMZP6wqe4n2I+nnKOZLb9DL7KP3x9Pzo+yj98fT86w8W9pxE4VFBCy8uQu0cYbwgkQtJIoZgWUdx1HWmWn4qDp/eZo3gUKXdZAM0UXN2C37b+Y71fcT7I8GSSdclf2Sfvj6fnR9lH74+n51g4d7Vo8zxOGF5+TCRFIoN4UlAkyGzE8zsNlB9a28b46NM0amJ3MhspXEC4ZQV3PxWYt5WVjcWqe4l2V4E1JRrdnX2Ufvj6fnR9kn74+n51m9nPaA6p5l5ZCo10kGJR4zcJfxEhyFLYkCwZbgXp8aqx5vyZnhuDyyFX2Sfvj6fnR9lH74+n502AqLU159mKFX2Sfvj6fnR9kn74+n501NSKa8+xQp+yj98fT86Psk/fH0/OmtqCKa8+xQq+yT98fT86Psk/fH0/OmtqBTXn2KFf2Sfvj6fnRTUUU159ikJPaiLUyII4IopFa4lEkhQFPuCym4bv6XHfat9Hqpl5cjJAAsTiSEhiJQSWQK6kYAhQCRvb6PiaAa40dlitJJJbfPseT9mOFazRpgcJQ880khLBSqNcoVxWxZm636X226a+AafViaSTUwwJmN3SRndiDZE3UBUVS3TuSepNehvQTRKiyx3K20rZDA2Njbrv5eteI1HsrNLJqJszkQvL5mCmR1sGLGJQUQqqqu5IsWPkfbRTK18WBxJU2N7MOoPkdxt61Ja25+d6Ndkw8WWHeUQQ8PK6II8WobJVz0/NSRwCAGhDuyqU7HcXF/OlfD+HarmFpoC0fOE0ceUMfLPgYv4XbfmB2K5EG9+uw9mrggEEEHcEbgg9CDUGVb45DIgkLcXIFgTbyFx9aZTS9RJXtz82PKe1Hs4808U0KAG6iRlYI7XlhuxYEXxRXNje/Su/Zb2eSKSadonDmQiPmiLPEKgyGAsCzB9wdwRevUiQXtcXFiR3sb2NvLY/SpJpl3se4nkyeDxE/D5UGcmiDmSNjLgFmZmdAGhld3y2ZUs4DLbawsDTrgukni0kSRgB+pE17qpvYMEZgWAsDYgGx2HSnMGpRwGR1YEAgqQQQehFu3WuuYLgXFzew7m3W31FMtMTx3JVQh0XCtZGWI1MFnkMjr7u/61rqDztunW1aZeDr7zFKsaYjmu5O7GVuUEbfqQqsPQAAU3vQTSjLxpN3/wAPM8C4fJp9PLKkeUzqzCHGOMlwzlVZ7Bje/VjWef2XZpnk5cfimE3iIKZiMEOVVAxAlXdC1jlcEdK9ZFKrDJSGB6EEEHsdxUSzqu7MFG25IA3Nh9TtTL4Ne4lbkuWeb4/wqbVQxl0XNCjGFXspcSLkxl2JUJkQLCxN9yBbDHwudNSsnIbmF1POXBoowVcOWDSBm2KpYi4uzBmvjXtHcAEkgAC5J2AA7nyqVYEXBuD0I6EelHEsfUSistbb/n5+zynGuD6qZucDskismnDlGKIHW6zKf0cjcxjtsQFBI3NNdFqTqY3jk008KlcG5pj8QIKkKVdidu560wm1cafG6L28TAb+W9XE0y1uYeK3GmuODwa+z0+mldooZJ2zMkEmemRA7QCHKdbKxYEyHwgizdLk034t7PzamRXaVIwqJ4cOZeVcjdg5xsCzfq9x0tXpcqAaZTcvUzbT2vv5seJ9k+C6oS82Tm6cYI0igxH3idixlMgzkBHTxWRt7bBQK9saL0E0Soxi4rxJZmAqKkGi9U5AaBQTQDQAKDQDQTQBQKL0A0BIooooCrUlwpMaqz28IZiik+rBWI+hpc3vpG3u0Z9ebKPr4KakUAVqMq8Aze+KJEhdrSMpYDezBbBsSdja4262IqeJI5ikETYyFGEbbHF7HE2YEHe3UVfjv271JFLSaaB4LgepljneSaSRI1kczZtGLu0cKojop3Y5BgQq2x6m9qr9pJmfUSlRNiAYLrmYzI4RF8QXw35jIwUm2II8Vq9xLw+JnEjRRs46OUUsLdLMRcVbPArqUdVZT1Ui4PfcGvWvVRzqWXxRnKeI0esccOeJFdMH5LTPkUYNNypTFmwdMcmAVh4Mbb23NAJr6bUc3EvyIoggi5bacuxdMGUupxVWLKQCAn3d/bwwKgCoqqo6KoAA77Aeu9cS6KNmR2RS0dzGxFyhYYnHyuDap7lb/wBPLb7FHgOLaxxLqn94xPMgjUxlUyT3iAYs4lyGKs4tlH/SSnuCrXRcU5egBinDPzmXIyB8V57MwZmLWCwhjck2AvvXq/dU28CbEkeEbE9SNup8675K3vit7He2+/Xf6Ul6mMoqLjw0/wCyoUeK9iNYvMbPa6KyPKV5hEzB+UmKqLI7FWAGzY9OgzxyasayWZVVjjCFYRMTypJpULct5C633IxYC0YLC1q9xqtBFIULxqxjYPGSN0YfrKexqxIFDFwBkwClu5VSxUH5F2+tH6mNuSjz4+djKeP5mpfVaJNX/Rt7wStgqtIrHkLIoYgty7sBe17nqBVnAte8Y12JBjSeRdIHaysyxZyRI3ZAyv02WzDoLV6nW6RJUaORQyMLMpvv9Oh9RVGg4THCkaKCRFtHmS5QY42Vjv8ACSL+VR48HGmv48ct3/r7CjznsnLy5ZVd4lEhPK3/AEjSsXnkSwmdbBXRgAFJBJtbekmrheVtQJbZSSJZVVRI6CMEZRy3KgFw4XI2O+IINfSBAth4V2sRsNiBYW8rDb0riXRRvkGjRg/xAqDlbplfr0H0qx9UlNyrmvwMp5SSUjRadOZJmo5eMSvi7BLFrQlC8KKSboQDt32rf7GQImmE9yMkUsDKWjRUX9Rc2CAb977bnYAPNNo44wFjjRAAQAqgAAm5At2J39TWf7E0/MM3Ij5jfE+Iu3a58zbvWZY8ZRcd93fz4xR4DWQSGY6hGEZcuwcRxM8JcF/0iupbIQpE9rG2TDa9P/a1ec8KxuzAxuXxL4GN0IRyQ6xfFYgm522Br050UZdZCi5rcq9vECwCnf1AA/AVbLCrDFlUjbYi426bH/wVqXqrcWlwMp4z/wDnulRWkkzjzOSKg5XMxWaRmYhOqksgFwLY+RFe2FciMDoB9K6ArhjYurNyKlQVJqLUEVyKTUUAVFqA6oqDQBQBU1yBUkUBNQKLUCgJooFFARSj2k18kKRtGQMp4Y2uL+GSRUa2+xsTTc1RqtHHKAJEDAEMAdwGG6sPUHoaIkk2ti1ZQSQCCV2YA7ja4v5bWpVxPiDjVafTL4RKsrs9gTaMLZFvtcl7nbotM1gQOXCrmwCs1vEVUnEE9wCzfK5qnifD0nTB7jurqSkkbWIyjdd0axO47E9jVI06Emi45I+lmd1Yuk0unDIAMisnLWQAnYbi57WY1boeLSjRtLIGLpdd1VSxBCgqtzfI/COrXFhuK36bgsSrGpBflqVUtiNiUYnFAq5XRTe1xv5mr4eHQqxZY0UkYkgAXW5IG3qzW+ZpaMqMuzyXBeM6lptOZWODxrzL2CXZSQ18BZi5xAHXwC5sSdk3E531nISVFYZhlVHkVFDRsvMA/XKOu/hXxsLsVpxHwHTqyFEK4G6hXkVb77sgbFz4juwPWu9TwWB1ClMcblXRmjkUscmIkQhhc7nfc9b1bRlQnVWLvafi0kLxIgsGZTnfycBlK9xYjob7/jVPFePyJoo5rpFK4XJW6IzJnicj4WAINm8rHqDT6TQRtHymBZRbq7l7qQVPMJyyBAOV79640fC4YvgQXuWyYl3yYAMS7ksSQAOu9hUtGnGV8iL2V4+ZpZkklQlmyhVd7pvurg2K7CwIB2LbqymvUg1k0PDIoSzRqQXtclmbYFmCjInFQXeyiw8RrWKM1BNLcKKKDUNADRegUUAGpqDU0BANBNAoNAFFTUCgCg0VNqAgUVmm1qq2GLlgAxxRmsCWAuQP+VvpXPv4/Zy/4bf5UBrNArJ7+P2cv+G3+VYpvaBFnj0/I1BMiO4cRNy1CEXDHsTkO38RQDgGg1k9/H7OX/Db/Kq/tReYqYOC33hj1v8ACDu1rb26AjzoDfRWSPXgkAKQLXJa62Fyo2PqNvnWpGB6EH5UB1RRRQEEUCg0CgJtRRRQGbXzsiXUAksigEkDxuFuSAfO9V31H3Yf7z/6aninwr/1Yv8AurWygMV9R92H+8/+ml/D9Rrml1CyJpuWjIsOLSZ25as3MuLdWFrW7/Oms2sVZEjsxZ7kWFwAv3j2/Kk/ANXK00mbKVkfUEAKVK8icadd8jldVUnYb3+QA2ytqcksseNxlib2F1vfK22OfS5vj2vVjNMCCwGIzyxsb+NcBuL/AA5XrfRQFcUmQvYjcjfrttf5VYKg1NAFFFFAK9Dp3eNHM8t2UE25drny8FX+4N+3m+sf+iuuEf0Ef9gfwrXQGL3Fv2831j/0Ut4Fwl0WTLV6mTKaVhmyHEZkBF8Gyi3T1pk2sYTcsrZMdnIIvJscV7HYg/g3kbJ/YxMV+JzlDp5Dk7vd3Vy7eMmxJ3NqAce4t+3m+sf+iqtLwxkDDnublTfa9lJJyyuCzXsSABsLAd2DuALk2H8ybAfMmwoRwQCDcEXB8welAZI4HS+JDZMzEnsC5YKBfoAx+nattFFAFFFRkL2vv5d6AyRf+ok/6UX/AN562V59eMgaqcGKUKsW0n6PBzAS0iqA+V7Tp1UA7706i1AZmUdVNvn4Va49PEB86AurHL/6iP8A6cv/ANoanieuEKZkX3ACjqT1NvkAx+Smk+skf3wMJWCpykCDDAiUy8y/hve8ad9sfncD0dFJuH8Rd0Eo/SoVOJSxDMrSX3UHsqgdr3prp5clDWtft/5270B06AixF+n1BuD8wd6I4wBYCw7Dy+XpXVRQEiigUUBF6kVFqkUAVl12uWLC4JzYKLdr9zfoOg/EVqrl0B2IB7UAh9qdc6qBC0d1DytkC39AFlCeFhYnbfyPSn6m4BpB7QcKJjURFUuGhIYMwtMEiuPELYixt3tT9RYWoCqfSo/xKD2v0PfuN+5+p86U8E4c6TSlpFZVeUIoQqw57rqWybI5WL4iwGwp5SHh/DZfeNW51cuLyJhGFixjtDHexZCTe48un40A+orF7k/9Zl+kH+1VGkhZZ2vNI/hvZlIFjYAXW0exUn4b+Lr2oBoaKDRQFc8uKs1icQTYbk2F7D1pHxbihOjnO8cwjk2UnJGCsVOQAsbC9/O/lTyadV6972ABJNhc2A3qrXcPjmR0dQQ6lGI8LFWGJsw3G3cGgMXs3HgkkYLFY5XRMmZyFFrDJiSQL9zTal3ANOEgWxYl/wBIxYliXbckk0xoCGUHqL9/xpR7NaGKJZOVc/pGQ3keTERsyqgzY4hRsFFgPKnFI+C8B0yCUrp47vPK7kqCWcuQTv8AIUBs4jqQt8keyFGDC27M2G2/a/fz+VTwbViZHdcrc6aOzdjDK8DW3OxaMkfPoKq13BInTFIoka6sGwW4xdW2sPSq+Fez8USMHSORmmnlyKLe008kwBv1sHC/hQDWeZUGTsqqOpYgAduprosPP/w9KUcV4bCqZJGiMGSzIAjDJghsy2IurMPkTTKTSoyhCoxW1h2GJBH8BQF1LpuHsJDNGwzOxy6BLAFV28Nyqm/mB1tamNFAeH4pHqAdWEjbNNNqnVzgUZ5Eh5QABucmik7D4T0uL+yhhtYn4rWJGwJNixt03IrLzVXUSFmCgxxDcgXOU5tv6A/SmFAFI5eEr71Gyu6rgWMYwwJiYYXupYW5z7BgNh5U4aZQwQkZMCwHcqpUMfwyX61kjlEkysm6KjqX/VLM0dgp/W+FrkbC1utAWcK0QgiWIWst7W9WJ/nWuiigCiiigCigVNAcmgUGl3FdNm0XiceIjw9tg2XXZvBYHfZmHegGLH0v6ef1pdw7Uy+FJlPMPUgDAfF3G36v/wAh5Gq+KcF50Zj5z7lT47OhxdWs6bZKcbEXGxNLZPZK4t/wibg5R6QJILEG6NzTidutjQDzinwr/wBWL/urWyk/FeA88IDqdQmEiS+BwuRQ5BW8O6nuK2+4/wDuy/3h/lQFR4unMkiCszoQMFsWbJQ1wL+Fd7ZNYX71foYmGbPYF2yxW5C+BEtkfi+G97Dr6XKaCdtNJq3ZJJIwyEsoZ5Nok6Iou6/2bm99vJoAmo5M0bqyqxcEbhgVZbX7WJB+aUBuooooCDVOo1aRkB2C36X2HUDc9tyBv3IHU1eax63SZtGSqsAfFlfp1G3Q+IId+4B7UBi1XFkEiDEMTIUQhxe3KeQnwm5H6O1vl5Vp4fxCIxI3MUXQNu6ki4vudul6nW8LSQxkWUxsX2Ub3jkjt6f0l/wqzS8OjSNYyitioW5Ub2AG49aAycC4lC+niZZo2UoLEOpB7dQa3++xftE/vL/nWHgPD4U08SpFGqhBYBVAHfpat/uqfcX+6KAXaDWyzcwLiFWR0EuxuoNhgoO563LWAPZq2wYRkRAkscn3uS292Ym1urDytcelLI9LqIBI0Ko+UzPyWYIOWW3MbAbPa/hbYnutNNOyyYy2IYBksdityM1IBte6DffpsbGgNNFFFAYuMf0R/tR/9xK20p4/q7JGqLm0sqolioF0DTEkk9MYWHzIrRpeLRukLXK89BJGp62xDkEjYEBh3oDdS6aWaPfAykuQFUgeEliCbjsAg+Zb0piDRQHktVoZ9TqZRJy1g5MZUBZOcSfeY2yG2xV3IHXde963TcfCSLEzHNhcD3TVkWvbdgLD8TW6WIvLMoOJaGNch1F2nFxXWljmVrMU5dziFFiE3xB9fh6eR89gFXEbe8wGcgpyZybK6gePTf0oufB55Cw70+JyS8bDceEqRb0selq7MKlg5AyAKhu4DYlgPQ4r9BS7R6KPTyhIVEcbrI7IuyBw0fiVeiXzYm1rk3O9Ab9KrBFDG7WGR9bb/vq2oBB6VNAFRU0UACiiigIIqRUGssulJkEgkYWAGG2B3NyR52JH4CgNdFFFAFcyOFBYkAAXJOwAHUk9hXVZde7DAL+s6htr+Hcn62t+NRs1FW6IjmeTB48RGdzmrZkdgFuMbje5v8qx6SV4jqXezKJLgRowYDlx9VyORAtcjc2Nh2rVqtdhIi28JBLuTZU8rn1s309aTezoPOdi7kyPqywZ3ZbxarlR4qTZbIAuwGwFKLnXW3zyekRwQCDcEXBHcGs0WgCyGRWYZG7jqD5fIDf613pMvHkwbxnG3ULscW22IuR8rVoojMlToDVfOXLDIZWyxvvje17eVx1rs1U+kQsJCozAAysMsQcsb+V97VSF1ZtbrViieY3ZUVnIWxJCgkhbkC+3nWhxcEXIuOotceovSLX8JkXTSwwnJTG4RDjmSVey5Gw6lACT0Ub+YGz2e1BaEKyNG0Z5bqxQkMoB6oxBFiO9MqVezzMySSNG0YlkMiqxQtiVQAnBmG9j3prQBXnuEcVkZJv+DnGE0yjeH9IA5IZMpBsb2/CnXvaczlX8eOdrH4bkXv06ivO8D1zlAkrZc5YmGI5ZU6hZJHAIN9sTY9ajdFjG3R37PcTw00IOj1MQxGQflnEk4kuc+t97Wvv07U794yDqyvF+qGbHfIlQUIJF+lgd9xtSzjCtGojiikZMAFRDp1RbMP2jqeg7Vt96WVCskLjMleWxjYsAtyf0bsoFvMg3/Cm5q48V/Pn9C3i2jaBYGjQyJDPliGUPjJDNCAC5ANnlXcm9r9bbsuD6DDTQRyKM44o0PezKig4n5jqPKq9ZITCwKlcZFUXJN1EqYtc9bix+d+tNaqMtU6OUQAAAWAFgPIAWFqwy8QKzYMto7WzN7czbw/Qr+/famFQyg9Rfv+NCHjdROqSanUiRx4JvEZJMFRIIXQhCcVsWY3sLZN5mvVaZ2LMTureJD2C2UAficm/Gk+t4FFNJqozkBLp8D4nxHOEkTsqXxBKog2H6vzr0CiwsOg6UBNea4xpdPJroc5JBIIJYwFZwo52IGQAxyIWS1/u98RZ1xPTvImKPgSQSwJBsN7AjpcgD5XpDqNR/xYVhi7GAql7kqhnyII62BW/lkKAbEOzfoplsbNaw82BN7dOgA/5LetM6QcD07S6dJGvE7BgwVi2waQLY7feJ6d6d6eMqoUm5AsT50BZXB6j8f5V3XB+Ifj/KqgdiigUVAQTXLSqLXIF+lyN/l510axcQ0byFCkrRhTc2vvuu/WxIAIswK+K5BsKA3UVk90f+sS/SH/bo90f+sS/SH/boDXVWqjLIyqxRiPCw3xPY27/KqfdH/rEv0h/26PdH/rEv0h/26FTp2SNSpJif4gtyCpCMLblWIswHzuO9JeELErTS6YtPeZkXGXONDJhNLuWKoM2Zjb0AHQU4fTMASdRIAOpIhAHz/R0l4TCRPqSeIM4eRAkf/D+C0Md7eDe9x2Hwj1NTc1cevz8/yeg0unEYIW+7MxvuSWYsT9TXYlW+OQy8ri/0rP7o/wDWJfpD/t1jhR0mZjJLIAMbG1r2U2sCE263C38Vr2FqqRiUvLGxqmfVKjKp6vsN0Hl0BIJ6joDXPvf/ALb/AEX/ADrLrIY5bcyF2A7H4SLhrMuVmF1Bsb0ozmXYzopN9m6X+pR/4UVB4bpf6lH/AIUVWhmXZs4JIG08RUhgUFiCCDt5ittINFwLRQoI49DGFXoOXGepv1JJO5q9OG6UkA6OIX2F4orXsT29AalFzLsYyaRS2W4a9yRsT02PmPCu3pXnOEQGKNsSupljtGiKAuIgLxrkciA5Bbc23PTrWzV8O09jytJE1jYssURtvYhAbBmH0Hra1ZeB8F0yXQ8PC5O7ZPHERuxIuciRcW2A6mjNRdOzTxvh8LQtLOkbsAt2kRfAMgcRlfAb9PXemXIggXZI41yBAVVUF28IsAN2Ow23NYeI+yGhnVkk0kJVhY2UJ3B6pYg3A361bpfZrSRriNPEe93UOfwLXIHoNqm5r+j6nGqi5OmIke9pAcmOwBnDBbnsAQL+lOQaXHgWm2IgjQjcNGojdTYjwulmGxI2PQkd62HTpiFKqVGwBAIAAsLA1UZbt2W0UUUIYJo5VlZ40RgyIvicoQVaQ9ka48Y+lTzdR+xi/wAZv9qt1FAYhLqP2UX+M3+1WCSbVe+wAxRCExTZsJGZwbxWspQX3t9T0tu8pe3CELZZzXFwDzZNgxBIG/8Ayj6UBujQKLAWHl8zeuq5RbADfYW3Nz+JPU11QBXB+Ifj/Ku64PxD8f5VUDsUUUVAQRUioJoBoCaKi9ZOK68QRtIwvYfU9h+JsPW9qjdK2RtJWzZRWHh3ERLDzSpUb3F1bddmsYy17EEee3SsfD+PpK8aWsZI8wDcEHYkWYC43FiPXapnjt9TOpHbfkcugIsQCDsQdwfnVK6KIEERoCNwQq3Hy2pNrPamOJ5VkV7IwQYgHIlQe5Fu/pYX863cQ4sIlQ4lmexCbBgmxdj6KD+JKjqRU1I77k1Yb78DKs+nHik/t/8A4SutLqUkUPGwZT0YG4NUmNwzFcbMb73H6oHl6VtGnuttzyep49M2rQRBgOXkunYFGkuekllkwNwCGOG2QNrVs9pOOzQyCOMxrlGWIKs0gfEgBPEFY5NGQP1sWXYkUxXgtpRNsWBJ8TMQXIKhzcfEFZlHYBjtXer4OsuWUUV3KlmHxkrYr4sb7Wr2auFmW2yRin0YF9of+DEpMbyiySgNhyna48YsxUg2FrdTttWj2a4u+ohYlEzSyqc7iVuVG7G4UAWZ8Ta4BuO1q2aPQGJBGixhB2uxvckm5I3uSaz6fgYQkgX8HLAeWZwEuDioYkAbD6AVhzwmmq87Cn0LuFcVnknCtLEqljkGSwbAYskB5m5JIN7tiVYMAbX9JqFGUf8AaP8A23rxPDxp8lY6ZTzGKIrctlVZJU/U2sA5XsSAPKn/ABDixikVWUHA5NYhRhiQxBewOIZSfIGuWNjYUt4Pb7GI4keR8q2AAAAGwA6AeQqaVa/i/LiSUxsC7IuDWyXJgDexte1z13qeFccj1DOEDgIASzABfFl03/5TXHPG6OupG8t7jSilfDeNJKxX4TuYwSLyxj9dR5dduoFj0IpmTVUk+CxkpK0TRUUA1TQGg0XoJoAFFq4mlCqWPQC5+QpdwTjHvAY4Y4sRe6EEZHE2ViQSmLWIHxbXqZldGXJJ0NDQKTT+0KK8SBSTKfD4k3W+KurZYsGJWwyuQ3S+1W8V40sCsSpYrbYEb3y2Frm4CkkW6dL1nUj2Z1Y7u+BpQaVScbVYY5mRjzMRinisxHS7Y99vn86t4RxVdQHKqQEcpc7hrbggjzBBI6i9juDVzq6KsSLdWMK5I8Q/H+VdXrgnxD8f5VtGywUUCioAoFQRQBQBS3j2ieeMxKExa2RYkEYsrbAKb3t5i1MrUEVGrVElFSVMUaThcghaF3WxLMpTNWuzs9mIa5Hitta9Y9D7MmORJOYTZVRlDSKCFA3BVhvcdCCLEivRgUAVjSjt9Dnow224PMH2Oj8dnKhmL4rsmdkxJT4dmVtgOhAvWmXgDcuJVcZomLuVuWIWysO4xORABA8Rp8RRamjBcIiwMNcIz6LRpEPCoDG2bhVDSNbdnIG7HzrRQBQRW0qOqSWyJoqCKAKpQoNFqCKARD2eJwJlxKBAMEUbqVa5yvckqKONcGlmYMsoFlYC4AwbbF18JJYePe4IvsV3u9AotXN4cWqOTwYtUI+IeziyiPOR3MbZKz45gXW4Doqt0B79972rnh/sysUhYuzqyFWVt8nZlZmbzHgWwN+rdb0+IotTSjd0NGF3W4k4bwLE3mKSgBSqlBYSAsTKARYObjoB0p3QBQRWoxUeDcYKKpE0VFqAK0aCpqCKCKAz69HZCqBSWBXxEqACCL7A3+VLuA8Kk0/hyQobXADZCwtsenX0705AotWXFN2YcE5ZhEnApA3M5wMg7lSUJyVrlcu36QAX2DAdt51nAWkFzIGYhQ2SWVyqstziQbnNj1I6bU8IoArOlEzow6EacBLxRpNIfBf4AAGuQRcsD3F9rDYbbV1wHghgLO0hZmABAJCEgbsyiwZyd8iCfWnVqCKLDjdlWFG0+ia4PxD8f5V1auSPEPx/lXVHQ7ooFFQEGgUGgUAUGi9BoAoFTUA0AGig0UACg0A0XoANAoNQB6/woCaDUW9f4UEev8KAkUVAHqf3UW9T+6gJNFQR6n91FvX+FASKDUAev8KCPU/uoCaBUW9T+6gD1/hQE0Got6/woI9T+6gJFFQB6n91FvX+FASaBUEep/dQB6/woCaDUW9f4UEep/dQE1xfxD8f5V1b1P7qq3B79/L0qoF4oqFoqAmi1TRQEWotRRQE1FqKKALUWqaKAKi1FFAFqKKKALVNFFARRaiigC1TRRQEWotRRQBU2oooCLUUUUBNqi1FFAFTRRQEWotRRQBauT1H4/yooqoHdFFFQH//2Q==" alt=""></p>
+<p>上圖第三個為直接耦合電路和阻容耦合電路的直流通路。</p>
+<p>基本思路就是在輸入端在晶體管兩端並聯一個阻值非常小的電阻，使得輸入端近似為兩個電阻的串聯，B點的電位$U_{BQ}$始終近似等於$R_{b1}$兩端的電壓，不受環境溫度的影響。</p>
+<p>當溫度升高時，發射極電流增大，由於發射極又串聯了一個$R_e$才接地，所以$R_e$和$R_c$壓降的增大導致發射極電位升高。發射極電位升高，基極電位基本不變，所以$U_{BE}$減小，所以$I_B$急劇減小，$I_C$也隨之減小，從而實現了負反饋的效果。</p>
+<p>理論上，$R_e$越大，$I_C$只要有非常微小的變化就能帶來很大的負反饋，Q點越穩定。但是$R_e$太大往往會使晶體管容易進入飽和區。</p>
+<p><strong>靜態工作點的估算</strong></p>
+<p>首先</p>
+<script type="math/tex; mode=display">
+U_{BQ} \approx \frac{R_{b1}}{R_{b1} + R_{b2}}V_{CC}</script><p>發射極電流</p>
+<script type="math/tex; mode=display">
+I_{EQ} = \frac{U_{BQ} - U_{BEQ}}{R_e}</script><p>利用$I_{CQ}\approx I_{EQ}$，可得</p>
+<script type="math/tex; mode=display">
+U_{CEQ} \approx V_{CC} - I_{CQ}(R_e + R_c)</script><p><strong>動態工作點的估算</strong></p>
+<p>分為加旁路電容和不加旁路電容。還是那一套，懶得寫了。</p>
+</li>
+<li><p>穩定靜態工作點的措施</p>
+<p><img src="data:image/jpeg;base64,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" alt=""></p>
+<p>在使用溫度補償的方法來穩定靜態工作點時，利用$V_{CC}$和$V_{BEQ}$的比值的懸殊，可以得出</p>
+<script type="math/tex; mode=display">
+I_{R_b} = \frac{V_{CC} - U_{BEQ}}{R_b} \approx \frac{V_{CC}}{R_b}</script><p>$I_{R_b}$是流過輸入端靜態電路上的分壓電阻$R_b$的電流，這個電流在流過$R-b$後分作兩頭，一頭就是靜態穩定電流$I_{BQ}$，另一頭頂著二極管的陰極就進去了，稱之為二極管的反向電流$I_R$。</p>
+<p>當溫度升高時，$I_{CQ}$增大，而$I_{R_b}$由於基本不受溫度影響所以可看作基本不變。反向電流$I_R$同樣因為溫度升高而增大，這就導致$I_{BQ}$降低，從而導致$I_{CQ}$降低，從而達到負反饋的效果。</p>
+</li>
+</ol>
+<hr>
+<h4 id="晶體管放大電路的三種基本接法"><a href="#晶體管放大電路的三種基本接法" class="headerlink" title="晶體管放大電路的三種基本接法"></a><strong>晶體管放大電路的三種基本接法</strong></h4><p>基本接法分別是共射、共基、共集。</p>
+<ol>
+<li><p>基本共集放大電路</p>
+<p><img src="https://img-blog.csdn.net/20180502111145873?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI5NTQ1MjMx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="這張圖找了好久"></p>
+<p>基本共集放大電路第一眼看上去很難與基本共射放大電路相區分。仔細看發現共集在集電極後面接了個$R_e$的電阻，而原來的$R_c$電阻不見了，並且輸出電壓就是$R_e$兩端的電壓。</p>
+<p><strong>靜態分析</strong></p>
+<p>對於圖(b)的輸入迴路</p>
+<script type="math/tex; mode=display">
+V_{BB} = I_{BQ}R_b + U_{BEQ} + I_{EQ}R_e</script><p>所以</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+I_{BQ} = \frac{V_{BB} - U_{BEQ}}{R_b + (1+\beta)R_e}\\
+U_{CEQ} = V_{CC} - (1+\beta)I_{BQ}R_e
+\end{cases}</script><p><strong>動態分析</strong></p>
+<p>說實話要把(a)想象成(c)圖有點困難，其實只要把$V_{CC}$短路，再把三極管箭頭的方向改一下就好了。</p>
+<p>電壓放大倍數</p>
+<script type="math/tex; mode=display">
+\begin{aligned}\dot{A}_u &= \frac{\dot{U}_O}{\dot{U}_i}\\
+&=\frac{I_eR_e}{I_{b}(R_b+r_{be})  + I_{e}R_e}\\
+&=\frac{(1+\beta)R_e}{R_b + r_{be} + (1+\beta)R_e}
+\end{aligned}</script><p>然後不要忘了</p>
+<script type="math/tex; mode=display">
+r_{be} \approx r_{bb^{'}} + \beta \frac{U_T}{I_{CQ}}</script><p>我們驚奇地發現電壓放大倍數是小於1的，只有在$(1+\beta)R_e &gt;&gt; R_b + r_{be}$時才能接近1。所以常稱共集放大電路為<strong>射極跟隨器</strong>。</p>
+<p>儘管電壓沒有放大，但是電流$R_e$相比$R_b$是有放大的，所以電路具有功率放大作用。</p>
+<p><strong>輸入電阻</strong></p>
+<script type="math/tex; mode=display">
+R_i = R_b + r_{be} + (1+\beta)R_e</script><p><strong>輸出電阻</strong></p>
+<p>為了計算輸出電阻，可以將輸入端電壓短路，輸出端加一個變化的電壓$\dot{U}_o$。</p>
+<p>不難計算出</p>
+<script type="math/tex; mode=display">
+R_o = \frac1{\frac1{R_e} + (1+\beta)\frac1{R_b + r_{be}}} = \frac{R_e(R_b + r_{be})}{(1+\beta)R_e+R_b+r_{be}} = \frac{R_e(R_b+r_{be})}{R_i}</script><p>可以看出共集放大電路是屬於輸入電阻大，輸出電阻小的電路。</p>
+</li>
+<li><p>基本共基放大電路</p>
+<p><img src="https://tse3-mm.cn.bing.net/th?id=OIP.LOOGoiMJeqCA3M_VzKPULAHaGO&amp;pid=Api&amp;rs=1" alt=""></p>
+<p>對於直流通路</p>
+<script type="math/tex; mode=display">
+I_{BQ} = \frac{V_{BB} - U_{BEQ}}{R_e}\\
+U_{CEQ} = V_{CC} + V_{BB} - (1+\beta)I_{BQ}R_c - I_{BQ}R_e</script><p>對於交流通路</p>
+<script type="math/tex; mode=display">
+\dot{A}_u = \frac{\dot{U}_o}{\dot{U}_i} = \frac{\beta \dot{I_b}R_c}{\dot{I}_br_{be} + (1+\beta)\dot{I}_bR_e}  = \frac{\beta R_c}{r_{be} + (1+\beta)R_e}\\
+R_i = R_e + \frac{r_{be}}{1+\beta}\\
+R_o = R_c</script><p>由於共基電路的輸入電流為$i_E$，輸出電流為$i_C$。所以沒有電流放大能力。</p>
+<p>當$R_e$為信號源內阻時，電路的電壓放大倍數為$\beta R_c/r_{be}$，所以有電壓放大能力。</p>
+<p>此外，由於$\dot{A}_u$為正數，說明輸入電壓與輸出電壓的變化方向是相同的，即同相。共基電路的最大優點是頻帶寬，因而常用於無線通信。</p>
+</li>
+<li><p>三種接法的比較</p>
+<ul>
+<li>共射電路既能放大電流又能放大電壓，輸入電阻居三種電路之中，輸出電阻較大，頻帶交債。常作為低頻電壓放大電路的單元電路。</li>
+<li>共集電路不能放大電壓只能放大電流，在三種電路中輸入電阻最大、輸出電阻最小。並具有電壓跟隨的特點。常作為電壓放大電路的輸入級和輸出級。</li>
+<li>共基電路只能放大電壓不能放大電流，輸入電阻小，電壓放大倍數和輸出電阻與共射電路相當。在三種電路中高頻特性最好，常作為寬頻放大電路。</li>
+</ul>
+</li>
+</ol>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://yoursite.com">XiaoQixian</a>
+            <p>原文链接：<a href="http://yoursite.com/2020/04/12/%E5%9F%BA%E6%9C%AC%E6%94%BE%E5%A4%A7%E9%9B%BB%E8%B7%AF/">http://yoursite.com/2020/04/12/%E5%9F%BA%E6%9C%AC%E6%94%BE%E5%A4%A7%E9%9B%BB%E8%B7%AF/</a>
+            <p>发表日期：<a href="http://yoursite.com/2020/04/12/%E5%9F%BA%E6%9C%AC%E6%94%BE%E5%A4%A7%E9%9B%BB%E8%B7%AF/">April 12th 2020, 11:59:59 pm</a>
+            <p>更新日期：<a href="http://yoursite.com/2020/04/12/%E5%9F%BA%E6%9C%AC%E6%94%BE%E5%A4%A7%E9%9B%BB%E8%B7%AF/">April 13th 2020, 12:20:28 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/04/12/ContinuousTimeFourierTransform/" title= "Continuous Time Fourier Transform">
+                    <div class="prevTitle">Continuous Time Fourier Transform</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:lunar_ubuntu@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/xiaoqixian" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wukong.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本放大電路"><span class="toc-number">1.</span> <span class="toc-text">基本放大電路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#放大電路的性能指標"><span class="toc-number">1.1.</span> <span class="toc-text">放大電路的性能指標</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本共射放大電路"><span class="toc-number">1.2.</span> <span class="toc-text">基本共射放大電路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#放大電路的分析方法"><span class="toc-number">1.3.</span> <span class="toc-text">放大電路的分析方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#放大電路靜態工作點的穩定"><span class="toc-number">1.4.</span> <span class="toc-text">放大電路靜態工作點的穩定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#晶體管放大電路的三種基本接法"><span class="toc-number">1.5.</span> <span class="toc-text">晶體管放大電路的三種基本接法</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 7
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/12</span><a class="archive-post-title" href= "/2020/04/12/%E5%9F%BA%E6%9C%AC%E6%94%BE%E5%A4%A7%E9%9B%BB%E8%B7%AF/" >基本放大電路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/12</span><a class="archive-post-title" href= "/2020/04/12/ContinuousTimeFourierTransform/" >Continuous Time Fourier Transform</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8/" >Linux文件操作函數</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Hexo%E6%95%B8%E5%AD%B8%E5%85%AC%E5%BC%8F%E6%B8%B2%E6%9F%93%E9%85%8D%E7%BD%AE/" >Hexo數學公式渲染配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/" >Linux的常用目錄</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/LVM/" >LVM</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/04/10/hello-world/" >Hello World</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="EnvironmentConfiguration"><span class="iconfont-archer">&#xe606;</span>EnvironmentConfiguration</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="FileSystem"><span class="iconfont-archer">&#xe606;</span>FileSystem</span>
+    
+        <span class="sidebar-tag-name" data-tags="OperatingSystem"><span class="iconfont-archer">&#xe606;</span>OperatingSystem</span>
+    
+        <span class="sidebar-tag-name" data-tags="AnalogElectronic"><span class="iconfont-archer">&#xe606;</span>AnalogElectronic</span>
+    
+        <span class="sidebar-tag-name" data-tags="CircuitAnalysis"><span class="iconfont-archer">&#xe606;</span>CircuitAnalysis</span>
+    
+        <span class="sidebar-tag-name" data-tags="Signals&Systems"><span class="iconfont-archer">&#xe606;</span>Signals&Systems</span>
+    
+        <span class="sidebar-tag-name" data-tags="ComplexFunctions"><span class="iconfont-archer">&#xe606;</span>ComplexFunctions</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="EnvironmentConfiguration"><span class="iconfont-archer">&#xe60a;</span>EnvironmentConfiguration</span>
+    
+        <span class="sidebar-category-name" data-categories="LinuxFile"><span class="iconfont-archer">&#xe60a;</span>LinuxFile</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+        <span class="sidebar-category-name" data-categories="AnalogElectronic"><span class="iconfont-archer">&#xe60a;</span>AnalogElectronic</span>
+    
+        <span class="sidebar-category-name" data-categories="Signals-Systems"><span class="iconfont-archer">&#xe60a;</span>Signals-Systems</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "XiaoQixian"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+

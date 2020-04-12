@@ -23,7 +23,7 @@
     <meta name="description" content="A man can be destoryed but not defeated">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lunar">
-<meta property="og:url" content="http://yoursite.com/tags/Signals-Systems/index.html">
+<meta property="og:url" content="http://yoursite.com/categories/AnalogElectronic/index.html">
 <meta property="og:site_name" content="Lunar">
 <meta property="og:description" content="A man can be destoryed but not defeated">
 <meta property="og:locale" content="zh_CN">
@@ -356,19 +356,25 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/12/ContinuousTimeFourierTransform/" >
+        <a class="abstract-title" href = "/2020/04/12/%E5%9F%BA%E6%9C%AC%E6%94%BE%E5%A4%A7%E9%9B%BB%E8%B7%AF/" >
             
-                <span>Continuous Time Fourier Transform</span>
+                <span>基本放大電路</span>
         </a>
         <div class="abstract-content">
-            连续时间傅裡叶变换(Continuous Time Fourier Transform)
-引言傅裡叶变换试图将非週期信号也纳入到傅裡叶的体系中。对于非週期信号，可以看成是週期无限长的週期信号。当週期无限大时，傅裡叶级数的频率分量就变成了一个连续域。
+            基本放大電路
+放大電路的性能指標
+輸入電阻
+輸入電阻$R_i$是從放大電路輸入端看進去的等效電阻。
 
-非週期信号的表示：连续时间傅裡叶变换首先以週期方波为例，即在一个週期内
+R_i = \frac{U_i}{I_i}由於輸入電阻的存在，使得輸入電壓和信號源電壓存在一定的偏差。為了更加不失真，在輸入電阻上的壓降應該越小越好。
 
-x(t) = \begin{cases}1, |t| < T_1\\0,T_1 < |t| < T/2 \end{cases}若将其表示为傅裡叶级数，其傅裡叶级数的係数为
+輸出電阻
+輸出電阻$R_o$是從輸出端看進去的等效電阻。
+若$U_o^{‘}$為空載時的有效輸出電壓，$U_o$為負載為$R_L$時的有效輸出電壓。則有：
 
-a_k = \frac{2sin(k\omega_0T_1)}{k\omega_0T}将其在频...
+U_o = \frac{R_L}{R_L + R_o}U_o^{'}所以輸出電阻
+
+R_o = (\frac{U_o^{'}}{U_o} - 1)R_L$R_o$越小，負載電阻變化...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -379,9 +385,9 @@ a_k = \frac{2sin(k\omega_0T_1)}{k\omega_0T}将其在频...
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Signals&Systems">Signals&Systems</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "AnalogElectronic">AnalogElectronic</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ComplexFunctions">ComplexFunctions</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CircuitAnalysis">CircuitAnalysis</a>
     
 </div>
             
