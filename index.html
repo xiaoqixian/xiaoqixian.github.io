@@ -449,6 +449,40 @@ O_RDWR(讀寫)
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/Hexo%E6%95%B8%E5%AD%B8%E5%85%AC%E5%BC%8F%E6%B8%B2%E6%9F%93%E9%85%8D%E7%BD%AE/" >
+            
+                <span>Hexo數學公式渲染配置</span>
+        </a>
+        <div class="abstract-content">
+            Hexo數學公式渲染配置今天發現自己的hexo博客框架無法渲染markdown裡面的LaTeX數學公式，於是查閱了許多博客，多次嘗試後終於成功。
+首先需要將hexo的默認渲染引擎去掉並下載新的引擎12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save
+然後需要卸載math包，下載mathjax包12npm uninstall hexo-math --savenpm install hexo-renderer-mathjax --save
+然後更新mathjax鏈接在 node_m...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "EnvironmentConfiguration">EnvironmentConfiguration</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/04/11/LVM/" >
             
                 <span>LVM</span>
@@ -777,9 +811,18 @@ More...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 5
+        Total : 6
         </div>
         <!-- search  -->
         
@@ -801,6 +844,11 @@ More...
     
         <li class="archive-post-item">
             <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8/" >Linux文件操作函數</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Hexo%E6%95%B8%E5%AD%B8%E5%85%AC%E5%BC%8F%E6%B8%B2%E6%9F%93%E9%85%8D%E7%BD%AE/" >Hexo數學公式渲染配置</a>
         </li>
     
     
@@ -842,6 +890,10 @@ More...
     
         <span class="sidebar-tag-name" data-tags="ComplexFunctions"><span class="iconfont-archer">&#xe606;</span>ComplexFunctions</span>
     
+        <span class="sidebar-tag-name" data-tags="EnvironmentConfiguration"><span class="iconfont-archer">&#xe606;</span>EnvironmentConfiguration</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -880,6 +932,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="LinuxFile"><span class="iconfont-archer">&#xe60a;</span>LinuxFile</span>
     
         <span class="sidebar-category-name" data-categories="Signals-Systems"><span class="iconfont-archer">&#xe60a;</span>Signals-Systems</span>
+    
+        <span class="sidebar-category-name" data-categories="EnvironmentConfiguration"><span class="iconfont-archer">&#xe60a;</span>EnvironmentConfiguration</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
