@@ -557,6 +557,10 @@
     
     
     
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 8
@@ -633,9 +637,11 @@
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
+        <span class="sidebar-tag-name" data-tags="OperatingSystem"><span class="iconfont-archer">&#xe606;</span>OperatingSystem</span>
+    
         <span class="sidebar-tag-name" data-tags="FileSystem"><span class="iconfont-archer">&#xe606;</span>FileSystem</span>
     
-        <span class="sidebar-tag-name" data-tags="OperatingSystem"><span class="iconfont-archer">&#xe606;</span>OperatingSystem</span>
+        <span class="sidebar-tag-name" data-tags="ComplexFunction"><span class="iconfont-archer">&#xe606;</span>ComplexFunction</span>
     
         <span class="sidebar-tag-name" data-tags="AnalogElectronic"><span class="iconfont-archer">&#xe606;</span>AnalogElectronic</span>
     
@@ -644,8 +650,6 @@
         <span class="sidebar-tag-name" data-tags="Signals&Systems"><span class="iconfont-archer">&#xe606;</span>Signals&Systems</span>
     
         <span class="sidebar-tag-name" data-tags="ComplexFunctions"><span class="iconfont-archer">&#xe606;</span>ComplexFunctions</span>
-    
-        <span class="sidebar-tag-name" data-tags="ComplexFunction"><span class="iconfont-archer">&#xe606;</span>ComplexFunction</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -682,15 +686,15 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="EnvironmentConfiguration"><span class="iconfont-archer">&#xe60a;</span>EnvironmentConfiguration</span>
     
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
         <span class="sidebar-category-name" data-categories="LinuxFile"><span class="iconfont-archer">&#xe60a;</span>LinuxFile</span>
     
-        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+        <span class="sidebar-category-name" data-categories="ComplexFunction"><span class="iconfont-archer">&#xe60a;</span>ComplexFunction</span>
     
         <span class="sidebar-category-name" data-categories="AnalogElectronic"><span class="iconfont-archer">&#xe60a;</span>AnalogElectronic</span>
     
         <span class="sidebar-category-name" data-categories="Signals-Systems"><span class="iconfont-archer">&#xe60a;</span>Signals-Systems</span>
-    
-        <span class="sidebar-category-name" data-categories="ComplexFunction"><span class="iconfont-archer">&#xe60a;</span>ComplexFunction</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
@@ -725,7 +729,27 @@ jsonContent:
     </div>
     <!-- async load share.js -->
      
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
 </html>
 
 
