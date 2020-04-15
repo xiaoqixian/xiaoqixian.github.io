@@ -23,7 +23,7 @@
     <meta name="description" content="A man can be destoryed but not defeated">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lunar">
-<meta property="og:url" content="http://yoursite.com/tags/FileSystem/index.html">
+<meta property="og:url" content="http://yoursite.com/tags/ComplexFunction/index.html">
 <meta property="og:site_name" content="Lunar">
 <meta property="og:description" content="A man can be destoryed but not defeated">
 <meta property="og:locale" content="zh_CN">
@@ -356,36 +356,30 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8/" >
+        <a class="abstract-title" href = "/2020/04/15/%E8%A4%87%E8%AE%8A%E5%87%BD%E6%95%B8%E7%A9%8D%E5%88%86/" >
             
-                <span>Linux文件操作函數</span>
+                <span>复变函数积分</span>
         </a>
         <div class="abstract-content">
-            Linux文件操作函數由於經常在Linux環境下編程的時候會遇到各種各樣的文件操作函數，所以專門寫篇博客來匯總一下這些函數。
+            複變函數積分
+復積分的概念
+複積分的概念
+C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段。取$\delta$為這些小弧段中最長的一段，則當$\delta\rightarrow0$時，若和式$\sum_{k = 1}^nf(\zeta_k)\Delta z_k$存在，則稱這個和式為函數$f(z)$在A到B的積分。記為：
 
-open()原型
-1234	#include &lt;sys/types.h&gt;#include &lt;sys/stat.h&gt;#include fcntl.h&gt;int open(const char *path, int oflags, mode_t mode);
-返回值自然是一個int類型的文件描述符。
-第一個path不用講，相對路徑或絕對路徑
-第二個表示：打開方式
-
-O_RDONLY(只讀)
-O_WRONLY(只寫)
-O_RDWR(讀寫)
-...
+\int_cf(z)dz = \lim_{\delta\rightarrow0}\sum^n_{k = 1}f(\zeta_k)\Delta z_k
+復積分的計算
+定理：若C是復平面的光滑曲線，$f(z) = u(x,y) + iv(x,y)$在C上連續，則...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/15</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "FileSystem">FileSystem</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ComplexFunction">ComplexFunction</a>
     
 </div>
             
