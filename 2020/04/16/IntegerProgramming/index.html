@@ -20,21 +20,22 @@
     <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="A man can be destoryed but not defeated">
-    <meta name="description" content="A man can be destoryed but not defeated">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://xiaoqixian.github.io.com/tags/index.html">
+    <meta name="description" content="Integer Programming Model 1(Linearization of nonlinear integer programming problem)When there is a product $x_1,\cdots,x_k$ of k 0-1 variables $x_j$, we call the problem is nonlinear problem. So   we">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Integer Programming">
+<meta property="og:url" content="http://xiaoqixian.github.io.com/2020/04/16/IntegerProgramming/index.html">
 <meta property="og:site_name" content="Lunar">
-<meta property="og:description" content="A man can be destoryed but not defeated">
+<meta property="og:description" content="Integer Programming Model 1(Linearization of nonlinear integer programming problem)When there is a product $x_1,\cdots,x_k$ of k 0-1 variables $x_j$, we call the problem is nonlinear problem. So   we">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-04-10T16:41:58.000Z">
-<meta property="article:modified_time" content="2020-04-10T16:43:18.220Z">
+<meta property="article:published_time" content="2020-04-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-16T10:34:43.549Z">
 <meta property="article:author" content="XiaoQixian">
+<meta property="article:tag" content="OperationResearch">
 <meta name="twitter:card" content="summary">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
-    <title>tags · LunarRoom</title>
+    <title>Integer Programming · LunarRoom</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -215,12 +216,23 @@
 <meta name="generator" content="Hexo 4.2.0"></head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LunarRoom</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Integer Programming</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>LunarRoom</a>
 </header>
@@ -232,24 +244,74 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/fengling.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            Integer Programming
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "OperationResearch">OperationResearch</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">830</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/04/16</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -352,15 +414,68 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        
+        <h3 id="Integer-Programming"><a href="#Integer-Programming" class="headerlink" title="Integer Programming"></a><strong>Integer Programming</strong></h3><hr>
+<h4 id="Model-1-Linearization-of-nonlinear-integer-programming-problem"><a href="#Model-1-Linearization-of-nonlinear-integer-programming-problem" class="headerlink" title="Model 1(Linearization of nonlinear integer programming problem)"></a><strong>Model 1(Linearization of nonlinear integer programming problem)</strong></h4><p>When there is a product $x_1,\cdots,x_k$ of k 0-1 variables $x_j$, we call the problem is nonlinear problem. So   we deal with the problem with following methods:</p>
+<ol>
+<li><p>Introduce 0-1 variable y to replace product and add two constraint conditions：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}&\sum_{j=1}^kx_j-y\le k-1\\
+&-\sum^k_{j=1}x_j + ky \le 0\\
+&x_j = 0,1,\quad j=1,\cdots,k\\
+&y=0,1\end{aligned}</script></li>
+<li><p>Introduce non-negative variables $y$ to replace the product term $x_1x_2\cdots x_k$，and we add $(k+1)$ limit constraint conditions:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\sum^k_{j=1}x_j - y\le k-1,\\
+&y \le x_j,\quad j=1,\cdots, k\\
+&y \ge 0,\\
+&x_j = 0,1,\quad j=1,\cdots, k
+\end{aligned}</script></li>
+</ol>
+<h4 id="Model2-Linearization-of-nonlinear-integer-programming-problem"><a href="#Model2-Linearization-of-nonlinear-integer-programming-problem" class="headerlink" title="Model2 (Linearization of nonlinear integer programming problem)"></a><strong>Model2 (Linearization of nonlinear integer programming problem)</strong></h4><p>problem describe</p>
+<script type="math/tex; mode=display">
+max\ f(x_1) = \begin{cases}10x_1 -100,当x_1 > 0\\0\quad \quad \quad \quad \ ,当x_1 = 0 \end{cases}</script><p>we get</p>
+<script type="math/tex; mode=display">
+max\ Z = 10x_1 - 100y_1\\
+x_1 \le My_1\\
+x_1 \ge 0,y_1 = 0,1</script><hr>
+<h4 id="The-Cutting-Plane-Method-of-Pure-Integer-Programming"><a href="#The-Cutting-Plane-Method-of-Pure-Integer-Programming" class="headerlink" title="The Cutting Plane Method of Pure Integer Programming"></a><strong>The Cutting Plane Method of Pure Integer Programming</strong></h4><p><strong>The Geometric Characteristics of Cutting Plane Method</strong></p>
+<p>Mark the integer programming as <strong>AIP</strong>, it’s feasible region is marked as $K_{AIP}$. If we get rid of the constraint condition that variables have to be integers, then we get a linear problem (LP), it’s feasible region is $K_{LP}$.</p>
+<p>The cutting plane method essentially use the same method of solving linear programming to solve integer programming. It’s basic idea is: </p>
+<p>When we solve the problem (LP), if the best solve $X^<em>$ is an integer result, then $X^</em>$ is of course the best result of AIP; if not, we try to add a linear constraint condition (call it <strong>cutting plane</strong>) to split a set out that does not include integer results from (LP)’s feasible region $K_{LP}$, then we try to get the best result $X^{<strong>}$ of new linear programming. If $X^{</strong>}$ is still not the optimal solution of (AIP), then repeat the above process.</p>
+<p><strong>The Comory Cut</strong></p>
+<p>The key point of the cutting plane method is to find an appropriate cut constraint condition. Let’s discuss it.</p>
+<p>We import some signs:</p>
+<p>$\lfloor x\rfloor$ represents the largest integer that does not exceed x, $\lceil x\rceil$ represents the smallest integer that does not less than x. $\langle x\rangle = x - \lfloor x \rfloor $</p>
+<p>Say B is a base of (LP), X is a feasible solution of (AIP), as $K_{AIP} \in K_{LP}$, so X is also a feasible solution of (LP), then X satisfy the equation set:</p>
+<script type="math/tex; mode=display">
+x_{B_j} + \sum_{j\in I_D}y_{ij}x_j = \overline b_i;\quad i=1,2,\cdots,m</script><p>As $X \ge 0,\lfloor y_{ij}\rfloor \le y_{ij}$, so</p>
+<script type="math/tex; mode=display">
+x_{B_j} + \sum_{j\in I_D}\lfloor y_{ij}\rfloor x_j \le \overline b_i;\quad i=1,2,\cdots,m</script><p>As left side is always an integer, so</p>
+<script type="math/tex; mode=display">
+x_{B_j} + \sum_{j\in I_D}\lfloor y_{ij}\rfloor x_j \le \lfloor \overline b_i\rfloor;\quad i=1,2,\cdots,m</script><p>So</p>
+<script type="math/tex; mode=display">
+\sum_{j\in I_D}(y_{ij} - \lfloor y_{ij}\rfloor)x_j \ge \overline b_i - \lfloor \overline b_i\rfloor, i=1,2,\cdots,m\tag{5-20}</script><p>This is the necessary condition for every feasible solution in (AIP), we call it <strong>the  Comory cut</strong>.</p>
+<p>Assume B is the optimal base of (LP), X^<em>^ is the optimal solution about base B of (LP) and X^</em>^ is not an integer solution. Now then, $x^<em>_j = 0(j\in I_D), x^</em>_{B_i} = \overline b_i(i=1,\cdots,m)$, and at least one of $\overline b_k$ is not an integer.</p>
+<p>Now, we choose $i=k$ for inequation(5-20), it’s left side equal to 0, and the right side is not. In another word, it definitely does not satisfy the Comory cut, so we need to split the X^*^ out. Then we import a slack variable $x_{n+1}$ and get a new constraint condition:</p>
+<script type="math/tex; mode=display">
+-\sum_{j\in I_D}\langle y_{ki}\rangle x_j + x_{n+1} = -\langle \overline b_k\rangle</script><p><strong>The Comory Cutting Plane Method</strong></p>
+<p>Assume the feasible region $K_{LP}$ of (LP) that corresponds to (AIP) is not null and bounded, we give the following calculation steps:</p>
+<ul>
+<li>Solve (LP) with simplex method, get basic optimal solution X^*^, optimal base B and optimal table T(B)</li>
+<li>If X^*^ is not an integer solution, let $\langle \overline b_k\rangle = max \{\langle \overline b_i\rangle|1\le i\le m\}$, add the new constraint condition $-\sum_{j\in I_D}\langle y_{ki}\rangle x_j + x_{n+1} = -\langle \overline b_k\rangle$ to (LP) to get a new (LP). Then solve this new (LP).</li>
+<li>If we get the best integer solution, done. If not, repeat the above process.</li>
+<li>Tip: When we find a slack variable $x^{‘}$ become basic variable again after the spinning the spindle, delete the row and the column corresponding to the $x^{‘}$ may be a better option.</li>
+</ul>
+
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="http://xiaoqixian.github.io.com">XiaoQixian</a>
-            <p>原文链接：<a href="http://xiaoqixian.github.io.com/tags/index.html">http://xiaoqixian.github.io.com/tags/index.html</a>
-            <p>发表日期：<a href="http://xiaoqixian.github.io.com/tags/index.html">April 11th 2020, 12:41:58 am</a>
-            <p>更新日期：<a href="http://xiaoqixian.github.io.com/tags/index.html">April 11th 2020, 12:43:18 am</a>
+            <p>原文链接：<a href="http://xiaoqixian.github.io.com/2020/04/16/IntegerProgramming/">http://xiaoqixian.github.io.com/2020/04/16/IntegerProgramming/</a>
+            <p>发表日期：<a href="http://xiaoqixian.github.io.com/2020/04/16/IntegerProgramming/">April 16th 2020, 12:00:00 am</a>
+            <p>更新日期：<a href="http://xiaoqixian.github.io.com/2020/04/16/IntegerProgramming/">April 16th 2020, 6:34:43 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -370,6 +485,11 @@
             
         </li>
         <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/04/15/%E8%A4%87%E8%AE%8A%E5%87%BD%E6%95%B8%E7%A9%8D%E5%88%86/" title= "复变函数积分">
+                    <div class="prevTitle">复变函数积分</div>
+                </a>
             
         </li>
     </ul>
@@ -475,6 +595,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Integer-Programming"><span class="toc-number">1.</span> <span class="toc-text">Integer Programming</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Model-1-Linearization-of-nonlinear-integer-programming-problem"><span class="toc-number">1.1.</span> <span class="toc-text">Model 1(Linearization of nonlinear integer programming problem)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model2-Linearization-of-nonlinear-integer-programming-problem"><span class="toc-number">1.2.</span> <span class="toc-text">Model2 (Linearization of nonlinear integer programming problem)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#The-Cutting-Plane-Method-of-Pure-Integer-Programming"><span class="toc-number">1.3.</span> <span class="toc-text">The Cutting Plane Method of Pure Integer Programming</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -755,6 +893,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
