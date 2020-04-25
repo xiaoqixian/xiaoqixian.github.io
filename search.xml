@@ -700,4 +700,111 @@ x_{B_j} + \sum_{j\in I_D}\lfloor y_{ij}\rfloor x_j \le \lfloor \overline b_i\rfl
         <tag>OperationResearch</tag>
       </tags>
   </entry>
+  <entry>
+    <title>数据的IO与复用</title>
+    <url>/2020/04/11/%E6%95%B8%E6%93%9A%E7%9A%84IO%E5%92%8C%E8%A4%87%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="數據的IO和複用"><a href="#數據的IO和複用" class="headerlink" title="數據的IO和複用"></a><strong>數據的IO和複用</strong></h3><hr>
+<h4 id="IO函數"><a href="#IO函數" class="headerlink" title="IO函數"></a><strong>IO函數</strong></h4><ol>
+<li><p>recv()接收數據</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">recv</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>flags用於設置接收數據的方式。</p>
+<p><img src="../ScreenShots/io1.png" alt=""></p>
+<p>recv()函數的返回值是接收到的字節數，有錯誤發生時，可以查看errno錯誤碼。</p>
+<p><img src="../ScreenShots/io2.png" alt=""></p>
+</li>
+<li><p>send()函數發送數據</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">send</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">const</span> <span class="keyword">void</span>* buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>flags的參數含義與recv()一致</p>
+<p><img src="../ScreenShots/io3.png" alt=""></p>
+</li>
+<li><p>readv()接收數據</p>
+<p>readv用於接收多個緩衝區數據。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/uio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">readv</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">const</span> struct iovec* <span class="built_in">vector</span>, <span class="keyword">int</span> count)</span></span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iovec</span> &#123;</span></span><br><span class="line">    <span class="keyword">void</span>* iov_base; <span class="comment">//向量的緩衝區地址</span></span><br><span class="line">    <span class="keyword">size_t</span> iov_len; <span class="comment">//緩衝區大小</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>readv()從套接字描述符中接收count個數據塊放到vector中。</p>
+</li>
+<li><p>writev()寫數據</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">writev</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">const</span> struct iovec* <span class="built_in">vector</span>, <span class="keyword">int</span> count)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>各io函數的比較</p>
+<p><img src="../ScreenShots/io4.png" alt=""></p>
+</li>
+</ol>
+<hr>
+<h4 id="IO模型"><a href="#IO模型" class="headerlink" title="IO模型"></a><strong>IO模型</strong></h4><p>IO的模型有阻塞IO、非阻塞IO、IO複用、信號驅動、異步IO等。</p>
+<ol>
+<li><p>阻塞IO</p>
+<p>使用這種模型進行接收時，在數據沒有到來之前程序會一直等待。</p>
+</li>
+<li><p>非阻塞IO</p>
+<p>若把套接字設為非阻塞的IO，則對每次請求，內核不會阻塞，會立即返回；當沒有數據時，會返回一個錯誤。</p>
+</li>
+<li><p>IO複用</p>
+<p>使用IO複用模型可以設置等待的時間，時間沒有到等待時間時，內核會阻塞。當超過了指定等待的時間還沒有數據到達時內核會返回。</p>
+</li>
+<li><p>信號驅動IO模型</p>
+<p>信號驅動的IO模型在進程開始的時候註冊一個信號處理的回調函數，進程繼續執行，當信號發生時，利用註冊的回調函數將到來的數據用recvfroom()接收。</p>
+</li>
+<li><p>異步IO模型</p>
+<p>異步IO模型與信號驅動IO類似，但是是在數據到來後內核先將數據複製到用戶空間再發送信號通知信號處理函數。</p>
+</li>
+</ol>
+<hr>
+<h4 id="select-函數"><a href="#select-函數" class="headerlink" title="select()函數"></a><strong>select()函數</strong></h4><p>當我们进行IO复用时，如果有许多请求需要监视，那么就需要创建这么多数量的线程或进程取监视这些请求，但是不知道什么时候请求有数据读取，所以会造成资源的浪费，select()的出现解决了这个问题。</p>
+<p>這個函數用於IO複用，它們監視多個文件描述符的集合，判斷是否有符合條件的事件發生。如果有，就分配一个线程去接收，从而做到了有需才有分配，而不是实现分配大量线程进行等待。</p>
+<p>select()會先對需要操作的文件描述符進行查詢，查看文件描述符是否可以進行讀、寫操作或者錯誤操作。</p>
+   <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/select.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span><span class="params">(<span class="keyword">int</span> nfds, fd_set* readfds, fd_set* write_fds, fd_set* exceptfds, struct timeval* timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>   select()函数监视readfds中的文件是否可读，即判断对此文件进行读操作是否阻塞；监视writefds中的文件是否可写；监视exceptfds中的文件是否发生意外。</p>
+<p>fd_set（它比较重要所以先介绍一下）是一组文件描述字(fd)的集合，它用一位来表示一个fd（下面会仔细介绍），对于fd_set类型通过下面四个宏来操作：</p>
+<ul>
+<li><p>FD_ZERO(fd_set *fdset)：将指定的文件描述符集清空，在对文件描述符集合进行设置前，必须对其进行初始化，如果不清空，由于在系统分配内存空间后，通常并不作清空处理，所以结果是不可知的。</p>
+</li>
+<li><p>FD_SET(int fd, fd_set *fdset)：用于在文件描述符集合中增加一个新的文件描述符。</p>
+</li>
+<li><p>FD_CLR(int fd, fd_set *fdset)：用于在文件描述符集合中删除一个文件描述符。</p>
+</li>
+<li><p>FD_ISSET(int fd, fd_set *fdset)：用于测试指定的文件描述符是否在该集合中。  </p>
+</li>
+</ul>
+<p><img src="../ScreenShots/io5.png" alt=""></p>
+<p>Tip：select()采用轮询的方式进行监视，十分浪费CPU资源，所以最后不要采用此种方法。</p>
+<hr>
+<p><strong>pselect()函数</strong></p>
+<p>与select()函数基本一致，除了精度增加了</p>
+<hr>
+<h4 id="poll-函數"><a href="#poll-函數" class="headerlink" title="poll()函數"></a><strong>poll()函數</strong></h4><p>poll()函數等待某個文件描述符上的某個事件發生</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;poll.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">poll</span><span class="params">(struct pollfd* fds, <span class="keyword">nfds_t</span> nfds, <span class="keyword">int</span> timeout)</span></span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pollfd</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> fd; <span class="comment">//文件描述符</span></span><br><span class="line">    short events; <span class="comment">//請求事件</span></span><br><span class="line">    short revents; <span class="comment">//返回的事件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>poll()函數監視在fds數組指明的一組文件描述符上發生的動作，當滿足條件或者超時會退出。</p>
+<p><img src="../ScreenShots/io6.png" alt=""></p>
+<hr>
+<p><strong>epoll()函数</strong></p>
+<p>epoll()旨在取代现有的select()和poll()函数，让拥有大量文件描述符的程序发挥更优秀的性能。epoll通过红黑树遍历其所监视的文件描述符。</p>
+<ul>
+<li><code>int epoll_create(int size)</code>：在内核中创建一个监视size数量的文件描述符的epoll实例，返回一个epoll文件描述符。当epoll中监视的文件描述符超过了size时，内核会自动扩容。</li>
+<li><code>int epoll_ctl(int epfd, int op, int fd, struct epoll_event* event)</code>：向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</li>
+<li><code>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)</code>：当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</li>
+</ul>
+<hr>
+<h4 id="非阻塞編程"><a href="#非阻塞編程" class="headerlink" title="非阻塞編程"></a><strong>非阻塞編程</strong></h4><ol>
+<li><p>文件描述符控制函數fcntl介紹。</p>
+<p>首先介紹如何將文件設為非阻塞狀態。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">fcntl(s, F_SETFL, O_NONBLOCK);</span><br></pre></td></tr></table></figure>
+<p>fcntl是文件描述符的控制函數，其原型為</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd, <span class="keyword">long</span> arg)</span></span>;         </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd, struct flock *lock)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>F_SETFL表示改變文件描述符的狀態，O_NONBLOCK是F_SETFL的參數，表示將該文件描述符設為非阻塞狀態。</p>
+<p>同樣還有F_GETFL可以獲取文件的狀態，沒有參數。</p>
+<p>關於非阻塞的一個測試代碼</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> ret;</span><br><span class="line">    <span class="keyword">int</span> flags;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用非阻塞io</span></span><br><span class="line">    <span class="keyword">if</span>(flags = fcntl(STDIN_FILENO, F_GETFL, <span class="number">0</span>) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">"fcntl"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    flags |= O_NONBLOCK;</span><br><span class="line">    <span class="keyword">if</span>(fcntl(STDIN_FILENO, F_SETFL, flags) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">"fcntl"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        sleep(<span class="number">2</span>);</span><br><span class="line">        ret = <span class="built_in">read</span>(STDIN_FILENO, buf, <span class="number">9</span>);</span><br><span class="line">        <span class="keyword">if</span>(ret == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            perror(<span class="string">"read--no"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"read = %d\n"</span>, ret);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">write</span>(STDOUT_FILENO, buf, <span class="number">10</span>);</span><br><span class="line">        <span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代碼中，當你運行程序後，雖然在while循環內有一個read函數，但是終端並不會停在那裡一直等待輸入，而是每隔2秒就輸出一次”read = x”，當你來不及輸入時就輸出”read = -1”，這說明這個進程是非阻塞的。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>TCP/IP</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>TCP/IP</tag>
+        <tag>IO</tag>
+      </tags>
+  </entry>
 </search>
