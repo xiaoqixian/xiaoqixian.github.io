@@ -23,7 +23,7 @@
     <meta name="description" content="A man can be destoryed but not defeated">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lunar">
-<meta property="og:url" content="http://xiaoqixian.github.io.com/tags/FileSystem/index.html">
+<meta property="og:url" content="http://xiaoqixian.github.io.com/categories/DataStructure/index.html">
 <meta property="og:site_name" content="Lunar">
 <meta property="og:description" content="A man can be destoryed but not defeated">
 <meta property="og:locale" content="zh_CN">
@@ -356,36 +356,36 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/11/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8/" >
+        <a class="abstract-title" href = "/2020/04/26/%E7%BA%A2%E9%BB%91%E6%A0%91/" >
             
-                <span>Linux文件操作函數</span>
+                <span>红黑树</span>
         </a>
         <div class="abstract-content">
-            Linux文件操作函數由於經常在Linux環境下編程的時候會遇到各種各樣的文件操作函數，所以專門寫篇博客來匯總一下這些函數。
+            红黑树(R-B Tree)
+本文属于半转载：是根据多篇介绍文章加上自己的理解写成。文章地址：   https://www.cnblogs.com/skywang12345/p/3245399.html
+https://www.jianshu.com/p/e136ec79235c
 
-open()原型
-1234	#include &lt;sys/types.h&gt;#include &lt;sys/stat.h&gt;#include fcntl.h&gt;int open(const char *path, int oflags, mode_t mode);
-返回值自然是一個int類型的文件描述符。
-第一個path不用講，相對路徑或絕對路徑
-第二個表示：打開方式
+红黑树的特性
+每个节点或者是黑色，或者是红色
+根节点是黑色
+每个为空的叶子结点为黑色
+如果一个节点是红色的，则子节点必须是黑色的
+从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。这一点可以确保红黑树不会一条路径过长，保证是一个相对平衡的树
 
-O_RDONLY(只讀)
-O_WRONLY(只寫)
-O_RDWR(讀寫)
-...
+红黑树的应用红黑树的应用比较广泛，主要是用它来存储有序的...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/26</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "DataStructure">DataStructure</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "FileSystem">FileSystem</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "BinaryTree">BinaryTree</a>
     
 </div>
             
