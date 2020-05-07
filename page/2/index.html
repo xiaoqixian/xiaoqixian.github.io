@@ -369,6 +369,279 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/12/%E5%9F%BA%E6%9C%AC%E6%94%BE%E5%A4%A7%E9%9B%BB%E8%B7%AF/" >
+            
+                <span>基本放大電路</span>
+        </a>
+        <div class="abstract-content">
+            基本放大電路
+放大電路的性能指標
+輸入電阻
+輸入電阻$R_i$是從放大電路輸入端看進去的等效電阻。
+
+R_i = \frac{U_i}{I_i}由於輸入電阻的存在，使得輸入電壓和信號源電壓存在一定的偏差。為了更加不失真，在輸入電阻上的壓降應該越小越好。
+
+輸出電阻
+輸出電阻$R_o$是從輸出端看進去的等效電阻。
+若$U_o^{‘}$為空載時的有效輸出電壓，$U_o$為負載為$R_L$時的有效輸出電壓。則有：
+
+U_o = \frac{R_L}{R_L + R_o}U_o^{'}所以輸出電阻
+
+R_o = (\frac{U_o^{'}}{U_o} - 1)R_L$R_o$越小，負載電阻變化...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "AnalogElectronic">AnalogElectronic</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CircuitAnalysis">CircuitAnalysis</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/12/ContinuousTimeFourierTransform/" >
+            
+                <span>Continuous Time Fourier Transform</span>
+        </a>
+        <div class="abstract-content">
+            连续时间傅裡叶变换(Continuous Time Fourier Transform)
+引言傅裡叶变换试图将非週期信号也纳入到傅裡叶的体系中。对于非週期信号，可以看成是週期无限长的週期信号。当週期无限大时，傅裡叶级数的频率分量就变成了一个连续域。
+
+非週期信号的表示：连续时间傅裡叶变换首先以週期方波为例，即在一个週期内
+
+x(t) = \begin{cases}1, |t| < T_1\\0,T_1 < |t| < T/2 \end{cases}若将其表示为傅裡叶级数，其傅裡叶级数的係数为
+
+a_k = \frac{2sin(k\omega_0T_1)}{k\omega_0T}将其在频...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Signals&Systems">Signals&Systems</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ComplexFunctions">ComplexFunctions</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8/" >
+            
+                <span>Linux文件操作函數</span>
+        </a>
+        <div class="abstract-content">
+            Linux文件操作函數由於經常在Linux環境下編程的時候會遇到各種各樣的文件操作函數，所以專門寫篇博客來匯總一下這些函數。
+
+open()原型
+1234	#include &lt;sys/types.h&gt;#include &lt;sys/stat.h&gt;#include fcntl.h&gt;int open(const char *path, int oflags, mode_t mode);
+返回值自然是一個int類型的文件描述符。
+第一個path不用講，相對路徑或絕對路徑
+第二個表示：打開方式
+
+O_RDONLY(只讀)
+O_WRONLY(只寫)
+O_RDWR(讀寫)
+...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "FileSystem">FileSystem</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/%E6%95%B8%E6%93%9A%E7%9A%84IO%E5%92%8C%E8%A4%87%E7%94%A8/" >
+            
+                <span>数据的IO与复用</span>
+        </a>
+        <div class="abstract-content">
+            數據的IO和複用
+IO函數
+recv()接收數據
+1ssize_t recv(int s, void *buf, size_t len, int flags);
+flags用於設置接收數據的方式。
+
+recv()函數的返回值是接收到的字節數，有錯誤發生時，可以查看errno錯誤碼。
+
+
+send()函數發送數據
+1ssize_t send(int s, const void* buf, size_t len, int flags);
+flags的參數含義與recv()一致
+
+
+readv()接收數據
+readv用於接收多個緩衝區數據。
+123456#include &lt;sys/uio...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "TCP/IP">TCP/IP</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "IO">IO</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/Hexo%E6%95%B8%E5%AD%B8%E5%85%AC%E5%BC%8F%E6%B8%B2%E6%9F%93%E9%85%8D%E7%BD%AE/" >
+            
+                <span>Hexo數學公式渲染配置</span>
+        </a>
+        <div class="abstract-content">
+            Hexo數學公式渲染配置今天發現自己的hexo博客框架無法渲染markdown裡面的LaTeX數學公式，於是查閱了許多博客，多次嘗試後終於成功。
+首先需要將hexo的默認渲染引擎去掉並下載新的引擎12npm uninstall hexo-renderer-marked --savenpm install hexo-renderer-kramed --save
+然後需要卸載math包，下載mathjax包12npm uninstall hexo-math --savenpm install hexo-renderer-mathjax --save
+然後更新mathjax鏈接在 node_m...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "EnvironmentConfiguration">EnvironmentConfiguration</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/LVM/" >
+            
+                <span>LVM</span>
+        </a>
+        <div class="abstract-content">
+            LVMLVM for Logical Volume Manager(邏輯捲管理)。
+用戶在安裝Linux系統時常常遇到的一個問題就是無法準確的評估分區的大小。如果一個分區的大小沒有合適的分配，常常會遇到大文件無法存下的情況。一個邏輯分區無法存下時，無法跨越多個分區存儲。通常可以使用符號鏈解決。但是無法從根本上解決。
+LVM的出現完美地解決了這個問題。LVM通俗的來說類似於內存管理中的地址映射，Linux的內存映射將內核訪問的內存與物理內存用一個內存地址映射隔離開來。LVM則是在磁盤層面實現了這個效果。
+LVM本質上是一個虛擬設備驅動，它將多個物理存儲設備聯立起來組成一個存儲卷或者說卷組。...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "OperatingSystem">OperatingSystem</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/" >
+            
+                <span>Linux的常用目錄</span>
+        </a>
+        <div class="abstract-content">
+            Linux的常用目錄
+/etc:包括絕大多數Linux系統引導所需的配置文件，系統引導時讀取配置文件，按照配置文件的選項來進行不同的啟動。root有權限修改，一般用戶有權限查看。
+
+/lib:包含C編譯程序所需要的函數庫，是一組二進制文件，如glibc等。
+
+/usr:usr是UNIX Software Resource的縮寫。包含絕大部分用戶都能訪問的應用程序和文件，如src、local。Linux的內核就是在/usr/src中。
+
+/usr/bin:這個目錄存放用戶命令(普通用戶)
+/usr/include:存放編程語言的頭文件和包含文件。
+/usr/lib:各個應用軟件的庫函數和目...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/11</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/04/10/hello-world/" >
             
                 <span>Hello World</span>
@@ -707,9 +980,94 @@ More...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 11
+        Total : 18
         </div>
         <!-- search  -->
         
@@ -722,6 +1080,41 @@ More...
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" >原型模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" >单例模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" >工厂模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" >建造者模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F/" >过滤器模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" >桥接模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" >适配器模式</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -800,7 +1193,15 @@ More...
     
         <span class="sidebar-tag-name" data-tags="OperatingSystem"><span class="iconfont-archer">&#xe606;</span>OperatingSystem</span>
     
+        <span class="sidebar-tag-name" data-tags="OperationResearch"><span class="iconfont-archer">&#xe606;</span>OperationResearch</span>
+    
+        <span class="sidebar-tag-name" data-tags="DesignPattern"><span class="iconfont-archer">&#xe606;</span>DesignPattern</span>
+    
         <span class="sidebar-tag-name" data-tags="FileSystem"><span class="iconfont-archer">&#xe606;</span>FileSystem</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP"><span class="iconfont-archer">&#xe606;</span>TCP/IP</span>
+    
+        <span class="sidebar-tag-name" data-tags="IO"><span class="iconfont-archer">&#xe606;</span>IO</span>
     
         <span class="sidebar-tag-name" data-tags="ComplexFunction"><span class="iconfont-archer">&#xe606;</span>ComplexFunction</span>
     
@@ -808,19 +1209,13 @@ More...
     
         <span class="sidebar-tag-name" data-tags="CircuitAnalysis"><span class="iconfont-archer">&#xe606;</span>CircuitAnalysis</span>
     
-        <span class="sidebar-tag-name" data-tags="Signals&Systems"><span class="iconfont-archer">&#xe606;</span>Signals&Systems</span>
-    
-        <span class="sidebar-tag-name" data-tags="ComplexFunctions"><span class="iconfont-archer">&#xe606;</span>ComplexFunctions</span>
-    
-        <span class="sidebar-tag-name" data-tags="OperationResearch"><span class="iconfont-archer">&#xe606;</span>OperationResearch</span>
-    
-        <span class="sidebar-tag-name" data-tags="TCP/IP"><span class="iconfont-archer">&#xe606;</span>TCP/IP</span>
-    
-        <span class="sidebar-tag-name" data-tags="IO"><span class="iconfont-archer">&#xe606;</span>IO</span>
-    
         <span class="sidebar-tag-name" data-tags="DataStructure"><span class="iconfont-archer">&#xe606;</span>DataStructure</span>
     
         <span class="sidebar-tag-name" data-tags="BinaryTree"><span class="iconfont-archer">&#xe606;</span>BinaryTree</span>
+    
+        <span class="sidebar-tag-name" data-tags="Signals&Systems"><span class="iconfont-archer">&#xe606;</span>Signals&Systems</span>
+    
+        <span class="sidebar-tag-name" data-tags="ComplexFunctions"><span class="iconfont-archer">&#xe606;</span>ComplexFunctions</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -859,19 +1254,21 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     
+        <span class="sidebar-category-name" data-categories="OperationResearch"><span class="iconfont-archer">&#xe60a;</span>OperationResearch</span>
+    
+        <span class="sidebar-category-name" data-categories="DesignPattern"><span class="iconfont-archer">&#xe60a;</span>DesignPattern</span>
+    
         <span class="sidebar-category-name" data-categories="LinuxFile"><span class="iconfont-archer">&#xe60a;</span>LinuxFile</span>
+    
+        <span class="sidebar-category-name" data-categories="TCP-IP"><span class="iconfont-archer">&#xe60a;</span>TCP-IP</span>
     
         <span class="sidebar-category-name" data-categories="ComplexFunction"><span class="iconfont-archer">&#xe60a;</span>ComplexFunction</span>
     
         <span class="sidebar-category-name" data-categories="AnalogElectronic"><span class="iconfont-archer">&#xe60a;</span>AnalogElectronic</span>
     
-        <span class="sidebar-category-name" data-categories="Signals-Systems"><span class="iconfont-archer">&#xe60a;</span>Signals-Systems</span>
-    
-        <span class="sidebar-category-name" data-categories="OperationResearch"><span class="iconfont-archer">&#xe60a;</span>OperationResearch</span>
-    
-        <span class="sidebar-category-name" data-categories="TCP-IP"><span class="iconfont-archer">&#xe60a;</span>TCP-IP</span>
-    
         <span class="sidebar-category-name" data-categories="DataStructure"><span class="iconfont-archer">&#xe60a;</span>DataStructure</span>
+    
+        <span class="sidebar-category-name" data-categories="Signals-Systems"><span class="iconfont-archer">&#xe60a;</span>Signals-Systems</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
