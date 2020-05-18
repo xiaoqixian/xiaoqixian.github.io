@@ -74,57 +74,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux的常用目錄</title>
-    <url>/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/</url>
-    <content><![CDATA[<h4 id="Linux的常用目錄"><a href="#Linux的常用目錄" class="headerlink" title="Linux的常用目錄"></a><strong>Linux的常用目錄</strong></h4><ul>
-<li><p>/etc:包括絕大多數Linux系統引導所需的配置文件，系統引導時讀取配置文件，按照配置文件的選項來進行不同的啟動。root有權限修改，一般用戶有權限查看。</p>
-</li>
-<li><p>/lib:包含C編譯程序所需要的函數庫，是一組二進制文件，如glibc等。</p>
-</li>
-<li><p>/usr:usr是UNIX Software Resource的縮寫。包含絕大部分用戶都能訪問的應用程序和文件，如src、local。Linux的內核就是在/usr/src中。</p>
-<ul>
-<li>/usr/bin:這個目錄存放用戶命令(普通用戶)</li>
-<li>/usr/include:存放編程語言的頭文件和包含文件。</li>
-<li>/usr/lib:各個應用軟件的庫函數和目標文件</li>
-<li>/usr/local:系統管理員安裝自行下載的軟件的目錄</li>
-<li>/usr/sbin:系統命令(超級用戶)</li>
-<li>/usr/src:放置系統源代碼</li>
-</ul>
-</li>
-<li><p>/var:包含經常變化的文件，諸如日誌或數據庫等。</p>
-<ul>
-<li>/var/cache:存放應用程序產生的臨時文件</li>
-<li>/var/lib:存放程序在執行過程中需要用到的數據文件，每個軟件都在此目錄下有自己獨立的目錄</li>
-<li>/var/lock:記錄程序的鎖狀態</li>
-<li>/var/log:存放程序的登錄文件</li>
-<li>/var/run:某些程序在運行時，存放它們的PID在其中</li>
-</ul>
-</li>
-<li><p>/tmp:臨時性的存儲</p>
-</li>
-<li><p>/bin:大多數的命令存放在這裡。</p>
-</li>
-<li><p>/home:主要存放用戶賬號，並且可以支持ftp的用戶管理，即遠程用戶管理。系統管理員增加用戶時，系統可以在home目錄下創建與用戶同名的目錄，此目錄下一般默認有desktop目錄。比如我創建了一個名為lunar的用戶，那麼在這個目錄下就會創建一個lunar的目錄下。一般建議lunar用戶產生的文件也存放在這個lunar目錄下。</p>
-</li>
-<li><p>/dev:這個目錄下存放一種設備文件的特殊文件，dev for device</p>
-</li>
-<li><p>/mnt:在Linux系統中，它是專門給外掛的文件系統使用的，裡面的兩個文件cdrom、floopy登錄光驅、軟驅時要用到。各種額外設備(通常是存儲設備)在掛載後都會在該目錄下生成響應的文件。</p>
-<p>所謂掛載，指操作系統使一個存儲設備上的計算機文件和目錄可供用戶通過文件系統訪問的一個過程。一般當計算機關機時，每個已掛載存儲都將經歷一次卸載，以確保所有排隊的數據被寫入。在Linux下，掛載的目錄可以不為空，但是掛載後以前的內容將不可用。在掛載時，所要掛載的存儲設備的文件系統要與操作系統的文件格式相兼容。</p>
-</li>
-<li><p>/opt:存放用戶安裝的第三方軟件</p>
-</li>
-<li><p>/proc:特殊的動態目錄，用以維護系統信息和狀態，包含當前運行中的進程信息。</p>
-</li>
-<li><p>/sbin:重要的系統二進制文件。</p>
-</li>
-<li><p>/sys:系統文件。/sys本身是一個虛擬文件系統，/sys目录和/proc目录的作用差不多，都是用于存放前启动环境下的系统信息，但相比于proc文件系统而言，挂载在/sys目录下的sysf文件系统提供了一种更方便的从内存中获得内核信息的方式。</p>
-</li>
-<li><p>/root:只要超級用戶有權限登錄，相當於超級用戶的主目錄。</p>
-</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>Integer Programming</title>
     <url>/2020/04/16/IntegerProgramming/</url>
     <content><![CDATA[<h3 id="Integer-Programming"><a href="#Integer-Programming" class="headerlink" title="Integer Programming"></a><strong>Integer Programming</strong></h3><hr>
@@ -189,59 +138,6 @@ x_{B_j} + \sum_{j\in I_D}\lfloor y_{ij}\rfloor x_j \le \lfloor \overline b_i\rfl
       </tags>
   </entry>
   <entry>
-    <title>原型模式</title>
-    <url>/2020/05/07/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><p>原型模式主要介绍了java中cloneable接口的应用。在Java中，对象的直接等于”=”重载了C/C++中的引用，改变一个类会引起另一类的变化，即浅拷贝。而实现了cloneable接口的类，可以通过clone方法来克隆一个新的类，两个类互不影响，即深拷贝。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleObject</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String str;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SimpleObject</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Enter SimpleObject.constructor()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStr</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStr</span><span class="params">(String str)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.str = str;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    SimpleObject so0 = <span class="keyword">new</span> SimpleObject();</span><br><span class="line">    so0.setStr(<span class="string">"111"</span>);</span><br><span class="line">    SimpleObject so1 = (SimpleObject)so0.clone();</span><br><span class="line">    </span><br><span class="line">    System.out.println(<span class="string">"so0 == so1?"</span> + (so0 == so1));</span><br><span class="line">    System.out.println(<span class="string">"so0.getClass() == so1.getClass()?"</span> + (so0.getClass() == so1.getClass()));</span><br><span class="line">    System.out.println(<span class="string">"so0.equals(so1)?"</span> + (so0.equals(so1)));</span><br><span class="line">        </span><br><span class="line">    so1.setStr(<span class="string">"222"</span>);</span><br><span class="line">    System.out.println(<span class="string">"so0.getStr()："</span> + so0.getStr());</span><br><span class="line">    System.out.println(<span class="string">"so1.getStr()："</span> + so1.getStr());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//运行结果</span></span><br><span class="line">Enter SimpleObject.constructor()</span><br><span class="line">so0 == so1?<span class="keyword">false</span></span><br><span class="line">so0.getClass() == so1.getClass()?<span class="keyword">true</span></span><br><span class="line">so0.equals(so1)?<span class="keyword">false</span></span><br><span class="line">so0.getStr()：<span class="number">111</span></span><br><span class="line">so1.getStr()：<span class="number">222</span></span><br></pre></td></tr></table></figure>
-<p>Tip:克隆一个对象并不会调用对象的构造方法。</p>
-]]></content>
-      <categories>
-        <category>DesignPattern</category>
-      </categories>
-      <tags>
-        <tag>DesignPattern</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单例模式</title>
-    <url>/2020/05/07/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。</p>
-<p>这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保只有单个对象被创建。这个类提供了一种访问其唯一的对象的方式，可以直接访问，不需要实例化该类的对象。</p>
-<p>单例模式特点：</p>
-<ul>
-<li>单例类只能有一个实例</li>
-<li>单例类必须自己创建自己的唯一实例</li>
-<li>单例类必须给所有的其他对象提供这一实例</li>
-</ul>
-<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleObject</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">   <span class="comment">//创建 SingleObject 的一个对象</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> SingleObject instance = <span class="keyword">new</span> SingleObject();</span><br><span class="line"> </span><br><span class="line">   <span class="comment">//让构造函数为 private，这样该类就不会被实例化</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="title">SingleObject</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"> </span><br><span class="line">   <span class="comment">//获取唯一可用的对象</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingleObject <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> instance;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showMessage</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Hello World!"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>根据上面的代码，外界只能通过静态方法getInstance()来获取实例，获取到的实例是静态。</p>
-<h4 id="单例模式的几种实现方式"><a href="#单例模式的几种实现方式" class="headerlink" title="单例模式的几种实现方式"></a>单例模式的几种实现方式</h4><p>懒汉式和饿汉式暂时不写了</p>
-<ul>
-<li><p>双重检验锁(Double-checked locking)</p>
-<ul>
-<li>第一重检验：只有在实例对象为null即instance == null的时候继续运行实例化代码。</li>
-<li>第二重：通过synchronized关键字锁定实例化的代码，使最快的那条线程能够进入实例化的过程，保证线程安全。</li>
-<li>与懒汉式相比，加入了判断instance是否为null的检验机制。使得getInstance方法不为synchronized方法，因为线程锁机制效率比较低。而这个方法只需要在实例化的时候进行线程锁，效率比较高。</li>
-</ul>
-<p>实例代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton singleton;  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>&#123;&#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getSingleton</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;  </span><br><span class="line">        <span class="keyword">synchronized</span> (Singleton<span class="class">.<span class="keyword">class</span>) </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;  </span><br><span class="line">            singleton = <span class="keyword">new</span> Singleton();  </span><br><span class="line">        &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> singleton;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>登记式/静态内部类</p>
-<p>描述：这个方式和饿汉式很想，都是通过ClassHolder机制来保证线程安全。ClassHolder即在类加载时就实例化instance对象，没有了在getInstance方法调用时多个线程同时调用导致实例化多个对象的烦恼。** 而与饿汉式的区别就是加入了一个静态内部类ClassHolder，静态内部类有一个静态instance对象。只有在调用getInstance方法时才调用ClassHolder的静态instance对象，就保证了本类在其他地方用的时候也实例化instance对象，节约了资源。</p>
-<p>实例代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>&#123;&#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">return</span> SingletonHolder.INSTANCE;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>DesignPattern</category>
-      </categories>
-      <tags>
-        <tag>DesignPattern</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2020/04/10/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
@@ -254,102 +150,6 @@ x_{B_j} + \sum_{j\in I_D}\lfloor y_{ij}\rfloor x_j \le \lfloor \overline b_i\rfl
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>工厂模式</title>
-    <url>/2020/05/07/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><ol>
-<li><p>初步理解</p>
-<p>工厂模式主要包含了3个部分：</p>
-<ul>
-<li>抽象的接口，定义了一组需要完成的事情和一组属性。</li>
-<li>实现了这个接口的具体的类</li>
-<li>工厂：工厂类有一个返回接口类型的函数，接收的参数则是实现了这个接口的这些类的名字，返回这个类的对象。</li>
-</ul>
-</li>
-<li><p>代码展示：</p>
-</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Inside Rectangle::draw() method."</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Inside Square::draw() method."</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShapeFactory</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">//使用 getShape 方法获取形状类型的对象</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Shape <span class="title">getShape</span><span class="params">(String shapeType)</span></span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(shapeType == <span class="keyword">null</span>)&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">      &#125;        </span><br><span class="line">      <span class="keyword">if</span>(shapeType.equalsIgnoreCase(<span class="string">"CIRCLE"</span>))&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">new</span> Circle();</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span>(shapeType.equalsIgnoreCase(<span class="string">"RECTANGLE"</span>))&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">new</span> Rectangle();</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span>(shapeType.equalsIgnoreCase(<span class="string">"SQUARE"</span>))&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">new</span> Square();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为了方便就将所有的代码放在一个框里面了。</p>
-<ol>
-<li>链接：<a href="https://www.runoob.com/design-pattern/factory-pattern.html" target="_blank" rel="noopener">https://www.runoob.com/design-pattern/factory-pattern.html</a></li>
-</ol>
-<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><p>不多说，放截图</p>
-<p><img src="C:\CSNotes\DesignMode\ScreenShots\抽象工厂.png" alt="p1"></p>
-<p><img src="C:\CSNotes\DesignMode\ScreenShots\抽象工厂2.png" alt="p2"></p>
-]]></content>
-      <categories>
-        <category>DesignPattern</category>
-      </categories>
-      <tags>
-        <tag>DesignPattern</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>建造者模式</title>
-    <url>/2020/05/07/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h3 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h3><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><strong>意图：</strong>将一个复杂的构建与其表示相分离，使得同样的构建过程可以创建不同的表示。</p>
-<p><strong>主要解决：</strong>主要解决在软件系统中，有时候面临着”一个复杂对象”的创建工作，其通常由各个部分的子对象用一定的算法构成；由于需求的变化，这个复杂对象的各个部分经常面临着剧烈的变化，但是将它们组合在一起的算法却相对稳定。</p>
-<p><strong>何时使用：</strong>一些基本部件不会变，而其组合经常变化的时候。</p>
-<p><strong>如何解决：</strong>将变与不变分离开。</p>
-<p><strong>关键代码：</strong>建造者：创建和提供实例，导演：管理建造出来的实例的依赖关系。</p>
-<p><strong>应用实例：</strong> 1、去肯德基，汉堡、可乐、薯条、炸鸡翅等是不变的，而其组合是经常变化的，生成出所谓的”套餐”。 2、JAVA 中的 StringBuilder。</p>
-<p><strong>优点：</strong> 1、建造者独立，易扩展。 2、便于控制细节风险。</p>
-<p><strong>缺点：</strong> 1、产品必须有共同点，范围有限制。 2、如内部变化复杂，会有很多的建造类。</p>
-<p><strong>使用场景：</strong> 1、需要生成的对象具有复杂的内部结构。 2、需要生成的对象内部属性本身相互依赖。</p>
-<p><strong>注意事项：</strong>与工厂模式的区别是：建造者模式更加关注与零件装配的顺序。</p>
-]]></content>
-      <categories>
-        <category>DesignPattern</category>
-      </categories>
-      <tags>
-        <tag>DesignPattern</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>过滤器模式</title>
-    <url>/2020/05/07/%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h3 id="过滤器模式"><a href="#过滤器模式" class="headerlink" title="过滤器模式"></a>过滤器模式</h3><p>过滤器模式（Filter Pattern）或标准模式（Criteria Pattern）是一种设计模式，这种模式允许开发人员使用不同的标准来过滤一组对象，通过逻辑运算以解耦的方式把它们连接起来。这种类型的设计模式属于结构型模式，它结合多个标准来获得单一标准。</p>
-<p>在Java中典型的应用即为分组,通过过滤器模式可以将一个大组中的元素按照不同的过滤方式分到各个小组中。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;Integer, List&lt;Person &gt;&gt; groupMap = persons.stream().collect(Collectors.groupingBy(Person::getGender));</span><br><span class="line">groupMap.forEach((k, v) -&gt; &#123;</span><br><span class="line">    System.out.println(k);</span><br><span class="line">    v.forEach(System.out::println);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>实际上,Java中有单独的过滤器</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; aList = Lists.newArrayList(<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">""</span>);</span><br><span class="line">aList.stream().filter(x -&gt; StringUtils.isNotEmpty(x));</span><br></pre></td></tr></table></figure>
-<p>这个方法可以获取到全部的非空字符串</p>
-]]></content>
-      <categories>
-        <category>DesignPattern</category>
-      </categories>
-      <tags>
-        <tag>DesignPattern</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>桥接模式</title>
-    <url>/2020/05/07/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h3 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h3><p>桥接（Bridge）是用于把抽象化与实现化解耦，使得二者可以独立变化。这种类型的设计模式属于结构型模式，它通过提供抽象化和实现化之间的桥接结构，来实现二者的解耦。</p>
-<p>这种模式涉及到一个作为桥接的接口，使得实体类的功能独立于接口实现类。这两种类型的类可被结构化改变而互不影响。</p>
-<p>理解：对应于Java中的接口</p>
-]]></content>
-      <categories>
-        <category>DesignPattern</category>
-      </categories>
-      <tags>
-        <tag>DesignPattern</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>适配器模式</title>
-    <url>/2020/05/07/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><p>适配器模式（Adapter Pattern）是作为两个不兼容的接口之间的桥梁。这种类型的设计模式属于结构型模式，它结合了两个独立接口的功能。</p>
-<p>这种模式涉及到一个单一的类，该类负责加入独立的或不兼容的接口功能。举个真实的例子，读卡器是作为内存卡和笔记本之间的适配器。您将内存卡插入读卡器，再将读卡器插入笔记本，这样就可以通过笔记本来读取内存卡。</p>
-]]></content>
-      <categories>
-        <category>DesignPattern</category>
-      </categories>
-      <tags>
-        <tag>DesignPattern</tag>
-      </tags>
   </entry>
   <entry>
     <title>Linux文件操作函數</title>
@@ -407,255 +207,128 @@ x_{B_j} + \sum_{j\in I_D}\lfloor y_{ij}\rfloor x_j \le \lfloor \overline b_i\rfl
       </tags>
   </entry>
   <entry>
-    <title>数据的IO与复用</title>
-    <url>/2020/04/11/%E6%95%B8%E6%93%9A%E7%9A%84IO%E5%92%8C%E8%A4%87%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="數據的IO和複用"><a href="#數據的IO和複用" class="headerlink" title="數據的IO和複用"></a><strong>數據的IO和複用</strong></h3><hr>
-<h4 id="IO函數"><a href="#IO函數" class="headerlink" title="IO函數"></a><strong>IO函數</strong></h4><ol>
-<li><p>recv()接收數據</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">recv</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>flags用於設置接收數據的方式。</p>
-<p><img src="../ScreenShots/io1.png" alt=""></p>
-<p>recv()函數的返回值是接收到的字節數，有錯誤發生時，可以查看errno錯誤碼。</p>
-<p><img src="../ScreenShots/io2.png" alt=""></p>
+    <title>Linux的常用目錄</title>
+    <url>/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/</url>
+    <content><![CDATA[<h4 id="Linux的常用目錄"><a href="#Linux的常用目錄" class="headerlink" title="Linux的常用目錄"></a><strong>Linux的常用目錄</strong></h4><ul>
+<li><p>/etc:包括絕大多數Linux系統引導所需的配置文件，系統引導時讀取配置文件，按照配置文件的選項來進行不同的啟動。root有權限修改，一般用戶有權限查看。</p>
 </li>
-<li><p>send()函數發送數據</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">send</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">const</span> <span class="keyword">void</span>* buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>flags的參數含義與recv()一致</p>
-<p><img src="../ScreenShots/io3.png" alt=""></p>
+<li><p>/lib:包含C編譯程序所需要的函數庫，是一組二進制文件，如glibc等。</p>
 </li>
-<li><p>readv()接收數據</p>
-<p>readv用於接收多個緩衝區數據。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/uio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">readv</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">const</span> struct iovec* <span class="built_in">vector</span>, <span class="keyword">int</span> count)</span></span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iovec</span> &#123;</span></span><br><span class="line">    <span class="keyword">void</span>* iov_base; <span class="comment">//向量的緩衝區地址</span></span><br><span class="line">    <span class="keyword">size_t</span> iov_len; <span class="comment">//緩衝區大小</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>readv()從套接字描述符中接收count個數據塊放到vector中。</p>
-</li>
-<li><p>writev()寫數據</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">writev</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">const</span> struct iovec* <span class="built_in">vector</span>, <span class="keyword">int</span> count)</span></span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>各io函數的比較</p>
-<p><img src="../ScreenShots/io4.png" alt=""></p>
-</li>
-</ol>
-<hr>
-<h4 id="IO模型"><a href="#IO模型" class="headerlink" title="IO模型"></a><strong>IO模型</strong></h4><p>IO的模型有阻塞IO、非阻塞IO、IO複用、信號驅動、異步IO等。</p>
-<ol>
-<li><p>阻塞IO</p>
-<p>使用這種模型進行接收時，在數據沒有到來之前程序會一直等待。</p>
-</li>
-<li><p>非阻塞IO</p>
-<p>若把套接字設為非阻塞的IO，則對每次請求，內核不會阻塞，會立即返回；當沒有數據時，會返回一個錯誤。</p>
-</li>
-<li><p>IO複用</p>
-<p>使用IO複用模型可以設置等待的時間，時間沒有到等待時間時，內核會阻塞。當超過了指定等待的時間還沒有數據到達時內核會返回。</p>
-</li>
-<li><p>信號驅動IO模型</p>
-<p>信號驅動的IO模型在進程開始的時候註冊一個信號處理的回調函數，進程繼續執行，當信號發生時，利用註冊的回調函數將到來的數據用recvfroom()接收。</p>
-</li>
-<li><p>異步IO模型</p>
-<p>異步IO模型與信號驅動IO類似，但是是在數據到來後內核先將數據複製到用戶空間再發送信號通知信號處理函數。</p>
-</li>
-</ol>
-<hr>
-<h4 id="select-函數"><a href="#select-函數" class="headerlink" title="select()函數"></a><strong>select()函數</strong></h4><p>當我们进行IO复用时，如果有许多请求需要监视，那么就需要创建这么多数量的线程或进程取监视这些请求，但是不知道什么时候请求有数据读取，所以会造成资源的浪费，select()的出现解决了这个问题。</p>
-<p>這個函數用於IO複用，它們監視多個文件描述符的集合，判斷是否有符合條件的事件發生。如果有，就分配一个线程去接收，从而做到了有需才有分配，而不是实现分配大量线程进行等待。</p>
-<p>select()會先對需要操作的文件描述符進行查詢，查看文件描述符是否可以進行讀、寫操作或者錯誤操作。</p>
-   <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/select.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span><span class="params">(<span class="keyword">int</span> nfds, fd_set* readfds, fd_set* write_fds, fd_set* exceptfds, struct timeval* timeout)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>   select()函数监视readfds中的文件是否可读，即判断对此文件进行读操作是否阻塞；监视writefds中的文件是否可写；监视exceptfds中的文件是否发生意外。</p>
-<p>fd_set（它比较重要所以先介绍一下）是一组文件描述字(fd)的集合，它用一位来表示一个fd（下面会仔细介绍），对于fd_set类型通过下面四个宏来操作：</p>
+<li><p>/usr:usr是UNIX Software Resource的縮寫。包含絕大部分用戶都能訪問的應用程序和文件，如src、local。Linux的內核就是在/usr/src中。</p>
 <ul>
-<li><p>FD_ZERO(fd_set *fdset)：将指定的文件描述符集清空，在对文件描述符集合进行设置前，必须对其进行初始化，如果不清空，由于在系统分配内存空间后，通常并不作清空处理，所以结果是不可知的。</p>
+<li>/usr/bin:這個目錄存放用戶命令(普通用戶)</li>
+<li>/usr/include:存放編程語言的頭文件和包含文件。</li>
+<li>/usr/lib:各個應用軟件的庫函數和目標文件</li>
+<li>/usr/local:系統管理員安裝自行下載的軟件的目錄</li>
+<li>/usr/sbin:系統命令(超級用戶)</li>
+<li>/usr/src:放置系統源代碼</li>
+</ul>
 </li>
-<li><p>FD_SET(int fd, fd_set *fdset)：用于在文件描述符集合中增加一个新的文件描述符。</p>
+<li><p>/var:包含經常變化的文件，諸如日誌或數據庫等。</p>
+<ul>
+<li>/var/cache:存放應用程序產生的臨時文件</li>
+<li>/var/lib:存放程序在執行過程中需要用到的數據文件，每個軟件都在此目錄下有自己獨立的目錄</li>
+<li>/var/lock:記錄程序的鎖狀態</li>
+<li>/var/log:存放程序的登錄文件</li>
+<li>/var/run:某些程序在運行時，存放它們的PID在其中</li>
+</ul>
 </li>
-<li><p>FD_CLR(int fd, fd_set *fdset)：用于在文件描述符集合中删除一个文件描述符。</p>
+<li><p>/tmp:臨時性的存儲</p>
 </li>
-<li><p>FD_ISSET(int fd, fd_set *fdset)：用于测试指定的文件描述符是否在该集合中。  </p>
+<li><p>/bin:大多數的命令存放在這裡。</p>
+</li>
+<li><p>/home:主要存放用戶賬號，並且可以支持ftp的用戶管理，即遠程用戶管理。系統管理員增加用戶時，系統可以在home目錄下創建與用戶同名的目錄，此目錄下一般默認有desktop目錄。比如我創建了一個名為lunar的用戶，那麼在這個目錄下就會創建一個lunar的目錄下。一般建議lunar用戶產生的文件也存放在這個lunar目錄下。</p>
+</li>
+<li><p>/dev:這個目錄下存放一種設備文件的特殊文件，dev for device</p>
+</li>
+<li><p>/mnt:在Linux系統中，它是專門給外掛的文件系統使用的，裡面的兩個文件cdrom、floopy登錄光驅、軟驅時要用到。各種額外設備(通常是存儲設備)在掛載後都會在該目錄下生成響應的文件。</p>
+<p>所謂掛載，指操作系統使一個存儲設備上的計算機文件和目錄可供用戶通過文件系統訪問的一個過程。一般當計算機關機時，每個已掛載存儲都將經歷一次卸載，以確保所有排隊的數據被寫入。在Linux下，掛載的目錄可以不為空，但是掛載後以前的內容將不可用。在掛載時，所要掛載的存儲設備的文件系統要與操作系統的文件格式相兼容。</p>
+</li>
+<li><p>/opt:存放用戶安裝的第三方軟件</p>
+</li>
+<li><p>/proc:特殊的動態目錄，用以維護系統信息和狀態，包含當前運行中的進程信息。</p>
+</li>
+<li><p>/sbin:重要的系統二進制文件。</p>
+</li>
+<li><p>/sys:系統文件。/sys本身是一個虛擬文件系統，/sys目录和/proc目录的作用差不多，都是用于存放前启动环境下的系统信息，但相比于proc文件系统而言，挂载在/sys目录下的sysf文件系统提供了一种更方便的从内存中获得内核信息的方式。</p>
+</li>
+<li><p>/root:只要超級用戶有權限登錄，相當於超級用戶的主目錄。</p>
 </li>
 </ul>
-<p><img src="../ScreenShots/io5.png" alt=""></p>
-<p>Tip：select()采用轮询的方式进行监视，十分浪费CPU资源，所以最后不要采用此种方法。</p>
-<hr>
-<p><strong>pselect()函数</strong></p>
-<p>与select()函数基本一致，除了精度增加了</p>
-<hr>
-<h4 id="poll-函數"><a href="#poll-函數" class="headerlink" title="poll()函數"></a><strong>poll()函數</strong></h4><p>poll()函數等待某個文件描述符上的某個事件發生</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;poll.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">poll</span><span class="params">(struct pollfd* fds, <span class="keyword">nfds_t</span> nfds, <span class="keyword">int</span> timeout)</span></span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pollfd</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> fd; <span class="comment">//文件描述符</span></span><br><span class="line">    short events; <span class="comment">//請求事件</span></span><br><span class="line">    short revents; <span class="comment">//返回的事件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>poll()函數監視在fds數組指明的一組文件描述符上發生的動作，當滿足條件或者超時會退出。</p>
-<p><img src="../ScreenShots/io6.png" alt=""></p>
-<hr>
-<p><strong>epoll()函数</strong></p>
-<p>epoll()旨在取代现有的select()和poll()函数，让拥有大量文件描述符的程序发挥更优秀的性能。epoll通过红黑树遍历其所监视的文件描述符。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>单例模式</title>
+    <url>/2020/05/07/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。</p>
+<p>这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保只有单个对象被创建。这个类提供了一种访问其唯一的对象的方式，可以直接访问，不需要实例化该类的对象。</p>
+<p>单例模式特点：</p>
 <ul>
-<li><code>int epoll_create(int size)</code>：在内核中创建一个监视size数量的文件描述符的epoll实例，返回一个epoll文件描述符。当epoll中监视的文件描述符超过了size时，内核会自动扩容。</li>
-<li><code>int epoll_ctl(int epfd, int op, int fd, struct epoll_event* event)</code>：向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</li>
-<li><code>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)</code>：当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</li>
+<li>单例类只能有一个实例</li>
+<li>单例类必须自己创建自己的唯一实例</li>
+<li>单例类必须给所有的其他对象提供这一实例</li>
 </ul>
-<hr>
-<h4 id="非阻塞編程"><a href="#非阻塞編程" class="headerlink" title="非阻塞編程"></a><strong>非阻塞編程</strong></h4><ol>
-<li><p>文件描述符控制函數fcntl介紹。</p>
-<p>首先介紹如何將文件設為非阻塞狀態。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">fcntl(s, F_SETFL, O_NONBLOCK);</span><br></pre></td></tr></table></figure>
-<p>fcntl是文件描述符的控制函數，其原型為</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd, <span class="keyword">long</span> arg)</span></span>;         </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd, struct flock *lock)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>F_SETFL表示改變文件描述符的狀態，O_NONBLOCK是F_SETFL的參數，表示將該文件描述符設為非阻塞狀態。</p>
-<p>同樣還有F_GETFL可以獲取文件的狀態，沒有參數。</p>
-<p>關於非阻塞的一個測試代碼</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> ret;</span><br><span class="line">    <span class="keyword">int</span> flags;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用非阻塞io</span></span><br><span class="line">    <span class="keyword">if</span>(flags = fcntl(STDIN_FILENO, F_GETFL, <span class="number">0</span>) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">"fcntl"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    flags |= O_NONBLOCK;</span><br><span class="line">    <span class="keyword">if</span>(fcntl(STDIN_FILENO, F_SETFL, flags) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">"fcntl"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        sleep(<span class="number">2</span>);</span><br><span class="line">        ret = <span class="built_in">read</span>(STDIN_FILENO, buf, <span class="number">9</span>);</span><br><span class="line">        <span class="keyword">if</span>(ret == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            perror(<span class="string">"read--no"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"read = %d\n"</span>, ret);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">write</span>(STDOUT_FILENO, buf, <span class="number">10</span>);</span><br><span class="line">        <span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代碼中，當你運行程序後，雖然在while循環內有一個read函數，但是終端並不會停在那裡一直等待輸入，而是每隔2秒就輸出一次”read = x”，當你來不及輸入時就輸出”read = -1”，這說明這個進程是非阻塞的。</p>
+<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleObject</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">   <span class="comment">//创建 SingleObject 的一个对象</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> SingleObject instance = <span class="keyword">new</span> SingleObject();</span><br><span class="line"> </span><br><span class="line">   <span class="comment">//让构造函数为 private，这样该类就不会被实例化</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="title">SingleObject</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"> </span><br><span class="line">   <span class="comment">//获取唯一可用的对象</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingleObject <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> instance;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showMessage</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Hello World!"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据上面的代码，外界只能通过静态方法getInstance()来获取实例，获取到的实例是静态。</p>
+<h4 id="单例模式的几种实现方式"><a href="#单例模式的几种实现方式" class="headerlink" title="单例模式的几种实现方式"></a>单例模式的几种实现方式</h4><p>懒汉式和饿汉式暂时不写了</p>
+<ul>
+<li><p>双重检验锁(Double-checked locking)</p>
+<ul>
+<li>第一重检验：只有在实例对象为null即instance == null的时候继续运行实例化代码。</li>
+<li>第二重：通过synchronized关键字锁定实例化的代码，使最快的那条线程能够进入实例化的过程，保证线程安全。</li>
+<li>与懒汉式相比，加入了判断instance是否为null的检验机制。使得getInstance方法不为synchronized方法，因为线程锁机制效率比较低。而这个方法只需要在实例化的时候进行线程锁，效率比较高。</li>
+</ul>
+<p>实例代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton singleton;  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>&#123;&#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getSingleton</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;  </span><br><span class="line">        <span class="keyword">synchronized</span> (Singleton<span class="class">.<span class="keyword">class</span>) </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;  </span><br><span class="line">            singleton = <span class="keyword">new</span> Singleton();  </span><br><span class="line">        &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> singleton;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
+<li><p>登记式/静态内部类</p>
+<p>描述：这个方式和饿汉式很想，都是通过ClassHolder机制来保证线程安全。ClassHolder即在类加载时就实例化instance对象，没有了在getInstance方法调用时多个线程同时调用导致实例化多个对象的烦恼。** 而与饿汉式的区别就是加入了一个静态内部类ClassHolder，静态内部类有一个静态instance对象。只有在调用getInstance方法时才调用ClassHolder的静态instance对象，就保证了本类在其他地方用的时候也实例化instance对象，节约了资源。</p>
+<p>实例代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>&#123;&#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">return</span> SingletonHolder.INSTANCE;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 ]]></content>
       <categories>
-        <category>TCP/IP</category>
+        <category>DesignPattern</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
-        <tag>TCP/IP</tag>
-        <tag>IO</tag>
+        <tag>DesignPattern</tag>
       </tags>
   </entry>
   <entry>
-    <title>复变函数积分</title>
-    <url>/2020/04/15/%E8%A4%87%E8%AE%8A%E5%87%BD%E6%95%B8%E7%A9%8D%E5%88%86/</url>
-    <content><![CDATA[<h3 id="複變函數積分"><a href="#複變函數積分" class="headerlink" title="複變函數積分"></a><strong>複變函數積分</strong></h3><hr>
-<h4 id="復積分的概念"><a href="#復積分的概念" class="headerlink" title="復積分的概念"></a><strong>復積分的概念</strong></h4><ol>
-<li><p>複積分的概念</p>
-<p>C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段。取$\delta$為這些小弧段中最長的一段，則當$\delta\rightarrow0$時，若和式$\sum_{k = 1}^nf(\zeta_k)\Delta z_k$存在，則稱這個和式為函數$f(z)$在A到B的積分。記為：</p>
-<script type="math/tex; mode=display">
-\int_cf(z)dz = \lim_{\delta\rightarrow0}\sum^n_{k = 1}f(\zeta_k)\Delta z_k</script></li>
-<li><p>復積分的計算</p>
-<p><strong>定理</strong>：若C是復平面的光滑曲線，$f(z) = u(x,y) + iv(x,y)$在C上連續，則$f(z)$在C上可積，且有：</p>
-<script type="math/tex; mode=display">
-\int_C f(z)dz = \int_cu(x,y)dx - v(x,y)dy + i\int_Cu(x,y)dy + v(x,y)dx</script><p>若曲線C的方程為</p>
-<script type="math/tex; mode=display">
-z = z(t) = x(t) + iy(t)</script><p>則上述定理可表示為：</p>
-<script type="math/tex; mode=display">
-\int_Cf(z)dz = \int^\beta_\alpha f(z(t))z^{'}(t)dt</script><p>這種計算積分的方法稱為<strong>數方程法</strong>。</p>
-<p>一個非常重要的積分。</p>
-<script type="math/tex; mode=display">
-\int_c \frac{dz}{(z-a)^n} = \begin{cases} 2\pi i,\quad n=1\\0,\quad \quad n\neq1(n為整數)\end{cases}</script><p>其中C是以a為中心，半徑為$\rho$的圓周，且規定C的方向為逆時針方向。</p>
-<p><strong>該積分說明積分值與路徑圓周的中心和半徑無關</strong>。</p>
-<blockquote>
-<p>對於區域D，當某個人繞D的閉合曲線L行走時，若區域D總位於這個人的左側方向，則稱這個行走方向為L的正方向。</p>
-</blockquote>
-<p>證明：首先非常重要的一點是對於圓周上的一點z，其參數方程可以表示為$z = a + \rho e^{i\theta}$。</p>
-<p>因為對於$z = x + yi,a = x_0 + y_0i$，化為參數方程為$\begin{cases} x = x_0 + \rho cos\theta \\ y = y_0 + \rho sin\theta\end{cases}$</p>
-<p>代入便可以得$z = a + \rho e^{i\theta}$</p>
-<p>知道這一點就好，就非常好證明了，只要代入參數方程，將對z的積分化為對$\theta$的積分就好了。</p>
-<p>這個積分後面比較重要，牢記牢記</p>
-</li>
-<li><p>復積分的基本性質</p>
-<p><img src="../screenshots/fushu2.png" alt=""></p>
-</li>
-</ol>
-<hr>
-<h4 id="柯西積分定理"><a href="#柯西積分定理" class="headerlink" title="柯西積分定理"></a><strong>柯西積分定理</strong></h4><p>柯西積分定理回答了什麼樣的函數或者函數在什麼樣的條件下，<strong>積分值儘與積分的起點或終點有關，而與積分路徑無關</strong>。</p>
-<ol>
-<li><p><strong>柯西定理</strong>：函數f(z)在單連通區域D內解析，C為D內任意一條簡單閉曲線，則</p>
-<script type="math/tex; mode=display">
-\int_C f(z)dz = 0</script><p>證明：</p>
-<p>先科普下格林公式：</p>
-<script type="math/tex; mode=display">
-\oint_C Pdx + Qdy = \iint_D(\frac{\part Q}{\part x} - \frac{\part P}{\part y})dxdy</script><p>設$f(z) = u(x,y) + iv(x,y)$，則</p>
-<script type="math/tex; mode=display">
-\int_C f(z)dz = \int_Cudx-vdy + i\int_Cvdx+udy\tag{式3.4}</script><p>由於f(z)在D內解析，所以u和v具有連續的一階偏導數，且滿足柯西-黎曼條件：</p>
-<script type="math/tex; mode=display">
-\frac{\part u}{\part x} = \frac{\part v}{\part y},\quad \frac{\part u}{\part y} = -\frac{\part v}{\part x}</script><p>由格林公式：</p>
-<script type="math/tex; mode=display">
-\int_Cudx - vdy = -\iint_D(\frac{\part v}{\part x} + \frac{\part u}{\part y})dxdy = 0\\
-\int_Cvdx+udy = \iint_D(\frac{\part u}{\part x} - \frac{\part v}{\part y})dxdy = 0</script><p>由式3.4知</p>
-<script type="math/tex; mode=display">
-\int_Cf(z)dz = 0</script><p>因此，若一個函數在區域D內解析，則其在區域D內的閉合路徑的積分為0。</p>
-<p>而由於復積分有一條基本性質為：</p>
-<script type="math/tex; mode=display">
-\int_Cf(z)dz = -\int_{-C}f(z)dz</script><p>因此對於任意一條閉合路徑，都可以將其截成兩條路徑， 這兩條路徑互為逆路徑，因此積分值互為相反數。而對於其中一條路徑，不管其路徑如何變化，都可以與另外一條路徑組成一條閉合路徑，而另一條路徑的積分值是固定不變且與本路徑積分值互為相反數的，因此可以說</p>
-<p><strong>若一個函數在區域D內解析，則其在區域D內的積分值與路徑無關。</strong></p>
-<p>注：一般不能把$\int_Cf(z)dz$表示成$\int_a^bf(z)dz$，因為不是所有的複變函數的積分都與路徑無關。</p>
-</li>
-<li><p>多連通區域的柯西積分定理</p>
-<p>設有界多連通區域D由n+1條<strong>互不相交</strong>的簡單閉合曲線$C_i(0\le i\le n)$所圍成，其中$C_i(1\le i\le n)$中的每一條都在其餘各條的外部，又都位於$C_0$的內部。我們規定D的邊界C的正向是：當沿著曲線C前進時，區域D始終在曲線的左邊。因此區域D的邊界曲線C的正向可以看成是內部n+1個簡單曲線的正向之和。</p>
-<p>對於上面的這樣一個多連通區域D，若f(z)在D內解析，則</p>
-<script type="math/tex; mode=display">
-\int_Cf(z)dz = 0</script><p>或者說</p>
-<script type="math/tex; mode=display">
-\int_{C_0} f(z)dz = \int_{C_1}f(z)dz + \int_{C_2}f(z)dz + \cdots + \int_{C_n}f(z)dz</script><p>證明：</p>
-<p>將n條曲線$\gamma_i$將這n個不屬於D的區域的邊界曲線與$C_0$連接起來，則多連通區域就轉變為單連通區域。於是$C_i$和$\gamma_i$的積分和為零，由於所有的$\gamma_i$都走了一個來回，所以可以相互抵消，所以所有的$C_i$的積分和為0。</p>
-<font color = red>運用此定理，可以將不規則、難算的曲線積分轉換為規則的、易算的曲線積分。</font>
-
-</li>
-</ol>
-<hr>
-<h4 id="解析函數的不定積分"><a href="#解析函數的不定積分" class="headerlink" title="解析函數的不定積分"></a><strong>解析函數的不定積分</strong></h4><p>設D是單連通區域，函數f(z)是D內的解析函數，由於f(z)沿D內任何一條光滑曲線的積分都只與起點和終點有關。因此，當起點$z_0$固定時，該積分就可以在D內定義一個以C的終點z為變量的單值函數，記作</p>
-<script type="math/tex; mode=display">
-F(z) = \int^z_{z_0}f(\zeta)d\zeta</script><p><strong>定理</strong>：若f(z)在D內解析，則上式定義的函數在D內也解析，且$F(z)^{‘} = f(z)$</p>
-<p><strong>證明：</strong></p>
-<script type="math/tex; mode=display">
-F(z + \Delta z) - F(z) = \int^{z + \Delta z}_z f(\zeta)d\zeta\\
-\Rightarrow \frac{F(z + \Delta z) - F(z)}{\Delta z} - f(z) = \frac1{\Delta z}\int^{z + \Delta z}_z (f(\zeta) - f(z))d\zeta</script><p>由於f(z)在D內解析，所以對於任意$\varepsilon &gt; 0$，存在$\delta &gt; 0$，使當$|\zeta - z|&lt;\delta$時，$|f(\zeta) - f(z)| &lt; \varepsilon$，所以當$|\Delta z| &lt; \delta$時，有</p>
-<script type="math/tex; mode=display">
-|\frac{F(z+\Delta z) - F(z)}{\Delta z} - f(z)| \le \frac{1}{|\Delta z|}\int^{z+\Delta z}_{z}|f(\zeta) - f(z)||d\zeta| \le \frac{1}{|\Delta z|}\cdot \varepsilon\cdot|\Delta z| = \varepsilon</script><p>即</p>
-<script type="math/tex; mode=display">
-F^{'}(z) = f(z),\quad z\in D</script><p>則F(z)稱為f(z)的一個原函數，f(z)所有原函數的集合稱為f(z)的<strong>定積分</strong>。</p>
-<p>復函數積分中的牛頓-萊布尼茨公式</p>
-<script type="math/tex; mode=display">
-\int^{z}_{z_0}f(z)dz = F(z) - F(z_0)</script><p>證明方法非常簡單，略。</p>
-<hr>
-<h4 id="柯西積分公式"><a href="#柯西積分公式" class="headerlink" title="柯西積分公式"></a><strong>柯西積分公式</strong></h4><p><strong>柯西積分公式</strong>：設f(z)在簡單閉曲線C所圍成的區域D內解析，則對於D內任意一點z,有</p>
-<script type="math/tex; mode=display">
-f(z) = \frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta -z}d\zeta</script><p>這一公式說明，若f(z)的D內解析，在$\overline D$連續，<strong>則它在邊界上的值決定了D內任意一點的值。</strong></p>
-<p>證明：以z為中心，充分小的整數$\rho$為半徑作圓$C_{\rho}$：</p>
-<p>則由多連通區域的柯西積分定理得</p>
-<script type="math/tex; mode=display">
-\int_C\frac{f(\zeta)}{\zeta - z}d\zeta = \int_{C_{\rho}}\frac{f(\zeta)}{\zeta - z}d\zeta</script><p>要證上式，只需證明</p>
-<script type="math/tex; mode=display">
-\lim_{\rho\rightarrow0}\frac1{2\pi i}\int_{C_{\rho}}\frac{f(\zeta)}{\zeta - z}d\zeta = f(z)</script><p>由於f(z)在D內解析，所以對於任意$\varepsilon &gt; 0$，存在$\delta &gt; 0$，使當$|\zeta - z| = \rho&lt;\delta$時，$|f(\zeta) - f(z)| &lt; \varepsilon$。</p>
-<p>於是當$\rho &lt; \delta$時，圓周上的點均滿足上述條件。</p>
-<p>所以</p>
-<script type="math/tex; mode=display">
-\frac{1}{2\pi}\int_{C_{\rho}}\frac{|f(\zeta) - f(z)|}{|\zeta - z|}|d\zeta| < \frac{1}{2\pi}\cdot \varepsilon \cdot \frac1\rho \cdot 2\pi \rho = \varepsilon</script><p><strong>平均值公式</strong></p>
-<script type="math/tex; mode=display">
-f(z_0) = \frac1{2\pi}\int^{2\pi}_{0}f(z_0 + re^{i\theta})d\theta,\qquad (0<r\le R)</script><p>這個公式標明解析函數在任意一個圓周$|z-z_0| = r$上的積分平均值等於它在圓心的值。</p>
-<hr>
-<h4 id="解析函数的高阶导数"><a href="#解析函数的高阶导数" class="headerlink" title="解析函数的高阶导数"></a><strong>解析函数的高阶导数</strong></h4><p>应用柯西公式可以证明解析函数的一个重要性质，即解析函数的导数仍是解析函数。</p>
-<p><strong>柯西高阶导数公式</strong>：设函数f(z)在简单闭曲线C所围成的区域D内解析，在$\overline D = D + C$上连续，则f(z)在D内具有各阶导数，且</p>
-<script type="math/tex; mode=display">
-f^{(n)}(z) = \frac{n!}{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - z)^{n+1}}d\zeta</script><p>证明：先证n=1的情况下成立</p>
-<p>先由柯西积分公式证得</p>
-<script type="math/tex; mode=display">
-\frac{f(z+\Delta z) - f(z)}{\Delta z} = \frac1{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - (z+\Delta z))(\zeta - z)}d\zeta</script><p>于是</p>
-<script type="math/tex; mode=display">
-\frac{f(z+\Delta z) - f(z)}{\Delta z} - \frac1{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - z)^2} = \frac1{2\pi i}\int_C\frac{f(\zeta)\Delta z}{(\zeta - (z+\Delta z))(\zeta - z)^2}d\zeta</script><p> 要想在n=1的情况下成立，则要使得右端的式子在$\Delta z \rightarrow 0$时为0.</p>
-<p>将右端式子的各个元素都用最大值或最小值代替以求出该式的最大值。</p>
-<p>如存在正数M使$|f(\zeta) \le M|$，以及存在d使得$|\zeta - z|\ge d$，取足够小的$|\Delta z|$使得$|\Delta z| &lt; \frac d2$，则有</p>
-<script type="math/tex; mode=display">
-|\zeta - (z+\Delta z)| \ge d - \frac d2 = \frac d2</script><p>所以</p>
-<script type="math/tex; mode=display">
-|\frac{f(z+\Delta z) - f(z)}{\Delta z} - \frac1{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - z)^2}| \le  \frac{Ml}{\pi d^3}|\Delta z|</script><p>易知上式在$|\Delta z| \rightarrow 0$时为0，即可以证明在n=1的情况下成立。</p>
-<p>在n=k成立的情况下，可利用类似的方法证明n=k+1也成立。既可以利用数学归纳法证明此式。</p>
-<p><strong>Tip：</strong>将高阶导数公式与多连通领域的柯西积分定理一起使用有奇效。如当遇到需要使用此式的函数在区域D内存在奇点(多于1个)时，可以创造一个以奇点为圆心的圆作为积分路径，这样函数在相应区域就是解析的，就可以使用高阶导数公式了。</p>
-<p>例：易知$|z| = r,r\ne1,2$，C为正向圆周，求</p>
-<script type="math/tex; mode=display">
-\int_C\frac{1}{z^3(z+1)(z-2)}dz</script><p><strong>柯西不等式和刘维尔定理</strong></p>
-<p>利用高阶导数公式,可以得出关于导数模的一个估计式,称为柯西不等式。 </p>
-<p><strong>柯西不等式</strong>：设函数f(z)在圆$|z-a|\le R$内解析，且$|f(z)|\le M$，则</p>
-<script type="math/tex; mode=display">
-|f^{(n)}(a)| \le \frac{n!}{R^n}M,(n=1,2,\cdots)</script><p>证明：由高阶导数公式</p>
-<script type="math/tex; mode=display">
-f^{(n)}(a) = \frac{n!}{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - z)^{(n+1)}}d\zeta \\
-\begin{aligned}
-|f^{(n)}(a)| &= \frac{n!}{2\pi i}\int_C\frac{|f(\zeta)|}{|(\zeta - z)^{(n+1)}|}d\zeta \\
-&\le\frac{n!}{2\pi}\frac{M}{R^{n+1}}\cdot 2\pi R\\
-&=\frac{n!M}{R^n}
-\end{aligned}</script><p>如果f(z)在复平面上处处解析，则称它为整函数。由柯西不等式则可以推出刘维尔定理。</p>
-<p><strong>刘维尔定理</strong>：有界整函数一定恒等于常数</p>
-<p>证明：设f(z)是有界整函数，即存在M&gt;0，使对所有的z，$|f(z)|\le M$。设$z_0$为复平面上任意一点，R为任意正整数，f(z)在C：$|z-z_0|\le R$上解析，应用柯西不等式得</p>
-<script type="math/tex; mode=display">
-|f^{'}(z_0)| \le \frac{M}{R}</script><p>令$R\rightarrow+\infty$，得$|f^{‘}(z_0)| = 0$。由于$z_0$是任意的，所以f(z)为常数。</p>
+    <title>原型模式</title>
+    <url>/2020/05/07/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><p>原型模式主要介绍了java中cloneable接口的应用。在Java中，对象的直接等于”=”重载了C/C++中的引用，改变一个类会引起另一类的变化，即浅拷贝。而实现了cloneable接口的类，可以通过clone方法来克隆一个新的类，两个类互不影响，即深拷贝。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleObject</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String str;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SimpleObject</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Enter SimpleObject.constructor()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStr</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStr</span><span class="params">(String str)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.str = str;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    SimpleObject so0 = <span class="keyword">new</span> SimpleObject();</span><br><span class="line">    so0.setStr(<span class="string">"111"</span>);</span><br><span class="line">    SimpleObject so1 = (SimpleObject)so0.clone();</span><br><span class="line">    </span><br><span class="line">    System.out.println(<span class="string">"so0 == so1?"</span> + (so0 == so1));</span><br><span class="line">    System.out.println(<span class="string">"so0.getClass() == so1.getClass()?"</span> + (so0.getClass() == so1.getClass()));</span><br><span class="line">    System.out.println(<span class="string">"so0.equals(so1)?"</span> + (so0.equals(so1)));</span><br><span class="line">        </span><br><span class="line">    so1.setStr(<span class="string">"222"</span>);</span><br><span class="line">    System.out.println(<span class="string">"so0.getStr()："</span> + so0.getStr());</span><br><span class="line">    System.out.println(<span class="string">"so1.getStr()："</span> + so1.getStr());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//运行结果</span></span><br><span class="line">Enter SimpleObject.constructor()</span><br><span class="line">so0 == so1?<span class="keyword">false</span></span><br><span class="line">so0.getClass() == so1.getClass()?<span class="keyword">true</span></span><br><span class="line">so0.equals(so1)?<span class="keyword">false</span></span><br><span class="line">so0.getStr()：<span class="number">111</span></span><br><span class="line">so1.getStr()：<span class="number">222</span></span><br></pre></td></tr></table></figure>
+<p>Tip:克隆一个对象并不会调用对象的构造方法。</p>
 ]]></content>
       <categories>
-        <category>ComplexFunction</category>
+        <category>DesignPattern</category>
       </categories>
       <tags>
-        <tag>ComplexFunction</tag>
+        <tag>DesignPattern</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>建造者模式</title>
+    <url>/2020/05/07/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h3 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h3><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><strong>意图：</strong>将一个复杂的构建与其表示相分离，使得同样的构建过程可以创建不同的表示。</p>
+<p><strong>主要解决：</strong>主要解决在软件系统中，有时候面临着”一个复杂对象”的创建工作，其通常由各个部分的子对象用一定的算法构成；由于需求的变化，这个复杂对象的各个部分经常面临着剧烈的变化，但是将它们组合在一起的算法却相对稳定。</p>
+<p><strong>何时使用：</strong>一些基本部件不会变，而其组合经常变化的时候。</p>
+<p><strong>如何解决：</strong>将变与不变分离开。</p>
+<p><strong>关键代码：</strong>建造者：创建和提供实例，导演：管理建造出来的实例的依赖关系。</p>
+<p><strong>应用实例：</strong> 1、去肯德基，汉堡、可乐、薯条、炸鸡翅等是不变的，而其组合是经常变化的，生成出所谓的”套餐”。 2、JAVA 中的 StringBuilder。</p>
+<p><strong>优点：</strong> 1、建造者独立，易扩展。 2、便于控制细节风险。</p>
+<p><strong>缺点：</strong> 1、产品必须有共同点，范围有限制。 2、如内部变化复杂，会有很多的建造类。</p>
+<p><strong>使用场景：</strong> 1、需要生成的对象具有复杂的内部结构。 2、需要生成的对象内部属性本身相互依赖。</p>
+<p><strong>注意事项：</strong>与工厂模式的区别是：建造者模式更加关注与零件装配的顺序。</p>
+]]></content>
+      <categories>
+        <category>DesignPattern</category>
+      </categories>
+      <tags>
+        <tag>DesignPattern</tag>
       </tags>
   </entry>
   <entry>
@@ -884,6 +557,396 @@ R_o = R_c</script><p>由於共基電路的輸入電流為$i_E$，輸出電流為
       <tags>
         <tag>AnalogElectronic</tag>
         <tag>CircuitAnalysis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>工厂模式</title>
+    <url>/2020/05/07/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><ol>
+<li><p>初步理解</p>
+<p>工厂模式主要包含了3个部分：</p>
+<ul>
+<li>抽象的接口，定义了一组需要完成的事情和一组属性。</li>
+<li>实现了这个接口的具体的类</li>
+<li>工厂：工厂类有一个返回接口类型的函数，接收的参数则是实现了这个接口的这些类的名字，返回这个类的对象。</li>
+</ul>
+</li>
+<li><p>代码展示：</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Inside Rectangle::draw() method."</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Inside Square::draw() method."</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShapeFactory</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">//使用 getShape 方法获取形状类型的对象</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Shape <span class="title">getShape</span><span class="params">(String shapeType)</span></span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(shapeType == <span class="keyword">null</span>)&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">      &#125;        </span><br><span class="line">      <span class="keyword">if</span>(shapeType.equalsIgnoreCase(<span class="string">"CIRCLE"</span>))&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">new</span> Circle();</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span>(shapeType.equalsIgnoreCase(<span class="string">"RECTANGLE"</span>))&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">new</span> Rectangle();</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span>(shapeType.equalsIgnoreCase(<span class="string">"SQUARE"</span>))&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">new</span> Square();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了方便就将所有的代码放在一个框里面了。</p>
+<ol>
+<li>链接：<a href="https://www.runoob.com/design-pattern/factory-pattern.html" target="_blank" rel="noopener">https://www.runoob.com/design-pattern/factory-pattern.html</a></li>
+</ol>
+<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><p>不多说，放截图</p>
+<p><img src="C:\CSNotes\DesignMode\ScreenShots\抽象工厂.png" alt="p1"></p>
+<p><img src="C:\CSNotes\DesignMode\ScreenShots\抽象工厂2.png" alt="p2"></p>
+]]></content>
+      <categories>
+        <category>DesignPattern</category>
+      </categories>
+      <tags>
+        <tag>DesignPattern</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据的IO与复用</title>
+    <url>/2020/04/11/%E6%95%B8%E6%93%9A%E7%9A%84IO%E5%92%8C%E8%A4%87%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="數據的IO和複用"><a href="#數據的IO和複用" class="headerlink" title="數據的IO和複用"></a><strong>數據的IO和複用</strong></h3><hr>
+<h4 id="IO函數"><a href="#IO函數" class="headerlink" title="IO函數"></a><strong>IO函數</strong></h4><ol>
+<li><p>recv()接收數據</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">recv</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>flags用於設置接收數據的方式。</p>
+<p><img src="../ScreenShots/io1.png" alt=""></p>
+<p>recv()函數的返回值是接收到的字節數，有錯誤發生時，可以查看errno錯誤碼。</p>
+<p><img src="../ScreenShots/io2.png" alt=""></p>
+</li>
+<li><p>send()函數發送數據</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">send</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">const</span> <span class="keyword">void</span>* buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>flags的參數含義與recv()一致</p>
+<p><img src="../ScreenShots/io3.png" alt=""></p>
+</li>
+<li><p>readv()接收數據</p>
+<p>readv用於接收多個緩衝區數據。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/uio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">readv</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">const</span> struct iovec* <span class="built_in">vector</span>, <span class="keyword">int</span> count)</span></span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iovec</span> &#123;</span></span><br><span class="line">    <span class="keyword">void</span>* iov_base; <span class="comment">//向量的緩衝區地址</span></span><br><span class="line">    <span class="keyword">size_t</span> iov_len; <span class="comment">//緩衝區大小</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>readv()從套接字描述符中接收count個數據塊放到vector中。</p>
+</li>
+<li><p>writev()寫數據</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">writev</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">const</span> struct iovec* <span class="built_in">vector</span>, <span class="keyword">int</span> count)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>各io函數的比較</p>
+<p><img src="../ScreenShots/io4.png" alt=""></p>
+</li>
+</ol>
+<hr>
+<h4 id="IO模型"><a href="#IO模型" class="headerlink" title="IO模型"></a><strong>IO模型</strong></h4><p>IO的模型有阻塞IO、非阻塞IO、IO複用、信號驅動、異步IO等。</p>
+<ol>
+<li><p>阻塞IO</p>
+<p>使用這種模型進行接收時，在數據沒有到來之前程序會一直等待。</p>
+</li>
+<li><p>非阻塞IO</p>
+<p>若把套接字設為非阻塞的IO，則對每次請求，內核不會阻塞，會立即返回；當沒有數據時，會返回一個錯誤。</p>
+</li>
+<li><p>IO複用</p>
+<p>使用IO複用模型可以設置等待的時間，時間沒有到等待時間時，內核會阻塞。當超過了指定等待的時間還沒有數據到達時內核會返回。</p>
+</li>
+<li><p>信號驅動IO模型</p>
+<p>信號驅動的IO模型在進程開始的時候註冊一個信號處理的回調函數，進程繼續執行，當信號發生時，利用註冊的回調函數將到來的數據用recvfroom()接收。</p>
+</li>
+<li><p>異步IO模型</p>
+<p>異步IO模型與信號驅動IO類似，但是是在數據到來後內核先將數據複製到用戶空間再發送信號通知信號處理函數。</p>
+</li>
+</ol>
+<hr>
+<h4 id="select-函數"><a href="#select-函數" class="headerlink" title="select()函數"></a><strong>select()函數</strong></h4><p>當我们进行IO复用时，如果有许多请求需要监视，那么就需要创建这么多数量的线程或进程取监视这些请求，但是不知道什么时候请求有数据读取，所以会造成资源的浪费，select()的出现解决了这个问题。</p>
+<p>這個函數用於IO複用，它們監視多個文件描述符的集合，判斷是否有符合條件的事件發生。如果有，就分配一个线程去接收，从而做到了有需才有分配，而不是实现分配大量线程进行等待。</p>
+<p>select()會先對需要操作的文件描述符進行查詢，查看文件描述符是否可以進行讀、寫操作或者錯誤操作。</p>
+   <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/select.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span><span class="params">(<span class="keyword">int</span> nfds, fd_set* readfds, fd_set* write_fds, fd_set* exceptfds, struct timeval* timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>   select()函数监视readfds中的文件是否可读，即判断对此文件进行读操作是否阻塞；监视writefds中的文件是否可写；监视exceptfds中的文件是否发生意外。</p>
+<p>fd_set（它比较重要所以先介绍一下）是一组文件描述字(fd)的集合，它用一位来表示一个fd（下面会仔细介绍），对于fd_set类型通过下面四个宏来操作：</p>
+<ul>
+<li><p>FD_ZERO(fd_set *fdset)：将指定的文件描述符集清空，在对文件描述符集合进行设置前，必须对其进行初始化，如果不清空，由于在系统分配内存空间后，通常并不作清空处理，所以结果是不可知的。</p>
+</li>
+<li><p>FD_SET(int fd, fd_set *fdset)：用于在文件描述符集合中增加一个新的文件描述符。</p>
+</li>
+<li><p>FD_CLR(int fd, fd_set *fdset)：用于在文件描述符集合中删除一个文件描述符。</p>
+</li>
+<li><p>FD_ISSET(int fd, fd_set *fdset)：用于测试指定的文件描述符是否在该集合中。  </p>
+</li>
+</ul>
+<p><img src="../ScreenShots/io5.png" alt=""></p>
+<p>Tip：select()采用轮询的方式进行监视，十分浪费CPU资源，所以最后不要采用此种方法。</p>
+<hr>
+<p><strong>pselect()函数</strong></p>
+<p>与select()函数基本一致，除了精度增加了</p>
+<hr>
+<h4 id="poll-函數"><a href="#poll-函數" class="headerlink" title="poll()函數"></a><strong>poll()函數</strong></h4><p>poll()函數等待某個文件描述符上的某個事件發生</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;poll.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">poll</span><span class="params">(struct pollfd* fds, <span class="keyword">nfds_t</span> nfds, <span class="keyword">int</span> timeout)</span></span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pollfd</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> fd; <span class="comment">//文件描述符</span></span><br><span class="line">    short events; <span class="comment">//請求事件</span></span><br><span class="line">    short revents; <span class="comment">//返回的事件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>poll()函數監視在fds數組指明的一組文件描述符上發生的動作，當滿足條件或者超時會退出。</p>
+<p><img src="../ScreenShots/io6.png" alt=""></p>
+<hr>
+<p><strong>epoll()函数</strong></p>
+<p>epoll()旨在取代现有的select()和poll()函数，让拥有大量文件描述符的程序发挥更优秀的性能。epoll通过红黑树遍历其所监视的文件描述符。</p>
+<ul>
+<li><code>int epoll_create(int size)</code>：在内核中创建一个监视size数量的文件描述符的epoll实例，返回一个epoll文件描述符。当epoll中监视的文件描述符超过了size时，内核会自动扩容。</li>
+<li><code>int epoll_ctl(int epfd, int op, int fd, struct epoll_event* event)</code>：向 epfd 对应的内核<code>epoll</code> 实例添加、修改或删除对 fd 上事件 event 的监听。op 可以为 <code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>, <code>EPOLL_CTL_DEL</code> 分别对应的是添加新的事件，修改文件描述符上监听的事件类型，从实例上删除一个事件。如果 event 的 events 属性设置了 <code>EPOLLET</code> flag，那么监听该事件的方式是边缘触发。</li>
+<li><code>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)</code>：当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。</li>
+</ul>
+<hr>
+<h4 id="非阻塞編程"><a href="#非阻塞編程" class="headerlink" title="非阻塞編程"></a><strong>非阻塞編程</strong></h4><ol>
+<li><p>文件描述符控制函數fcntl介紹。</p>
+<p>首先介紹如何將文件設為非阻塞狀態。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">fcntl(s, F_SETFL, O_NONBLOCK);</span><br></pre></td></tr></table></figure>
+<p>fcntl是文件描述符的控制函數，其原型為</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd, <span class="keyword">long</span> arg)</span></span>;         </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd, struct flock *lock)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>F_SETFL表示改變文件描述符的狀態，O_NONBLOCK是F_SETFL的參數，表示將該文件描述符設為非阻塞狀態。</p>
+<p>同樣還有F_GETFL可以獲取文件的狀態，沒有參數。</p>
+<p>關於非阻塞的一個測試代碼</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> ret;</span><br><span class="line">    <span class="keyword">int</span> flags;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用非阻塞io</span></span><br><span class="line">    <span class="keyword">if</span>(flags = fcntl(STDIN_FILENO, F_GETFL, <span class="number">0</span>) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">"fcntl"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    flags |= O_NONBLOCK;</span><br><span class="line">    <span class="keyword">if</span>(fcntl(STDIN_FILENO, F_SETFL, flags) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">"fcntl"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        sleep(<span class="number">2</span>);</span><br><span class="line">        ret = <span class="built_in">read</span>(STDIN_FILENO, buf, <span class="number">9</span>);</span><br><span class="line">        <span class="keyword">if</span>(ret == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            perror(<span class="string">"read--no"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"read = %d\n"</span>, ret);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">write</span>(STDOUT_FILENO, buf, <span class="number">10</span>);</span><br><span class="line">        <span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代碼中，當你運行程序後，雖然在while循環內有一個read函數，但是終端並不會停在那裡一直等待輸入，而是每隔2秒就輸出一次”read = x”，當你來不及輸入時就輸出”read = -1”，這說明這個進程是非阻塞的。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>TCP/IP</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>TCP/IP</tag>
+        <tag>IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>桥接模式</title>
+    <url>/2020/05/07/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h3 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h3><p>桥接（Bridge）是用于把抽象化与实现化解耦，使得二者可以独立变化。这种类型的设计模式属于结构型模式，它通过提供抽象化和实现化之间的桥接结构，来实现二者的解耦。</p>
+<p>这种模式涉及到一个作为桥接的接口，使得实体类的功能独立于接口实现类。这两种类型的类可被结构化改变而互不影响。</p>
+<p>理解：对应于Java中的接口</p>
+]]></content>
+      <categories>
+        <category>DesignPattern</category>
+      </categories>
+      <tags>
+        <tag>DesignPattern</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>适配器模式</title>
+    <url>/2020/05/07/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><p>适配器模式（Adapter Pattern）是作为两个不兼容的接口之间的桥梁。这种类型的设计模式属于结构型模式，它结合了两个独立接口的功能。</p>
+<p>这种模式涉及到一个单一的类，该类负责加入独立的或不兼容的接口功能。举个真实的例子，读卡器是作为内存卡和笔记本之间的适配器。您将内存卡插入读卡器，再将读卡器插入笔记本，这样就可以通过笔记本来读取内存卡。</p>
+]]></content>
+      <categories>
+        <category>DesignPattern</category>
+      </categories>
+      <tags>
+        <tag>DesignPattern</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>复变函数积分</title>
+    <url>/2020/04/15/%E8%A4%87%E8%AE%8A%E5%87%BD%E6%95%B8%E7%A9%8D%E5%88%86/</url>
+    <content><![CDATA[<h3 id="複變函數積分"><a href="#複變函數積分" class="headerlink" title="複變函數積分"></a><strong>複變函數積分</strong></h3><hr>
+<h4 id="復積分的概念"><a href="#復積分的概念" class="headerlink" title="復積分的概念"></a><strong>復積分的概念</strong></h4><ol>
+<li><p>複積分的概念</p>
+<p>C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段。取$\delta$為這些小弧段中最長的一段，則當$\delta\rightarrow0$時，若和式$\sum_{k = 1}^nf(\zeta_k)\Delta z_k$存在，則稱這個和式為函數$f(z)$在A到B的積分。記為：</p>
+<script type="math/tex; mode=display">
+\int_cf(z)dz = \lim_{\delta\rightarrow0}\sum^n_{k = 1}f(\zeta_k)\Delta z_k</script></li>
+<li><p>復積分的計算</p>
+<p><strong>定理</strong>：若C是復平面的光滑曲線，$f(z) = u(x,y) + iv(x,y)$在C上連續，則$f(z)$在C上可積，且有：</p>
+<script type="math/tex; mode=display">
+\int_C f(z)dz = \int_cu(x,y)dx - v(x,y)dy + i\int_Cu(x,y)dy + v(x,y)dx</script><p>若曲線C的方程為</p>
+<script type="math/tex; mode=display">
+z = z(t) = x(t) + iy(t)</script><p>則上述定理可表示為：</p>
+<script type="math/tex; mode=display">
+\int_Cf(z)dz = \int^\beta_\alpha f(z(t))z^{'}(t)dt</script><p>這種計算積分的方法稱為<strong>數方程法</strong>。</p>
+<p>一個非常重要的積分。</p>
+<script type="math/tex; mode=display">
+\int_c \frac{dz}{(z-a)^n} = \begin{cases} 2\pi i,\quad n=1\\0,\quad \quad n\neq1(n為整數)\end{cases}</script><p>其中C是以a為中心，半徑為$\rho$的圓周，且規定C的方向為逆時針方向。</p>
+<p><strong>該積分說明積分值與路徑圓周的中心和半徑無關</strong>。</p>
+<blockquote>
+<p>對於區域D，當某個人繞D的閉合曲線L行走時，若區域D總位於這個人的左側方向，則稱這個行走方向為L的正方向。</p>
+</blockquote>
+<p>證明：首先非常重要的一點是對於圓周上的一點z，其參數方程可以表示為$z = a + \rho e^{i\theta}$。</p>
+<p>因為對於$z = x + yi,a = x_0 + y_0i$，化為參數方程為$\begin{cases} x = x_0 + \rho cos\theta \\ y = y_0 + \rho sin\theta\end{cases}$</p>
+<p>代入便可以得$z = a + \rho e^{i\theta}$</p>
+<p>知道這一點就好，就非常好證明了，只要代入參數方程，將對z的積分化為對$\theta$的積分就好了。</p>
+<p>這個積分後面比較重要，牢記牢記</p>
+</li>
+<li><p>復積分的基本性質</p>
+<p><img src="../screenshots/fushu2.png" alt=""></p>
+</li>
+</ol>
+<hr>
+<h4 id="柯西積分定理"><a href="#柯西積分定理" class="headerlink" title="柯西積分定理"></a><strong>柯西積分定理</strong></h4><p>柯西積分定理回答了什麼樣的函數或者函數在什麼樣的條件下，<strong>積分值儘與積分的起點或終點有關，而與積分路徑無關</strong>。</p>
+<ol>
+<li><p><strong>柯西定理</strong>：函數f(z)在單連通區域D內解析，C為D內任意一條簡單閉曲線，則</p>
+<script type="math/tex; mode=display">
+\int_C f(z)dz = 0</script><p>證明：</p>
+<p>先科普下格林公式：</p>
+<script type="math/tex; mode=display">
+\oint_C Pdx + Qdy = \iint_D(\frac{\part Q}{\part x} - \frac{\part P}{\part y})dxdy</script><p>設$f(z) = u(x,y) + iv(x,y)$，則</p>
+<script type="math/tex; mode=display">
+\int_C f(z)dz = \int_Cudx-vdy + i\int_Cvdx+udy\tag{式3.4}</script><p>由於f(z)在D內解析，所以u和v具有連續的一階偏導數，且滿足柯西-黎曼條件：</p>
+<script type="math/tex; mode=display">
+\frac{\part u}{\part x} = \frac{\part v}{\part y},\quad \frac{\part u}{\part y} = -\frac{\part v}{\part x}</script><p>由格林公式：</p>
+<script type="math/tex; mode=display">
+\int_Cudx - vdy = -\iint_D(\frac{\part v}{\part x} + \frac{\part u}{\part y})dxdy = 0\\
+\int_Cvdx+udy = \iint_D(\frac{\part u}{\part x} - \frac{\part v}{\part y})dxdy = 0</script><p>由式3.4知</p>
+<script type="math/tex; mode=display">
+\int_Cf(z)dz = 0</script><p>因此，若一個函數在區域D內解析，則其在區域D內的閉合路徑的積分為0。</p>
+<p>而由於復積分有一條基本性質為：</p>
+<script type="math/tex; mode=display">
+\int_Cf(z)dz = -\int_{-C}f(z)dz</script><p>因此對於任意一條閉合路徑，都可以將其截成兩條路徑， 這兩條路徑互為逆路徑，因此積分值互為相反數。而對於其中一條路徑，不管其路徑如何變化，都可以與另外一條路徑組成一條閉合路徑，而另一條路徑的積分值是固定不變且與本路徑積分值互為相反數的，因此可以說</p>
+<p><strong>若一個函數在區域D內解析，則其在區域D內的積分值與路徑無關。</strong></p>
+<p>注：一般不能把$\int_Cf(z)dz$表示成$\int_a^bf(z)dz$，因為不是所有的複變函數的積分都與路徑無關。</p>
+</li>
+<li><p>多連通區域的柯西積分定理</p>
+<p>設有界多連通區域D由n+1條<strong>互不相交</strong>的簡單閉合曲線$C_i(0\le i\le n)$所圍成，其中$C_i(1\le i\le n)$中的每一條都在其餘各條的外部，又都位於$C_0$的內部。我們規定D的邊界C的正向是：當沿著曲線C前進時，區域D始終在曲線的左邊。因此區域D的邊界曲線C的正向可以看成是內部n+1個簡單曲線的正向之和。</p>
+<p>對於上面的這樣一個多連通區域D，若f(z)在D內解析，則</p>
+<script type="math/tex; mode=display">
+\int_Cf(z)dz = 0</script><p>或者說</p>
+<script type="math/tex; mode=display">
+\int_{C_0} f(z)dz = \int_{C_1}f(z)dz + \int_{C_2}f(z)dz + \cdots + \int_{C_n}f(z)dz</script><p>證明：</p>
+<p>將n條曲線$\gamma_i$將這n個不屬於D的區域的邊界曲線與$C_0$連接起來，則多連通區域就轉變為單連通區域。於是$C_i$和$\gamma_i$的積分和為零，由於所有的$\gamma_i$都走了一個來回，所以可以相互抵消，所以所有的$C_i$的積分和為0。</p>
+<font color = red>運用此定理，可以將不規則、難算的曲線積分轉換為規則的、易算的曲線積分。</font>
+
+</li>
+</ol>
+<hr>
+<h4 id="解析函數的不定積分"><a href="#解析函數的不定積分" class="headerlink" title="解析函數的不定積分"></a><strong>解析函數的不定積分</strong></h4><p>設D是單連通區域，函數f(z)是D內的解析函數，由於f(z)沿D內任何一條光滑曲線的積分都只與起點和終點有關。因此，當起點$z_0$固定時，該積分就可以在D內定義一個以C的終點z為變量的單值函數，記作</p>
+<script type="math/tex; mode=display">
+F(z) = \int^z_{z_0}f(\zeta)d\zeta</script><p><strong>定理</strong>：若f(z)在D內解析，則上式定義的函數在D內也解析，且$F(z)^{‘} = f(z)$</p>
+<p><strong>證明：</strong></p>
+<script type="math/tex; mode=display">
+F(z + \Delta z) - F(z) = \int^{z + \Delta z}_z f(\zeta)d\zeta\\
+\Rightarrow \frac{F(z + \Delta z) - F(z)}{\Delta z} - f(z) = \frac1{\Delta z}\int^{z + \Delta z}_z (f(\zeta) - f(z))d\zeta</script><p>由於f(z)在D內解析，所以對於任意$\varepsilon &gt; 0$，存在$\delta &gt; 0$，使當$|\zeta - z|&lt;\delta$時，$|f(\zeta) - f(z)| &lt; \varepsilon$，所以當$|\Delta z| &lt; \delta$時，有</p>
+<script type="math/tex; mode=display">
+|\frac{F(z+\Delta z) - F(z)}{\Delta z} - f(z)| \le \frac{1}{|\Delta z|}\int^{z+\Delta z}_{z}|f(\zeta) - f(z)||d\zeta| \le \frac{1}{|\Delta z|}\cdot \varepsilon\cdot|\Delta z| = \varepsilon</script><p>即</p>
+<script type="math/tex; mode=display">
+F^{'}(z) = f(z),\quad z\in D</script><p>則F(z)稱為f(z)的一個原函數，f(z)所有原函數的集合稱為f(z)的<strong>定積分</strong>。</p>
+<p>復函數積分中的牛頓-萊布尼茨公式</p>
+<script type="math/tex; mode=display">
+\int^{z}_{z_0}f(z)dz = F(z) - F(z_0)</script><p>證明方法非常簡單，略。</p>
+<hr>
+<h4 id="柯西積分公式"><a href="#柯西積分公式" class="headerlink" title="柯西積分公式"></a><strong>柯西積分公式</strong></h4><p><strong>柯西積分公式</strong>：設f(z)在簡單閉曲線C所圍成的區域D內解析，則對於D內任意一點z,有</p>
+<script type="math/tex; mode=display">
+f(z) = \frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta -z}d\zeta</script><p>這一公式說明，若f(z)的D內解析，在$\overline D$連續，<strong>則它在邊界上的值決定了D內任意一點的值。</strong></p>
+<p>證明：以z為中心，充分小的整數$\rho$為半徑作圓$C_{\rho}$：</p>
+<p>則由多連通區域的柯西積分定理得</p>
+<script type="math/tex; mode=display">
+\int_C\frac{f(\zeta)}{\zeta - z}d\zeta = \int_{C_{\rho}}\frac{f(\zeta)}{\zeta - z}d\zeta</script><p>要證上式，只需證明</p>
+<script type="math/tex; mode=display">
+\lim_{\rho\rightarrow0}\frac1{2\pi i}\int_{C_{\rho}}\frac{f(\zeta)}{\zeta - z}d\zeta = f(z)</script><p>由於f(z)在D內解析，所以對於任意$\varepsilon &gt; 0$，存在$\delta &gt; 0$，使當$|\zeta - z| = \rho&lt;\delta$時，$|f(\zeta) - f(z)| &lt; \varepsilon$。</p>
+<p>於是當$\rho &lt; \delta$時，圓周上的點均滿足上述條件。</p>
+<p>所以</p>
+<script type="math/tex; mode=display">
+\frac{1}{2\pi}\int_{C_{\rho}}\frac{|f(\zeta) - f(z)|}{|\zeta - z|}|d\zeta| < \frac{1}{2\pi}\cdot \varepsilon \cdot \frac1\rho \cdot 2\pi \rho = \varepsilon</script><p><strong>平均值公式</strong></p>
+<script type="math/tex; mode=display">
+f(z_0) = \frac1{2\pi}\int^{2\pi}_{0}f(z_0 + re^{i\theta})d\theta,\qquad (0<r\le R)</script><p>這個公式標明解析函數在任意一個圓周$|z-z_0| = r$上的積分平均值等於它在圓心的值。</p>
+<hr>
+<h4 id="解析函数的高阶导数"><a href="#解析函数的高阶导数" class="headerlink" title="解析函数的高阶导数"></a><strong>解析函数的高阶导数</strong></h4><p>应用柯西公式可以证明解析函数的一个重要性质，即解析函数的导数仍是解析函数。</p>
+<p><strong>柯西高阶导数公式</strong>：设函数f(z)在简单闭曲线C所围成的区域D内解析，在$\overline D = D + C$上连续，则f(z)在D内具有各阶导数，且</p>
+<script type="math/tex; mode=display">
+f^{(n)}(z) = \frac{n!}{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - z)^{n+1}}d\zeta</script><p>证明：先证n=1的情况下成立</p>
+<p>先由柯西积分公式证得</p>
+<script type="math/tex; mode=display">
+\frac{f(z+\Delta z) - f(z)}{\Delta z} = \frac1{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - (z+\Delta z))(\zeta - z)}d\zeta</script><p>于是</p>
+<script type="math/tex; mode=display">
+\frac{f(z+\Delta z) - f(z)}{\Delta z} - \frac1{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - z)^2} = \frac1{2\pi i}\int_C\frac{f(\zeta)\Delta z}{(\zeta - (z+\Delta z))(\zeta - z)^2}d\zeta</script><p> 要想在n=1的情况下成立，则要使得右端的式子在$\Delta z \rightarrow 0$时为0.</p>
+<p>将右端式子的各个元素都用最大值或最小值代替以求出该式的最大值。</p>
+<p>如存在正数M使$|f(\zeta) \le M|$，以及存在d使得$|\zeta - z|\ge d$，取足够小的$|\Delta z|$使得$|\Delta z| &lt; \frac d2$，则有</p>
+<script type="math/tex; mode=display">
+|\zeta - (z+\Delta z)| \ge d - \frac d2 = \frac d2</script><p>所以</p>
+<script type="math/tex; mode=display">
+|\frac{f(z+\Delta z) - f(z)}{\Delta z} - \frac1{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - z)^2}| \le  \frac{Ml}{\pi d^3}|\Delta z|</script><p>易知上式在$|\Delta z| \rightarrow 0$时为0，即可以证明在n=1的情况下成立。</p>
+<p>在n=k成立的情况下，可利用类似的方法证明n=k+1也成立。既可以利用数学归纳法证明此式。</p>
+<p><strong>Tip：</strong>将高阶导数公式与多连通领域的柯西积分定理一起使用有奇效。如当遇到需要使用此式的函数在区域D内存在奇点(多于1个)时，可以创造一个以奇点为圆心的圆作为积分路径，这样函数在相应区域就是解析的，就可以使用高阶导数公式了。</p>
+<p>例：易知$|z| = r,r\ne1,2$，C为正向圆周，求</p>
+<script type="math/tex; mode=display">
+\int_C\frac{1}{z^3(z+1)(z-2)}dz</script><p><strong>柯西不等式和刘维尔定理</strong></p>
+<p>利用高阶导数公式,可以得出关于导数模的一个估计式,称为柯西不等式。 </p>
+<p><strong>柯西不等式</strong>：设函数f(z)在圆$|z-a|\le R$内解析，且$|f(z)|\le M$，则</p>
+<script type="math/tex; mode=display">
+|f^{(n)}(a)| \le \frac{n!}{R^n}M,(n=1,2,\cdots)</script><p>证明：由高阶导数公式</p>
+<script type="math/tex; mode=display">
+f^{(n)}(a) = \frac{n!}{2\pi i}\int_C\frac{f(\zeta)}{(\zeta - z)^{(n+1)}}d\zeta \\
+\begin{aligned}
+|f^{(n)}(a)| &= \frac{n!}{2\pi i}\int_C\frac{|f(\zeta)|}{|(\zeta - z)^{(n+1)}|}d\zeta \\
+&\le\frac{n!}{2\pi}\frac{M}{R^{n+1}}\cdot 2\pi R\\
+&=\frac{n!M}{R^n}
+\end{aligned}</script><p>如果f(z)在复平面上处处解析，则称它为整函数。由柯西不等式则可以推出刘维尔定理。</p>
+<p><strong>刘维尔定理</strong>：有界整函数一定恒等于常数</p>
+<p>证明：设f(z)是有界整函数，即存在M&gt;0，使对所有的z，$|f(z)|\le M$。设$z_0$为复平面上任意一点，R为任意正整数，f(z)在C：$|z-z_0|\le R$上解析，应用柯西不等式得</p>
+<script type="math/tex; mode=display">
+|f^{'}(z_0)| \le \frac{M}{R}</script><p>令$R\rightarrow+\infty$，得$|f^{‘}(z_0)| = 0$。由于$z_0$是任意的，所以f(z)为常数。</p>
+]]></content>
+      <categories>
+        <category>ComplexFunction</category>
+      </categories>
+      <tags>
+        <tag>ComplexFunction</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>过滤器模式</title>
+    <url>/2020/05/07/%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h3 id="过滤器模式"><a href="#过滤器模式" class="headerlink" title="过滤器模式"></a>过滤器模式</h3><p>过滤器模式（Filter Pattern）或标准模式（Criteria Pattern）是一种设计模式，这种模式允许开发人员使用不同的标准来过滤一组对象，通过逻辑运算以解耦的方式把它们连接起来。这种类型的设计模式属于结构型模式，它结合多个标准来获得单一标准。</p>
+<p>在Java中典型的应用即为分组,通过过滤器模式可以将一个大组中的元素按照不同的过滤方式分到各个小组中。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;Integer, List&lt;Person &gt;&gt; groupMap = persons.stream().collect(Collectors.groupingBy(Person::getGender));</span><br><span class="line">groupMap.forEach((k, v) -&gt; &#123;</span><br><span class="line">    System.out.println(k);</span><br><span class="line">    v.forEach(System.out::println);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>实际上,Java中有单独的过滤器</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; aList = Lists.newArrayList(<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">""</span>);</span><br><span class="line">aList.stream().filter(x -&gt; StringUtils.isNotEmpty(x));</span><br></pre></td></tr></table></figure>
+<p>这个方法可以获取到全部的非空字符串</p>
+]]></content>
+      <categories>
+        <category>DesignPattern</category>
+      </categories>
+      <tags>
+        <tag>DesignPattern</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux Signal</title>
+    <url>/2020/05/18/LinuxSignal/</url>
+    <content><![CDATA[<h2 id="Linux-Signal"><a href="#Linux-Signal" class="headerlink" title="Linux Signal"></a><strong>Linux Signal</strong></h2><p>本文主要说明Linux信号的安装，用于处理各种信号。</p>
+<p>[TOC]</p>
+<h3 id="信号的安装"><a href="#信号的安装" class="headerlink" title="信号的安装"></a><strong>信号的安装</strong></h3><p>Linux主要有两个函数实现信号的安装：<code>signal()</code>和<code>sigaction()</code>。</p>
+<h4 id="signal"><a href="#signal" class="headerlink" title="signal()"></a><strong>signal()</strong></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="keyword">void</span> (*signal(<span class="keyword">int</span> signum, <span class="keyword">void</span> (*handler)(<span class="keyword">int</span>)))(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+<p>第一个参数指定信号的值，第二个参数指定针对前面信号的处理函数指针，可以采用系统默认的方式处理信号(SIG_DFL)，也可以自己指定函数。</p>
+<h4 id="sigaction"><a href="#sigaction" class="headerlink" title="sigaction()"></a><strong>sigaction()</strong></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sigaction</span><span class="params">(<span class="keyword">int</span> signum, <span class="keyword">const</span> struct sigaction* act, struct sigaction* oldcast)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><code>sigaction</code>函数用于改变进程接收到特定信号后的行为。该函数的第一个参数为信号的值，可以为除SIGKILL及SIGSTOP外的任何一个特定有效的信号（为这两个信号定义自己的处理函数，将导致信号安装错误）。第二个参数是指向结构<code>sigaction</code>的一个实例的指针，在结构sigaction的实例中，指定了对特定信号的处理，可以为空，进程会以缺省方式对信号处理；第三个参数oldact指向的对象用来保存返回的原来对相应信号的处理，可指定oldact为NULL。如果把第二、第三个参数都设为NULL，那么该函数可用于检查信号的有效性。</p>
+<p><code>sigaction</code>结构体的定义为</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> &#123;</span></span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        <span class="keyword">_sighandler_t</span> _sa_handler;</span><br><span class="line">        <span class="keyword">void</span> (*_sa_sigaction)(<span class="keyword">int</span>, struct siginfo*, <span class="keyword">void</span>*);</span><br><span class="line">    &#125;_u;</span><br><span class="line">    <span class="keyword">sigset_t</span> sa_mask;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> sa_flags;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>联合数据结构中的两个元素_sa_handler以及*_sa_sigaction指定信号关联函数，即用户指定的信号处理函数。除了可以是用户自定义的处理函数外，还可以为SIG_DFL(采用缺省的处理方式)，也可以为SIG_IGN（忽略信号）。</p>
+<p> 由_sa_sigaction是指定的信号处理函数带有三个参数，是为实时信号而设的（当然同样支持非实时信号），它指定一个3参数信号处理函数。第一个参数为信号值，第三个参数没有使用，第二个参数是指向siginfo_t结构的指针，结构中包含信号携带的数据值，参数所指向的结构如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span> si_signo;</span><br><span class="line">	<span class="keyword">int</span> si_code;</span><br><span class="line">	<span class="keyword">union</span> sigval si_value;</span><br><span class="line">	<span class="keyword">int</span> si_errno;</span><br><span class="line">	<span class="keyword">pid_t</span> si_pid;</span><br><span class="line">	<span class="keyword">uid_t</span> si_uid;</span><br><span class="line">	<span class="keyword">void</span> *si_addr;</span><br><span class="line">	<span class="keyword">int</span> si_status;</span><br><span class="line">	<span class="keyword">int</span> si_band;</span><br><span class="line">&#125; <span class="keyword">siginfo_t</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> sigval &#123;</span><br><span class="line">	<span class="keyword">int</span>  sival_int;</span><br><span class="line">	<span class="keyword">void</span> *sival_ptr;</span><br><span class="line">&#125;<span class="keyword">sigval_t</span>;</span><br></pre></td></tr></table></figure>
+<p>sa_mask指定在信号处理程序执行过程中，哪些信号应当被阻塞。缺省情况下当前信号本身被阻塞，防止信号的嵌套发送，除非指定SA_NODEFER或者SA_NOMASK标志位。</p>
+<p>注：请注意sa_mask指定的信号阻塞的前提条件，是在由sigaction（）安装信号的处理函数执行过程中由sa_mask指定的信号才被阻塞。</p>
+<p>sa_flags中包含了许多标志位，包括刚刚提到的SA_NODEFER及SA_NOMASK标志位。另一个比较重要的标志位是SA_SIGINFO，当设定了该标志位时，表示信号附带的参数可以被传递到信号处理函数中，因此，应该为sigaction结构中的sa_sigaction指定处理函数，而不应该为sa_handler指定信号处理函数，否则，设置该标志变得毫无意义。即使为sa_sigaction指定了信号处理函数，如果不设置SA_SIGINFO，信号处理函数同样不能得到信号传递过来的数据，在信号处理函数中对这些信息的访问都将导致段错误（Segmentation fault）。</p>
+<h3 id="信号的发送"><a href="#信号的发送" class="headerlink" title="信号的发送"></a><strong>信号的发送</strong></h3><p>发送信号的函数主要有：kill()、raise()、sigqueue()、alarm()、settimer()以及abort()等</p>
+<h4 id="kill"><a href="#kill" class="headerlink" title="kill()"></a><strong>kill()</strong></h4><p><code>int kill(pid_t pid, int signo)</code></p>
+<p>该函数调用可以向任何进程或进程组发送任何信号</p>
+<p>该调用执行成功时，返回值为0；错误时，返回-1，并设置相应的错误代码errno。下面是一些可能返回的错误代码：</p>
+<p>EINVAL：指定的信号sig无效。</p>
+<p>ESRCH：参数pid指定的进程或进程组不存在。注意，在进程表项中存在的进程，可能是一个还没有被wait收回，但已经终止执行的僵死进程。</p>
+<p>EPERM： 进程没有权力将这个信号发送到指定接收信号的进程。因为，一个进程被允许将信号发送到进程pid时，必须拥有root权力，或者是发出调用的进程的UID 或EUID与指定接收的进程的UID或保存用户ID（savedset-user-ID）相同。如果参数pid小于-1，即该信号发送给一个组，则该错误表示组中有成员进程不能接收该信号。</p>
+<h4 id="sigqueue"><a href="#sigqueue" class="headerlink" title="sigqueue()"></a><strong>sigqueue()</strong></h4><p><code>int sigqueue(pid_t pid, int sig, const union sigval val)</code></p>
+<p>sigqueue的第一个参数是指定接收信号的进程ID，第二个参数确定即将发送的信号，第三个参数是一个联合数据结构union sigval，指定了信号传递的参数，即通常所说的4字节值。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> sigval &#123;</span><br><span class="line">	<span class="keyword">int</span>  sival_int;</span><br><span class="line">	<span class="keyword">void</span> *sival_ptr;</span><br><span class="line">&#125;<span class="keyword">sigval_t</span>;</span><br></pre></td></tr></table></figure>
+<p>sigqueue()比kill()传递了更多的附加信息，但sigqueue()只能向一个进程发送信号，而不能发送信号给一个进程组。如果signo=0，将会执行错误检查，但实际上不发送任何信号，0值信号可用于检查pid的有效性以及当前进程是否有权限向目标进程发送信号。</p>
+<p>在调用sigqueue时，sigval_t指定的信息会拷贝到对应sig 注册的3参数信号处理函数的siginfo_t结构中，这样信号处理函数就可以处理这些信息了。由于sigqueue系统调用支持发送带参数信号，所以比kill()系统调用的功能要灵活和强大得多。</p>
+<h4 id="alarm"><a href="#alarm" class="headerlink" title="alarm()"></a><strong>alarm()</strong></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">alarm</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> seconds)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>系统调用alarm安排内核为调用进程在指定的seconds秒后发出一个SIGALRM的信号。如果指定的参数seconds为0，则不再发送 SIGALRM信号。后一次设定将取消前一次的设定。该调用返回值为上次定时调用到发送之间剩余的时间，或者因为没有前一次定时调用而返回0。</p>
+<p>注意，在使用时，alarm只设定为发送一次信号，如果要多次发送，就要多次使用alarm调用。</p>
+<h4 id="settimer"><a href="#settimer" class="headerlink" title="settimer()"></a><strong>settimer()</strong></h4><p>现在的系统中很多程序不再使用alarm调用，而是使用setitimer调用来设置定时器，用getitimer来得到定时器的状态，这两个调用的声明格式如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getitimer</span><span class="params">(<span class="keyword">int</span> which, struct itimerval *value)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">setitimer</span><span class="params">(<span class="keyword">int</span> which, <span class="keyword">const</span> struct itimerval *value, struct itimerval *ovalue)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>该系统调用给进程提供了三个定时器，它们各自有其独有的计时域，当其中任何一个到达，就发送一个相应的信号给进程，并使得计时器重新开始。三个计时器由参数which指定，如下所示：</p>
+<p>TIMER_REAL：按实际时间计时，计时到达将给进程发送SIGALRM信号。</p>
+<p>ITIMER_VIRTUAL：仅当进程执行时才进行计时。计时到达将发送SIGVTALRM信号给进程。</p>
+<p>ITIMER_PROF：当进程执行时和系统为该进程执行动作时都计时。与ITIMER_VIR-TUAL是一对，该定时器经常用来统计进程在用户态和内核态花费的时间。计时到达将发送SIGPROF信号给进程。</p>
+<p>定时器中的参数value用来指明定时器的时间，其结构如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">itimerval</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">it_interval</span>;</span> <span class="comment">/* 下一次的取值 */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">it_value</span>;</span> <span class="comment">/* 本次的设定值 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在setitimer 调用中，参数ovalue如果不为空，则其中保留的是上次调用设定的值。定时器将it_value递减到0时，产生一个信号，并将it_value的值设定为it_interval的值，然后重新开始计时，如此往复。当it_value设定为0时，计时器停止，或者当它计时到期，而it_interval 为0时停止。调用成功时，返回0；错误时，返回-1，并设置相应的错误代码errno：</p>
+<p>EFAULT：参数value或ovalue是无效的指针。</p>
+<p>EINVAL：参数which不是ITIMER_REAL、ITIMER_VIRT或ITIMER_PROF中的一个。</p>
+<h4 id="raise"><a href="#raise" class="headerlink" title="raise()"></a><strong>raise()</strong></h4><p><code>int raise(int signo)</code></p>
+<p>向本进程发送信号。</p>
+<h3 id="信号的应用"><a href="#信号的应用" class="headerlink" title="信号的应用"></a><strong>信号的应用</strong></h3><p>信号的应用通常就三个步骤：</p>
+<ul>
+<li>安装信号，推荐<code>sigaction()</code></li>
+<li>实现三参数信号处理函数，<code>handler(int signal, struct siginfo *info, void*);</code></li>
+<li>发送信号，推荐<code>sigqueue()</code></li>
+</ul>
+<hr>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a><strong>References</strong></h3><p><a href="https://www.cnblogs.com/hoys/archive/2012/08/19/2646377.html" target="_blank" rel="noopener">Linux信号机制分析</a></p>
+]]></content>
+      <categories>
+        <category>Linux Programming</category>
+      </categories>
+      <tags>
+        <tag>Linux Programming</tag>
       </tags>
   </entry>
   <entry>

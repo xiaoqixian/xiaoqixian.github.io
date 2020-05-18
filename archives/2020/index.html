@@ -356,24 +356,28 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/05/07/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" >
+        <a class="abstract-title" href = "/2020/05/18/LinuxSignal/" >
             
-                <span>原型模式</span>
+                <span>Linux Signal</span>
         </a>
         <div class="abstract-content">
-            原型模式原型模式主要介绍了java中cloneable接口的应用。在Java中，对象的直接等于”=”重载了C/C++中的引用，改变一个类会引起另一类的变化，即浅拷贝。而实现了cloneable接口的类，可以通过clone方法来克隆一个新的类，两个类互不影响，即深拷贝。
-123456789101112131415161718192021222324public class SimpleObject implements Cloneable&#123;    private String str;        public SimpleObject()    &#123;        S...
+            Linux Signal本文主要说明Linux信号的安装，用于处理各种信号。
+[TOC]
+信号的安装Linux主要有两个函数实现信号的安装：signal()和sigaction()。
+signal()12#include &lt;signal.h&gt;void (*signal(int signum, void (*handler)(int)))(int);
+第一个参数指定信号的值，第二个参数指定针对前面信号的处理函数指针，可以采用系统默认的方式处理信号(SIG_DFL)，也可以自己指定函数。
+sigaction()12#include &lt;signal.h&gt;int siga...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/07</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/18</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "DesignPattern">DesignPattern</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux Programming">Linux Programming</a>
     
 </div>
             
@@ -423,24 +427,13 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/05/07/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" >
+        <a class="abstract-title" href = "/2020/05/07/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" >
             
-                <span>工厂模式</span>
+                <span>原型模式</span>
         </a>
         <div class="abstract-content">
-            工厂模式
-初步理解
-工厂模式主要包含了3个部分：
-
-抽象的接口，定义了一组需要完成的事情和一组属性。
-实现了这个接口的具体的类
-工厂：工厂类有一个返回接口类型的函数，接收的参数则是实现了这个接口的这些类的名字，返回这个类的对象。
-
-
-代码展示：
-
-
-12345678910111213141516171819202122232425262728293031323334353637public interface Shape &#123;   void draw();&#125;public class Rectangle implements Shape &#123;    @Overri...
+            原型模式原型模式主要介绍了java中cloneable接口的应用。在Java中，对象的直接等于”=”重载了C/C++中的引用，改变一个类会引起另一类的变化，即浅拷贝。而实现了cloneable接口的类，可以通过clone方法来克隆一个新的类，两个类互不影响，即深拷贝。
+123456789101112131415161718192021222324public class SimpleObject implements Cloneable&#123;    private String str;        public SimpleObject()    &#123;        S...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -498,14 +491,24 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/05/07/%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F/" >
+        <a class="abstract-title" href = "/2020/05/07/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" >
             
-                <span>过滤器模式</span>
+                <span>工厂模式</span>
         </a>
         <div class="abstract-content">
-            过滤器模式过滤器模式（Filter Pattern）或标准模式（Criteria Pattern）是一种设计模式，这种模式允许开发人员使用不同的标准来过滤一组对象，通过逻辑运算以解耦的方式把它们连接起来。这种类型的设计模式属于结构型模式，它结合多个标准来获得单一标准。
-在Java中典型的应用即为分组,通过过滤器模式可以将一个大组中的元素按照不同的过滤方式分到各个小组中。
-12345Map&lt;Integer, List&lt;Person &gt;&gt; groupMap = persons.stream().collect(Collectors.groupingBy(Person:...
+            工厂模式
+初步理解
+工厂模式主要包含了3个部分：
+
+抽象的接口，定义了一组需要完成的事情和一组属性。
+实现了这个接口的具体的类
+工厂：工厂类有一个返回接口类型的函数，接收的参数则是实现了这个接口的这些类的名字，返回这个类的对象。
+
+
+代码展示：
+
+
+12345678910111213141516171819202122232425262728293031323334353637public interface Shape &#123;   void draw();&#125;public class Rectangle implements Shape &#123;    @Overri...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -592,6 +595,37 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/05/07/%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F/" >
+            
+                <span>过滤器模式</span>
+        </a>
+        <div class="abstract-content">
+            过滤器模式过滤器模式（Filter Pattern）或标准模式（Criteria Pattern）是一种设计模式，这种模式允许开发人员使用不同的标准来过滤一组对象，通过逻辑运算以解耦的方式把它们连接起来。这种类型的设计模式属于结构型模式，它结合多个标准来获得单一标准。
+在Java中典型的应用即为分组,通过过滤器模式可以将一个大组中的元素按照不同的过滤方式分到各个小组中。
+12345Map&lt;Integer, List&lt;Person &gt;&gt; groupMap = persons.stream().collect(Collectors.groupingBy(Person:...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/07</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "DesignPattern">DesignPattern</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/04/26/%E7%BA%A2%E9%BB%91%E6%A0%91/" >
             
                 <span>红黑树</span>
@@ -654,42 +688,6 @@ Introduce 0-1 variable y to replace product and ad...
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "OperationResearch">OperationResearch</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/04/15/%E8%A4%87%E8%AE%8A%E5%87%BD%E6%95%B8%E7%A9%8D%E5%88%86/" >
-            
-                <span>复变函数积分</span>
-        </a>
-        <div class="abstract-content">
-            複變函數積分
-復積分的概念
-複積分的概念
-C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段。取$\delta$為這些小弧段中最長的一段，則當$\delta\rightarrow0$時，若和式$\sum_{k = 1}^nf(\zeta_k)\Delta z_k$存在，則稱這個和式為函數$f(z)$在A到B的積分。記為：
-
-\int_cf(z)dz = \lim_{\delta\rightarrow0}\sum^n_{k = 1}f(\zeta_k)\Delta z_k
-復積分的計算
-定理：若C是復平面的光滑曲線，$f(z) = u(x,y) + iv(x,y)$在C上連續，則...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ComplexFunction">ComplexFunction</a>
     
 </div>
             
@@ -1001,9 +999,26 @@ C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 18
+        Total : 19
         </div>
         <!-- search  -->
         
@@ -1019,7 +1034,7 @@ C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" >原型模式</a>
+            <span class="archive-post-date">05/18</span><a class="archive-post-title" href= "/2020/05/18/LinuxSignal/" >Linux Signal</a>
         </li>
     
     
@@ -1029,7 +1044,7 @@ C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" >工厂模式</a>
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" >原型模式</a>
         </li>
     
     
@@ -1039,7 +1054,7 @@ C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F/" >过滤器模式</a>
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" >工厂模式</a>
         </li>
     
     
@@ -1050,6 +1065,11 @@ C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段
     
         <li class="archive-post-item">
             <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" >适配器模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F/" >过滤器模式</a>
         </li>
     
     
@@ -1094,11 +1114,6 @@ C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/" >Linux的常用目錄</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/LVM/" >LVM</a>
         </li>
     
@@ -1116,6 +1131,20 @@ C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段
             <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/04/10/hello-world/" >Hello World</a>
         </li>
     
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/" >Linux的常用目錄</a>
+        </li>
+    
     </div>
   </div>
         <div class="sidebar-panel-tags">
@@ -1131,9 +1160,13 @@ C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段
     
         <span class="sidebar-tag-name" data-tags="OperationResearch"><span class="iconfont-archer">&#xe606;</span>OperationResearch</span>
     
+        <span class="sidebar-tag-name" data-tags="FileSystem"><span class="iconfont-archer">&#xe606;</span>FileSystem</span>
+    
         <span class="sidebar-tag-name" data-tags="DesignPattern"><span class="iconfont-archer">&#xe606;</span>DesignPattern</span>
     
-        <span class="sidebar-tag-name" data-tags="FileSystem"><span class="iconfont-archer">&#xe606;</span>FileSystem</span>
+        <span class="sidebar-tag-name" data-tags="AnalogElectronic"><span class="iconfont-archer">&#xe606;</span>AnalogElectronic</span>
+    
+        <span class="sidebar-tag-name" data-tags="CircuitAnalysis"><span class="iconfont-archer">&#xe606;</span>CircuitAnalysis</span>
     
         <span class="sidebar-tag-name" data-tags="TCP/IP"><span class="iconfont-archer">&#xe606;</span>TCP/IP</span>
     
@@ -1141,9 +1174,7 @@ C為復平面上一段A到B的光滑曲線，若在A到B上取若干個小弧段
     
         <span class="sidebar-tag-name" data-tags="ComplexFunction"><span class="iconfont-archer">&#xe606;</span>ComplexFunction</span>
     
-        <span class="sidebar-tag-name" data-tags="AnalogElectronic"><span class="iconfont-archer">&#xe606;</span>AnalogElectronic</span>
-    
-        <span class="sidebar-tag-name" data-tags="CircuitAnalysis"><span class="iconfont-archer">&#xe606;</span>CircuitAnalysis</span>
+        <span class="sidebar-tag-name" data-tags="Linux Programming"><span class="iconfont-archer">&#xe606;</span>Linux Programming</span>
     
         <span class="sidebar-tag-name" data-tags="DataStructure"><span class="iconfont-archer">&#xe606;</span>DataStructure</span>
     
@@ -1192,15 +1223,17 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="OperationResearch"><span class="iconfont-archer">&#xe60a;</span>OperationResearch</span>
     
+        <span class="sidebar-category-name" data-categories="LinuxFile"><span class="iconfont-archer">&#xe60a;</span>LinuxFile</span>
+    
         <span class="sidebar-category-name" data-categories="DesignPattern"><span class="iconfont-archer">&#xe60a;</span>DesignPattern</span>
     
-        <span class="sidebar-category-name" data-categories="LinuxFile"><span class="iconfont-archer">&#xe60a;</span>LinuxFile</span>
+        <span class="sidebar-category-name" data-categories="AnalogElectronic"><span class="iconfont-archer">&#xe60a;</span>AnalogElectronic</span>
     
         <span class="sidebar-category-name" data-categories="TCP-IP"><span class="iconfont-archer">&#xe60a;</span>TCP-IP</span>
     
         <span class="sidebar-category-name" data-categories="ComplexFunction"><span class="iconfont-archer">&#xe60a;</span>ComplexFunction</span>
     
-        <span class="sidebar-category-name" data-categories="AnalogElectronic"><span class="iconfont-archer">&#xe60a;</span>AnalogElectronic</span>
+        <span class="sidebar-category-name" data-categories="Linux-Programming"><span class="iconfont-archer">&#xe60a;</span>Linux-Programming</span>
     
         <span class="sidebar-category-name" data-categories="DataStructure"><span class="iconfont-archer">&#xe60a;</span>DataStructure</span>
     
