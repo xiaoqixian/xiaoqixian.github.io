@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="XiaoQixian">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="XiaoQixian">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="A man can be destoryed but not defeated">
+    <meta name="description" content="Linux多线程[TOC] 1. 多线程的优势在多进程编程中，程序每处理一个任务，都需要创建一个进程进行处理，而每个进程在创建时都需要复制父进程的进程上下文，且有自己独立的地址空间，当只需要并发处理很小的任务时（如并发服务器处理客户端的请求），这种开销是很不划算的，且每个进程之间的变量并不共享，使得进程间的通信也很麻烦。 这时候多线程的优势就体现了出来，线程也有自己的上下文(thread cont">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux多线程">
+<meta property="og:url" content="http://xiaoqixian.github.io.com/2020/05/21/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Lunar">
+<meta property="og:description" content="Linux多线程[TOC] 1. 多线程的优势在多进程编程中，程序每处理一个任务，都需要创建一个进程进行处理，而每个进程在创建时都需要复制父进程的进程上下文，且有自己独立的地址空间，当只需要并发处理很小的任务时（如并发服务器处理客户端的请求），这种开销是很不划算的，且每个进程之间的变量并不共享，使得进程间的通信也很麻烦。 这时候多线程的优势就体现了出来，线程也有自己的上下文(thread cont">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-21T08:39:37.932Z">
+<meta property="article:author" content="XiaoQixian">
+<meta property="article:tag" content="Multi-threads">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>Linux多线程 · LunarRoom</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/bird.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LunarRoom</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Linux多线程</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>LunarRoom</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/fengling.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Linux多线程
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Multi-threads">Multi-threads</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.1k</span>阅读时长: <span class="post-count reading-time">13 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/05/21</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="Linux多线程"><a href="#Linux多线程" class="headerlink" title="Linux多线程"></a><strong>Linux多线程</strong></h2><p>[TOC]</p>
+<h4 id="1-多线程的优势"><a href="#1-多线程的优势" class="headerlink" title="1. 多线程的优势"></a><strong>1. 多线程的优势</strong></h4><p>在多进程编程中，程序每处理一个任务，都需要创建一个进程进行处理，而每个进程在创建时都需要复制父进程的进程上下文，且有自己独立的地址空间，当只需要并发处理很小的任务时（如并发服务器处理客户端的请求），这种开销是很不划算的，且每个进程之间的变量并不共享，使得进程间的通信也很麻烦。</p>
+<p>这时候多线程的优势就体现了出来，线程也有自己的上下文(thread context)，但是只是一些如线程ID、栈、栈指针、程序计数器、通用寄存器之类的东西，所以创建线程的开销较小。这些一般都是在线程运行的函数里被指定，所以在每个线程中都是独立的。而所有线程依旧在这个进程内共享一片地址空间，包括它的代码、堆、共享库和打开的文件等。</p>
+<h4 id="2-线程的创建"><a href="#2-线程的创建" class="headerlink" title="2. 线程的创建"></a><strong>2. 线程的创建</strong></h4><p>在下面的线程相关函数中都默认导入了<code>&lt;pthread.h&gt;</code>头文件，且在编译时链接了<code>pthread</code>库文件。</p>
+<p><code>pthread</code>即遵守Posix标准的多线程，它是C语言处理线程的一个标准接口。</p>
+<p>Linux中通过<code>pthread_create</code>函数来创建线程，其定义为</p>
+<p><code>int pthread_create(pthread_t* tidp, const pthread_attr_t* attr, (void*)(*start_run)(void*), void* arg);</code></p>
+<p>创建线程函数无非做了两件事（对程序员来说，对操作系统来说做了很多），让操作系统在当前进程创建一个线程，将线程的相关信息写入第一个参数指向的<code>pthread_t</code>类型的线程类型中，这个类型在Linux内部的定义实际是<code>unsigned long int</code>类型，代表线程ID；<code>attr</code>参数用于指定线程的一些属性；后两个参数则是做的另一件事——让创建后的线程去做什么事，<code>start_run</code>对应要做的事的函数指针，<code>arg</code>则是需要传入的参数，注意函数指针的参数和返回值都必须定义为<code>void*</code>类型。</p>
+<h4 id="3-线程的退出"><a href="#3-线程的退出" class="headerlink" title="3. 线程的退出"></a><strong>3. 线程的退出</strong></h4><p>线程的退出中主要有两个函数配套使用，<code>pthread_exit</code>与<code>pthread_join</code></p>
+<p>在讲这两个函数前，先讲一下主线程的概念，一般进程创建时默认只有一条线程，这条线程一般叫做主线程，其他线程都是通过主线程创建出来的，然而不同于进程，被创建出来的线程与主线程是平级的。主线程可以等待其它线程的退出，其它线程也可以等待主线程的退出，如果主线程退出后还存在其它线程，则进程依旧不会退出。所以主线程的概念只是一个虚的概念，没有哪一条线程是真正为“主”的。</p>
+<p><code>void pthread_exit(void* retval);</code></p>
+<p><code>pthread_exit</code>在需要退出的线程中使用，使得线程显式地退出，当然线程也可以通过函数的return关键字隐式地退出。线程退出时允许携带一个返回值，这个值将被调用<code>pthread_join</code>的线程接收到。</p>
+<p>在讲<code>pthread_join</code>函数前，需要讲一下Linux的线程状态。Linux线程状态分为joinable状态和unjoinable状态。如果是joinable状态的线程，则线程所占用的资源即使在线程return或<code>pthread_exit</code>时都不会释放，只有在其它线程中调用<code>pthread_join</code>函数才会释放。而unjoinable状态的线程的资源在线程退出时就会自动释放，不需要<code>pthread_join</code>函数进行手动释放。所以<code>pthread_join</code>操作的线程必须是joinable的。</p>
+<p>至于线程创建时具体是什么状态可以通过<code>pthread_create</code>的<code>attr</code>属性进行指定，默认是joinable的。</p>
+<p>更深入的讲，<code>pthread_join</code>执行的其实是线程的合并，将调用函数的线程与指定的线程进行合并，然后调用线程会等待退出线程的退出，退出后进行资源的释放，这一点从函数名的join中或许可以看出来。</p>
+<p><code>int pthread_join(pthread_t* thread, void** retval);</code></p>
+<p><code>pthread_join</code>在等待线程退出的线程中使用，<code>thread</code>参数代表等待的线程的ID。需要声明的是这个函数执行后是阻塞的，目的是等待<code>thread</code>的退出，如果指定的线程已经退出了的话就会立刻返回。</p>
+<p><code>int pthread_detach(pthread* thread);</code></p>
+<p>该函数不会将调用线程与退出线程合并，也不会阻塞调用线程，只是在等待退出线程退出后将资源回收，效果与将线程设置为unjoinable相同。</p>
+<h4 id="4-线程同步"><a href="#4-线程同步" class="headerlink" title="4. 线程同步"></a><strong>4. 线程同步</strong></h4><p><strong>4.1 互斥锁</strong></p>
+<p>在同一个进程中，不同线程的运行先后顺序对程序员来说是不确定的。在操作系统内部，内核在很短的时间内不断地在不同的线程上下文间进行切换。因此，当有多个线程操作一个临界资源时，需要程序员进行线程的同步。</p>
+<p>这时就诞生了<strong>互斥锁(mutex)</strong>，互斥锁允许同时有一个或多个线程拥有它（一般都是一个），当多个线程需要同时操作某临界资源时，它们需要先抢占互斥锁，抢到了互斥锁的线程就可以继续运行，没抢到的则被阻塞，直到有线程释放了互斥锁，则继续抢占。所以在线程抢占了互斥锁操作完临界资源后应该尽早释放互斥锁，避免其它线程阻塞过久。</p>
+<p>互斥锁实现的方式有多种，程序员可以自己定义一个互斥锁，这里主讲<code>pthread.h</code>中提供的互斥锁接口。</p>
+<p>互斥锁的主要操作函数有三个，首先定义一个互斥锁</p>
+<p><code>pthread_mutex_t mutex;</code></p>
+<p><code>pthread_mutex_init(pthread_mutex_t* mutex);</code></p>
+<p>初始化一个互斥锁</p>
+<p><code>pthread_mutex_lock(pthread_mutex_t* mutex);</code></p>
+<p>抢占互斥锁，如果没有抢到则被阻塞</p>
+<p><code>pthread_mutex_unlock(pthread_mutex_t* mutex);</code></p>
+<p>释放互斥锁</p>
+<p><strong>4.2 条件变量</strong></p>
+<p>考虑这样一种场景，某一条线程需要临界资源满足某一种条件才对临界资源进行操作，如抢票系统要在票卖完后进行加票。则加票的线程需要一直进行互斥锁的抢占，抢占后只是检查票是否卖完了，但大部分时间是没卖完的，所以多了很多不必要的抢占。而在票真正卖完后，加票线程又可能需要抢占多轮才能抢到互斥锁，导致程序的延误。这些都是只用互斥锁的程序很难解决的，于是Linux提供了条件变量接口。</p>
+<p>于是就产生了条件变量(condition variable)，系统会将使用条件变量的线程阻塞，直到满足条件时才唤醒，唤醒后互斥锁将被当前线程锁定。</p>
+<p>定义条件变量：<code>pthread_cond_t cond;</code></p>
+<p><code>int pthread_cond_init(pthread_cond_t* cond, pthread_condattr_t* cond_attr);</code></p>
+<p>初始化条件变量，<code>cond_attr</code>表示需要赋予条件变量的属性，在Linux man pages中有一段话</p>
+<blockquote>
+<p>The LinuxThreads implementation supports no attributes for conditions, hence the <em>cond_attr</em> parameter is actually ignored.</p>
+</blockquote>
+<p>所以一般置为NULL就好了。</p>
+<p><code>int pthread_cond_signal(pthread_cond_t* cond);</code></p>
+<p>唤醒一个正在阻塞的使用条件变量的线程，如果有多个正在阻塞的线程，依旧只唤醒一条线程，但是无法确定是哪一条。</p>
+<p><code>int pthread_cond_broadcast(pthread_cond_t* cond);</code></p>
+<p>唤醒所有正在阻塞的线程，如果有多个正在阻塞的线程，则这些线程需要再次抢占互斥锁。</p>
+<p><code>int pthread_cond_wait(pthread_cond_t* cond, pthread_mutex_t* mutex);</code></p>
+<p>阻塞线程，等待条件变量响应后唤醒，唤醒后得到相应的互斥锁mutex（如果有多个阻塞线程需要抢占）。但是线程离开阻塞状态不一定是因为条件变量满足，也有可能遇到了中断信号或出现错误，这一点很重要。</p>
+<p><code>int pthread_cond_timewait(pthread_cond_t* cond, pthread_mutex_t* mutex, const struct timespec* abstime);</code></p>
+<p>在<code>pthread_cond_wait</code>的基础上加入了阻塞时限。</p>
+<p><code>int pthread_cond_destroy(pthread_cond_t* cond);</code></p>
+<p>释放条件变量。</p>
+<h4 id="5-线程池模板"><a href="#5-线程池模板" class="headerlink" title="5. 线程池模板"></a><strong>5. 线程池模板</strong></h4><p>最后提供一个线程池模板程序，我已在一个web server项目中成功使用。</p>
+<p>由于线程的创建和销毁都需要消耗时间，在需要持续处理高并发任务时，通常线程在处理一个任务并不会直接退出，而是阻塞或者接着执行下一个任务，这就是线程池。</p>
+<p>本线程池模板使用任务队列的架构，即线程池将所有接收到的任务放到一个任务队列中，然后所有线程领取任务队列中的任务进行执行。当然任务的领取需要处理线程的同步问题。</p>
+<p>源码：</p>
+<p>头文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * FILE: threadpool.h</span></span><br><span class="line"><span class="comment"> * Copyright (C) Lunar Eclipse</span></span><br><span class="line"><span class="comment"> * Copyright (C) Railgun</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> THREADPOOL_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THREADPOOL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    </span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"debug.h"</span></span></span><br><span class="line">    </span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THREAD_NUM 8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">task_s</span> &#123;</span></span><br><span class="line">    <span class="keyword">void</span> (*func)(<span class="keyword">void</span>*);  <span class="comment">//task function pointer</span></span><br><span class="line">    <span class="keyword">void</span> *arg;            <span class="comment">//function arguments</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">task_s</span>* <span class="title">next</span>;</span>  <span class="comment">//points to the next task in the task queue</span></span><br><span class="line">&#125; <span class="keyword">task_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">pthread_mutex_t</span> lock; <span class="comment">//mutex</span></span><br><span class="line">    <span class="keyword">pthread_cond_t</span> cond; <span class="comment">//condition variable</span></span><br><span class="line">    <span class="keyword">pthread_t</span>* threads; <span class="comment">//thread_t type array</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">task_t</span>* head;</span><br><span class="line">    <span class="keyword">int</span> thread_count; <span class="comment">//thread number in the threadpool</span></span><br><span class="line">    <span class="keyword">int</span> queue_size;  <span class="comment">//task number in the task queue</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">shutdown</span>;   <span class="comment">/*indicate if the threadpool is shutdown. Shutdown fall into two categories[immediate_shutdown, graceful_shutdown], immediate_shutdown means the threadpool has to shutdown no matter if there are tasks or not, graceful_shutdown will wait until all tasks are executed. */</span></span><br><span class="line">    <span class="keyword">int</span> started; <span class="comment">//number of threads started</span></span><br><span class="line">&#125; <span class="keyword">threadpool_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> &#123;</span><br><span class="line">    tp_invalid = <span class="number">-1</span>,</span><br><span class="line">    tp_lock_fail = <span class="number">-2</span>,</span><br><span class="line">    tp_already_shutdown = <span class="number">-3</span>,</span><br><span class="line">    tp_cond_broadcast = <span class="number">-4</span>,</span><br><span class="line">    tp_thread_fail = <span class="number">-5</span>,</span><br><span class="line">&#125; <span class="keyword">threadpool_error_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">threadpool_t</span>* <span class="title">threadpool_init</span><span class="params">(<span class="keyword">int</span> thread_num)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">threadpool_add</span><span class="params">(<span class="keyword">threadpool_t</span>* pool, <span class="keyword">void</span> (*func)(<span class="keyword">void</span>*), <span class="keyword">void</span>* arg)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">threadpool_destory</span><span class="params">(<span class="keyword">threadpool_t</span>* pool, <span class="keyword">int</span> graceful)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>源文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * FILE: threadpool.c</span></span><br><span class="line"><span class="comment"> * Copyright (C) Lunar Eclipse</span></span><br><span class="line"><span class="comment"> * Copyright (C) Railgun</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"threadpool.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> &#123;</span><br><span class="line">    immediate_shutdown = <span class="number">1</span>,</span><br><span class="line">    graceful_shutdown = <span class="number">2</span></span><br><span class="line">&#125; <span class="keyword">threadpool_st_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">threadpool_free</span><span class="params">(<span class="keyword">threadpool_t</span>* pool)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span>* <span class="title">threadpool_worker</span><span class="params">(<span class="keyword">void</span>* arg)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">threadpool_t</span>* <span class="title">threadpool_init</span><span class="params">(<span class="keyword">int</span> thread_num)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (thread_num &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        LOG_ERR(<span class="string">"the arg of the threadpool_init must greater than 0"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">threadpool_t</span>* pool;</span><br><span class="line">    <span class="keyword">if</span> ((pool = (<span class="keyword">threadpool_t</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">threadpool_t</span>))) == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">goto</span> ERR;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    pool-&gt;thread_count = <span class="number">0</span>;</span><br><span class="line">    pool-&gt;queue_size = <span class="number">0</span>;</span><br><span class="line">    pool-&gt;<span class="built_in">shutdown</span> = <span class="number">0</span>;</span><br><span class="line">    pool-&gt;started = <span class="number">0</span>;</span><br><span class="line">    pool-&gt;threads = (<span class="keyword">pthread_t</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">pthread_t</span>) * thread_num);</span><br><span class="line">    pool-&gt;head = (<span class="keyword">task_t</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">task_t</span>)); <span class="comment">//dummy head</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ((pool-&gt;threads == <span class="literal">NULL</span>) || (pool-&gt;head == <span class="literal">NULL</span>)) &#123;</span><br><span class="line">        <span class="keyword">goto</span> ERR;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    pool-&gt;head-&gt;func = <span class="literal">NULL</span>;</span><br><span class="line">    pool-&gt;head-&gt;arg = <span class="literal">NULL</span>;</span><br><span class="line">    pool-&gt;head-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (pthread_mutex_init(&amp;(pool-&gt;lock), <span class="literal">NULL</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">goto</span> ERR;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (pthread_cond_init(&amp;(pool-&gt;cond), <span class="literal">NULL</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">        pthread_mutex_destroy(&amp;(pool-&gt;lock));</span><br><span class="line">        <span class="keyword">goto</span> ERR;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; thread_num; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pthread_create(&amp;(pool-&gt;threads[i]), <span class="literal">NULL</span>, threadpool_worker, (<span class="keyword">void</span>*)pool) != <span class="number">0</span>) &#123;</span><br><span class="line">            threadpool_destroy(pool, <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//output the thread id as an 8-bit hexadecimal number</span></span><br><span class="line">        LOG_INFO(<span class="string">"thread: %08x started"</span>, (<span class="keyword">uint32_t</span>)pool-&gt;threads[i]);</span><br><span class="line">        </span><br><span class="line">        pool-&gt;thread_count++;</span><br><span class="line">        pool-&gt;started++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pool;</span><br><span class="line">    </span><br><span class="line">ERR:</span><br><span class="line">    <span class="keyword">if</span> (pool) &#123;</span><br><span class="line">        threadpool_free(pool);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//add a task to the threadpool, not thread</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">threadpool_add</span><span class="params">(<span class="keyword">threadpool_t</span>* pool, <span class="keyword">void</span> (*func)(<span class="keyword">void</span>*), <span class="keyword">void</span>* arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res, err = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (pool == <span class="literal">NULL</span> || func == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        LOG_ERR(<span class="string">"pool = NULL or func = NULL"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (pthread_mutex_lock(&amp;(pool-&gt;lock)) != <span class="number">0</span>) &#123;</span><br><span class="line">        LOG_ERR(<span class="string">"pthread_mutex_lock"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (pool-&gt;<span class="built_in">shutdown</span>) &#123;</span><br><span class="line">        err = tp_already_shutdown;</span><br><span class="line">        <span class="keyword">goto</span> OUT;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span> use a memory pool</span></span><br><span class="line">    <span class="keyword">task_t</span>* task = (<span class="keyword">task_t</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">task_t</span>));</span><br><span class="line">    <span class="keyword">if</span> (task == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        LOG_ERR(<span class="string">"malloc task fail"</span>);</span><br><span class="line">        <span class="keyword">goto</span> OUT;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span> use a memory pool</span></span><br><span class="line">    task-&gt;func = func;</span><br><span class="line">    task-&gt;arg = arg;</span><br><span class="line">    task-&gt;next = pool-&gt;head-&gt;next;</span><br><span class="line">    pool-&gt;head-&gt;next = task;</span><br><span class="line">    </span><br><span class="line">    pool-&gt;queue_size++;</span><br><span class="line">    </span><br><span class="line">    res = pthread_cond_signal(&amp;(pool-&gt;cond));</span><br><span class="line">    CHECK(res == <span class="number">0</span>, <span class="string">"pthread_cond_signal"</span>);</span><br><span class="line">    </span><br><span class="line">OUT:</span><br><span class="line">    <span class="keyword">if</span> (pthread_mutex_unlock(&amp;pool-&gt;lock) != <span class="number">0</span>) &#123;</span><br><span class="line">        LOG_ERR(<span class="string">"pthread_mutex_unlock"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> err;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//free all threads in the threadpool</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">threadpool_free</span><span class="params">(<span class="keyword">threadpool_t</span>* pool)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pool == <span class="literal">NULL</span> || pool-&gt;started &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (pool-&gt;threads) &#123;</span><br><span class="line">        <span class="built_in">free</span>(pool-&gt;threads);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">task_t</span>* node;</span><br><span class="line">    <span class="keyword">while</span> (pool-&gt;head-&gt;next) &#123;</span><br><span class="line">        node = pool-&gt;head-&gt;next;</span><br><span class="line">        pool-&gt;head-&gt;next = pool-&gt;head-&gt;next-&gt;next;</span><br><span class="line">        <span class="built_in">free</span>(node);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//destroy the threadpool</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">threadpool_destroy</span><span class="params">(<span class="keyword">threadpool_t</span>* pool, <span class="keyword">int</span> graceful)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> err = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (pool == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        LOG_ERR(<span class="string">"pool is NULL"</span>);</span><br><span class="line">        <span class="keyword">return</span> tp_invalid; <span class="comment">//tp_invalid is in enum</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (pthread_mutex_lock(&amp;(pool-&gt;lock)) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> tp_lock_fail;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (pool-&gt;<span class="built_in">shutdown</span>) &#123;</span><br><span class="line">            err = tp_already_shutdown;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        pool-&gt;<span class="built_in">shutdown</span> = (graceful) ? graceful_shutdown : immediate_shutdown;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (pthread_cond_broadcast(&amp;(pool-&gt;cond)) != <span class="number">0</span>) &#123;</span><br><span class="line">            err = tp_cond_broadcast;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (pthread_mutex_unlock(&amp;(pool-&gt;lock)) != <span class="number">0</span>) &#123;</span><br><span class="line">            err = tp_lock_fail;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pool-&gt;thread_count; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (pthread_join(pool-&gt;threads[i], <span class="literal">NULL</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">                err = tp_thread_fail;</span><br><span class="line">            &#125;</span><br><span class="line">            LOG_INFO(<span class="string">"thread %08x exit"</span>, (<span class="keyword">uint32_t</span>)pool-&gt;threads[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (<span class="number">0</span>);</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">if</span> (!err) &#123;</span><br><span class="line">        pthread_mutex_destroy(&amp;(pool-&gt;lock));</span><br><span class="line">        pthread_cond_destroy(&amp;(pool-&gt;cond));</span><br><span class="line">        threadpool_free(pool);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> err;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span>* <span class="title">threadpool_worker</span><span class="params">(<span class="keyword">void</span>* arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (arg == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        LOG_ERR(<span class="string">"arg should be type threadpool_t"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">threadpool_t</span>* pool = (<span class="keyword">threadpool_t</span>*)arg;</span><br><span class="line">    <span class="keyword">task_t</span>* task;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        pthread_mutex_lock(&amp;(pool-&gt;lock));</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//wait on condition variable, check for fake wakeups</span></span><br><span class="line">        <span class="keyword">while</span> ((pool-&gt;queue_size == <span class="number">0</span>) &amp;&amp; !(pool-&gt;<span class="built_in">shutdown</span>)) &#123;</span><br><span class="line">            pthread_cond_wait(&amp;(pool-&gt;cond), &amp;(pool-&gt;lock));</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (pool-&gt;<span class="built_in">shutdown</span> == immediate_shutdown) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ((pool-&gt;<span class="built_in">shutdown</span> == graceful_shutdown) &amp;&amp; pool-&gt;queue_size == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        task = pool-&gt;head-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (task == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            pthread_mutex_unlock(&amp;(pool-&gt;lock));</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        pool-&gt;head-&gt;next = task-&gt;next;</span><br><span class="line">        pool-&gt;queue_size--;</span><br><span class="line">        </span><br><span class="line">        pthread_mutex_unlock(&amp;(pool-&gt;lock));</span><br><span class="line">        </span><br><span class="line">        (*(task-&gt;func))(task-&gt;arg);</span><br><span class="line">        <span class="comment">//<span class="doctag">TODO:</span> memory pool</span></span><br><span class="line">        <span class="built_in">free</span>(task);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    pool-&gt;started--;</span><br><span class="line">    pthread_mutex_unlock(&amp;(pool-&gt;lock));</span><br><span class="line">    pthread_exit(<span class="literal">NULL</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a><strong>参考资料</strong></h4><p><a href="http://man7.org/linux/man-pages/man3" target="_blank" rel="noopener">1. Linux man-pages</a></p>
+<p><a href="https://blog.csdn.net/weibo1230123/article/details/81410241" target="_blank" rel="noopener">2. Linux中pthread_join和pthread_detach详解</a></p>
+<p><a href="https://manpages.debian.org/buster/glibc-doc/pthread_cond_signal.3.en.html" target="_blank" rel="noopener">3. Debian Linux man-pages</a></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://xiaoqixian.github.io.com">XiaoQixian</a>
+            <p>原文链接：<a href="http://xiaoqixian.github.io.com/2020/05/21/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B/">http://xiaoqixian.github.io.com/2020/05/21/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a>
+            <p>发表日期：<a href="http://xiaoqixian.github.io.com/2020/05/21/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B/">五月 21日 2020, 12:00:00 凌晨</a>
+            <p>更新日期：<a href="http://xiaoqixian.github.io.com/2020/05/21/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B/">May 21st 2020, 4:39:37 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/05/18/LinuxSignal/" title= "Linux Signal">
+                    <div class="prevTitle">Linux Signal</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:lunar_ubuntu@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/xiaoqixian" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wukong.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux多线程"><span class="toc-number">1.</span> <span class="toc-text">Linux多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-多线程的优势"><span class="toc-number">1.0.1.</span> <span class="toc-text">1. 多线程的优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-线程的创建"><span class="toc-number">1.0.2.</span> <span class="toc-text">2. 线程的创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-线程的退出"><span class="toc-number">1.0.3.</span> <span class="toc-text">3. 线程的退出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-线程同步"><span class="toc-number">1.0.4.</span> <span class="toc-text">4. 线程同步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-线程池模板"><span class="toc-number">1.0.5.</span> <span class="toc-text">5. 线程池模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考资料"><span class="toc-number">1.0.6.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 20
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href= "/2020/05/21/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B/" >Linux多线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/18</span><a class="archive-post-title" href= "/2020/05/18/LinuxSignal/" >Linux Signal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" >单例模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" >原型模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" >建造者模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" >工厂模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" >桥接模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" >适配器模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F/" >过滤器模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/26</span><a class="archive-post-title" href= "/2020/04/26/%E7%BA%A2%E9%BB%91%E6%A0%91/" >红黑树</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/16</span><a class="archive-post-title" href= "/2020/04/16/IntegerProgramming/" >Integer Programming</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span><a class="archive-post-title" href= "/2020/04/15/%E8%A4%87%E8%AE%8A%E5%87%BD%E6%95%B8%E7%A9%8D%E5%88%86/" >复变函数积分</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/12</span><a class="archive-post-title" href= "/2020/04/12/%E5%9F%BA%E6%9C%AC%E6%94%BE%E5%A4%A7%E9%9B%BB%E8%B7%AF/" >基本放大電路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/12</span><a class="archive-post-title" href= "/2020/04/12/ContinuousTimeFourierTransform/" >Continuous Time Fourier Transform</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Linux%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B8/" >Linux文件操作函數</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/%E6%95%B8%E6%93%9A%E7%9A%84IO%E5%92%8C%E8%A4%87%E7%94%A8/" >数据的IO与复用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Hexo%E6%95%B8%E5%AD%B8%E5%85%AC%E5%BC%8F%E6%B8%B2%E6%9F%93%E9%85%8D%E7%BD%AE/" >Hexo數學公式渲染配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/LVM/" >LVM</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/04/10/hello-world/" >Hello World</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/Linux%E7%9A%84%E5%B8%B8%E7%94%A8%E7%9B%AE%E9%8C%84/" >Linux的常用目錄</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="EnvironmentConfiguration"><span class="iconfont-archer">&#xe606;</span>EnvironmentConfiguration</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="OperatingSystem"><span class="iconfont-archer">&#xe606;</span>OperatingSystem</span>
+    
+        <span class="sidebar-tag-name" data-tags="OperationResearch"><span class="iconfont-archer">&#xe606;</span>OperationResearch</span>
+    
+        <span class="sidebar-tag-name" data-tags="FileSystem"><span class="iconfont-archer">&#xe606;</span>FileSystem</span>
+    
+        <span class="sidebar-tag-name" data-tags="DesignPattern"><span class="iconfont-archer">&#xe606;</span>DesignPattern</span>
+    
+        <span class="sidebar-tag-name" data-tags="AnalogElectronic"><span class="iconfont-archer">&#xe606;</span>AnalogElectronic</span>
+    
+        <span class="sidebar-tag-name" data-tags="CircuitAnalysis"><span class="iconfont-archer">&#xe606;</span>CircuitAnalysis</span>
+    
+        <span class="sidebar-tag-name" data-tags="TCP/IP"><span class="iconfont-archer">&#xe606;</span>TCP/IP</span>
+    
+        <span class="sidebar-tag-name" data-tags="IO"><span class="iconfont-archer">&#xe606;</span>IO</span>
+    
+        <span class="sidebar-tag-name" data-tags="ComplexFunction"><span class="iconfont-archer">&#xe606;</span>ComplexFunction</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux Programming"><span class="iconfont-archer">&#xe606;</span>Linux Programming</span>
+    
+        <span class="sidebar-tag-name" data-tags="DataStructure"><span class="iconfont-archer">&#xe606;</span>DataStructure</span>
+    
+        <span class="sidebar-tag-name" data-tags="BinaryTree"><span class="iconfont-archer">&#xe606;</span>BinaryTree</span>
+    
+        <span class="sidebar-tag-name" data-tags="Signals&Systems"><span class="iconfont-archer">&#xe606;</span>Signals&Systems</span>
+    
+        <span class="sidebar-tag-name" data-tags="ComplexFunctions"><span class="iconfont-archer">&#xe606;</span>ComplexFunctions</span>
+    
+        <span class="sidebar-tag-name" data-tags="Multi-threads"><span class="iconfont-archer">&#xe606;</span>Multi-threads</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="EnvironmentConfiguration"><span class="iconfont-archer">&#xe60a;</span>EnvironmentConfiguration</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+        <span class="sidebar-category-name" data-categories="OperationResearch"><span class="iconfont-archer">&#xe60a;</span>OperationResearch</span>
+    
+        <span class="sidebar-category-name" data-categories="LinuxFile"><span class="iconfont-archer">&#xe60a;</span>LinuxFile</span>
+    
+        <span class="sidebar-category-name" data-categories="DesignPattern"><span class="iconfont-archer">&#xe60a;</span>DesignPattern</span>
+    
+        <span class="sidebar-category-name" data-categories="AnalogElectronic"><span class="iconfont-archer">&#xe60a;</span>AnalogElectronic</span>
+    
+        <span class="sidebar-category-name" data-categories="TCP-IP"><span class="iconfont-archer">&#xe60a;</span>TCP-IP</span>
+    
+        <span class="sidebar-category-name" data-categories="ComplexFunction"><span class="iconfont-archer">&#xe60a;</span>ComplexFunction</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux-Programming"><span class="iconfont-archer">&#xe60a;</span>Linux-Programming</span>
+    
+        <span class="sidebar-category-name" data-categories="DataStructure"><span class="iconfont-archer">&#xe60a;</span>DataStructure</span>
+    
+        <span class="sidebar-category-name" data-categories="Signals-Systems"><span class="iconfont-archer">&#xe60a;</span>Signals-Systems</span>
+    
+        <span class="sidebar-category-name" data-categories="Multi-threads"><span class="iconfont-archer">&#xe60a;</span>Multi-threads</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "XiaoQixian"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
