@@ -356,6 +356,48 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/05/24/%E7%95%99%E6%95%B0/" >
+            
+                <span>留数</span>
+        </a>
+        <div class="abstract-content">
+            5. 留数[TOC]
+
+首先说明一下为什么会有留数？
+
+对于图中的这样一个积分路径，由于内部区域不完全解析。所以根据柯西积分定理，我们可以将其转化为下图的积分路径：
+
+当通往奇点的两条路线无限接近时，就可以得到下图：
+
+即对于大回路的积分等于对所有奇点的路径的积分之和的相反数。即：
+
+\oint_L = \oint_{L_1^-+L_2^-+L_3^-}所以问题变成了如何求对于奇点的路径的积分$\oint_Lf(z)dz$
+由上一章的洛朗级数知，洛朗级数在幂次为-1项的系数为
+
+c_{-1} = \frac1{2\pi i}\oint_C\frac{f(\zeta)}{(\zeta-z_...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/24</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ComplexFunction">ComplexFunction</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/05/21/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B/" >
             
                 <span>Linux多线程</span>
@@ -984,9 +1026,24 @@ sigaction()12#include &lt;signal.h&gt;int siga...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 20
+        Total : 21
         </div>
         <!-- search  -->
         
@@ -999,6 +1056,11 @@ sigaction()12#include &lt;signal.h&gt;int siga...
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/24</span><a class="archive-post-title" href= "/2020/05/24/%E7%95%99%E6%95%B0/" >留数</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1249,27 +1311,7 @@ jsonContent:
     </div>
     <!-- async load share.js -->
      
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!--
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
--->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
-
-</body>
+    </body>
 </html>
 
 
