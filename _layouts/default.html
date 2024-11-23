@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		{% if page.collectionpage %}
+			{% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
+			<title>{{ collectiondata.title }} - {{ site.title }}</title>
+		{% elsif page.title %}
+			<title>{{ page.title }} - {{ site.title }}</title>
+		{% else %}
+			<title>{{ site.title }}</title>
+		{% endif %}
+
+		<link rel="stylesheet" href="{{ "/assets/styles.css" | relative_url }}">
+
+		{% if site.favicon %}
+			<link rel="shortcut icon" href="{{ site.favicon }}">
+		{% else %}
+			<link rel="shortcut icon" href="{{ site.logo }}">
+		{% endif %}
+
+    <script>
+      MathJax = {
+        chtml: {
+          scale: 0.8,
+        },
+      };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <style>
+      mjx-math {
+        max-width: 100%;
+      }
+      mjx-container {
+        min-width: 30em;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+      mjx-container svg {
+        max-width: 100%;
+        height: auto;
+      }
+
+      article {
+        max-width: 100%;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: center; /* 居中导航栏 */
+        align-items: center;
+      }
+
+      .list--nav {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .item--nav {
+        margin: 0;
+      }
+
+      .avatar-link {
+        display: inline-block;
+        border-radius: 50%;
+        overflow: hidden;
+        width: 40;
+        height: 40px;
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    </style>
+
+	</head>
+	<body>
+
+		{{ content }}
+
+		<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,700|Neuton:400,700" rel="stylesheet">
+	</body>
+</html>
